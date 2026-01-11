@@ -1,7 +1,6 @@
 import { Header } from "@/components/Header";
 import { TypebotChat } from "@/components/TypebotChat";
 import { Sparkles, Target, Smartphone, Zap } from "lucide-react";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -58,50 +57,7 @@ export default function Home() {
                 +500 estudiantes ya encontraron su camino
               </p>
             </div>
-
-            <div className="pt-6">
-              <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-4">Avalado por:</p>
-              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl">
-                <div className="flex flex-wrap items-center justify-center gap-6">
-                  <Image
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-google-workspace-resized-1768158383222.webp?width=8000&height=8000&resize=contain"
-                    alt="Google Workspace"
-                    width={120}
-                    height={40}
-                    className="h-8 w-auto object-contain"
-                  />
-                  <Image
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-ceneval-badge-1768158383158.png?width=8000&height=8000&resize=contain"
-                    alt="CENEVAL"
-                    width={40}
-                    height={40}
-                    className="h-10 w-auto object-contain"
-                  />
-                  <Image
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-british-council-1768158383413.png?width=8000&height=8000&resize=contain"
-                    alt="British Council"
-                    width={100}
-                    height={40}
-                    className="h-8 w-auto object-contain"
-                  />
-                  <Image
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-cambridge-english-1768158382955.png?width=8000&height=8000&resize=contain"
-                    alt="Cambridge English"
-                    width={140}
-                    height={40}
-                    className="h-10 w-auto object-contain"
-                  />
-                  <Image
-                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-egel-plus-1768158383133.png?width=8000&height=8000&resize=contain"
-                    alt="EGEL Plus"
-                    width={80}
-                    height={40}
-                    className="h-10 w-auto object-contain"
-                  />
-                </div>
-              </div>
             </div>
-          </div>
 
           <div className="chatbot-container relative h-[650px] lg:h-[750px]">
             <div className="absolute -top-4 -right-4 z-20 animate-pulse hidden md:block">
