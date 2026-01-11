@@ -263,7 +263,7 @@ export function TypebotChat() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/20">
+      <div className="flex flex-col h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/20 text-gray-900">
       <div className="bg-gradient-to-r from-[#1E3A8A] to-[#4F46E5] p-6 text-white shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -341,7 +341,7 @@ export function TypebotChat() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={messages[messages.length - 1].input?.placeholder}
-              className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm focus:border-[#F59E0B] outline-none transition-colors"
+                className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors"
               autoFocus
             />
             <button 
