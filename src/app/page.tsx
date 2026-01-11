@@ -6,18 +6,16 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden bg-gradient-hero">
-      {/* Animated Blobs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[#667eea] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#FFD700] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#2d1b69] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-[#4F46E5] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#F59E0B] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#1E3A8A] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
 
       <Header />
 
-      <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
+      <div className="container mx-auto px-4 pt-24 md:pt-32 pb-20 relative z-10">
         <div className="grid lg:grid-cols-[40%_60%] gap-12 items-center">
           
-          {/* Left Column: Copy */}
-          <div className="space-y-8">
+          <div className="hero-text-section space-y-8">
             <div className="space-y-4">
               <h1 className="text-white font-display font-bold text-5xl lg:text-6xl leading-[1.1] tracking-tight">
                 Descubre tu <br />
@@ -30,14 +28,14 @@ export default function Home() {
 
             <div className="space-y-4 pt-4">
               {[
-                { icon: Sparkles, text: "Análisis con IA de última generación" },
+                { icon: Sparkles, text: "Analisis con IA de ultima generacion" },
                 { icon: Target, text: "Matching personalizado con tus talentos" },
                 { icon: Smartphone, text: "Resultados inmediatos en tu WhatsApp" },
                 { icon: Zap, text: "100% Gratis, sin compromiso" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group">
-                  <div className="bg-[#FFD700] p-1.5 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
-                    <item.icon className="w-5 h-5 text-[#2d1b69]" />
+                  <div className="bg-[#F59E0B] p-1.5 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+                    <item.icon className="w-5 h-5 text-[#111827]" />
                   </div>
                   <span className="text-white/95 text-lg font-medium">{item.text}</span>
                 </div>
@@ -62,23 +60,53 @@ export default function Home() {
             </div>
 
             <div className="pt-6">
-              <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-3">Certificado por:</p>
-              <div className="flex gap-3">
-                <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10 text-white text-[11px] font-semibold">
-                  RVOE SEP
-                </div>
-                <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-md border border-white/10 text-white text-[11px] font-semibold">
-                  ISO 9001
+              <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-4">Avalado por:</p>
+              <div className="bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl">
+                <div className="flex flex-wrap items-center justify-center gap-6">
+                  <Image
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-google-workspace-resized-1768158383222.webp?width=8000&height=8000&resize=contain"
+                    alt="Google Workspace"
+                    width={120}
+                    height={40}
+                    className="h-8 w-auto object-contain"
+                  />
+                  <Image
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-ceneval-badge-1768158383158.png?width=8000&height=8000&resize=contain"
+                    alt="CENEVAL"
+                    width={40}
+                    height={40}
+                    className="h-10 w-auto object-contain"
+                  />
+                  <Image
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-british-council-1768158383413.png?width=8000&height=8000&resize=contain"
+                    alt="British Council"
+                    width={100}
+                    height={40}
+                    className="h-8 w-auto object-contain"
+                  />
+                  <Image
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-cambridge-english-1768158382955.png?width=8000&height=8000&resize=contain"
+                    alt="Cambridge English"
+                    width={140}
+                    height={40}
+                    className="h-10 w-auto object-contain"
+                  />
+                  <Image
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-egel-plus-1768158383133.png?width=8000&height=8000&resize=contain"
+                    alt="EGEL Plus"
+                    width={80}
+                    height={40}
+                    className="h-10 w-auto object-contain"
+                  />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Chat */}
-          <div className="relative h-[650px] lg:h-[750px]">
-            <div className="absolute -top-4 -right-4 z-20 animate-pulse">
-              <div className="bg-gradient-gold px-4 py-2 rounded-full shadow-xl text-[#2d1b69] font-bold text-sm border-2 border-white/50">
-                ✨ 100% Gratis
+          <div className="chatbot-container relative h-[650px] lg:h-[750px]">
+            <div className="absolute -top-4 -right-4 z-20 animate-pulse hidden md:block">
+              <div className="bg-gradient-gold px-4 py-2 rounded-full shadow-xl text-[#111827] font-bold text-sm border-2 border-white/50">
+                100% Gratis
               </div>
             </div>
             <TypebotChat />

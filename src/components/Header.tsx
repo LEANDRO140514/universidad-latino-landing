@@ -1,22 +1,34 @@
 "use client";
 
-import { Phone } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Header() {
+  const handleResetTest = () => {
+    window.location.reload();
+  };
+
   return (
-    <header className="fixed top-0 left-0 right-0 h-20 bg-[#667eea]/90 backdrop-blur-md z-[1000] border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 h-20 bg-[#1E3A8A]/95 backdrop-blur-md z-[1000] border-b border-white/10">
       <div className="container mx-auto h-full px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
-          <div className="text-white font-display font-bold text-2xl tracking-tighter">
-            UNIVERSIDAD <span className="text-[#FFD700]">LATINO</span>
-          </div>
+          <Image
+            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-ul-main-header-1768158382220.png?width=8000&height=8000&resize=contain"
+            alt="Universidad Latino"
+            width={140}
+            height={60}
+            className="h-14 w-auto object-contain"
+          />
         </Link>
         
-        <div className="flex items-center gap-2 text-white bg-white/10 px-4 py-2 rounded-full border border-white/20">
-          <Phone className="w-4 h-4 text-[#FFD700]" />
-          <span className="font-medium text-sm">999-XXX-XXXX</span>
-        </div>
+        <button
+          onClick={handleResetTest}
+          className="flex items-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-[#111827] px-4 py-2 rounded-full font-bold text-sm transition-all shadow-lg hover:scale-105 active:scale-95"
+        >
+          <RotateCcw className="w-4 h-4" />
+          <span className="hidden md:inline">Reiniciar Test</span>
+        </button>
       </div>
     </header>
   );
