@@ -46,7 +46,7 @@ export function TypebotChat() {
       {
         id: "1",
         type: "bot",
-        text: "Hola! Soy Eva, tu orientadora vocacional de Universidad Latino.\n\nVamos a descubrir que carrera es perfecta para ti en solo 5 minutos.\n\nSera una conversacion natural, como hablar con una amiga\n\nLista para empezar?",
+        text: "¡Hola! Soy Eva, asistente de orientación vocacional de Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nSerá una charla natural, como hablar con alguien de total confianza.\n\n¿Todo listo para empezar?",
         buttons: [
           { label: "Si, vamos!", value: "si_empezar", action: "PREGUNTA_1_NOMBRE" },
           { label: "Tengo dudas", value: "tengo_dudas", action: "MENSAJE_DUDAS" }
@@ -142,7 +142,7 @@ export function TypebotChat() {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: "Interesante!\n\nQue es lo que MAS te motiva a elegir una carrera?\n\nSe honesta, no hay respuestas incorrectas",
+          text: "Interesante!\n\nQue es lo que MAS te motiva a elegir una carrera?\n\nResponde con total sinceridad, no hay respuestas incorrectas",
         buttons: [
           { label: "Ayudar a mejorar la vida de las personas", value: "ayudar_personas", action: "PREGUNTA_8" },
           { label: "Ganar bien y tener estabilidad economica", value: "estabilidad_economica", action: "PREGUNTA_8" },
@@ -270,7 +270,7 @@ export function TypebotChat() {
             <Bot className="w-8 h-8 text-[#1E3A8A]" />
           </div>
           <div>
-            <h3 className="font-display font-semibold text-lg leading-tight">Eva, tu orientadora IA</h3>
+            <h3 className="font-display font-semibold text-lg leading-tight">Eva, asistencia vocacional IA</h3>
             <div className="flex items-center gap-2 text-sm opacity-90">
               <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
               En linea
