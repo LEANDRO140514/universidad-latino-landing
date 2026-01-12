@@ -46,7 +46,7 @@ export function TypebotChat() {
       {
         id: "1",
         type: "bot",
-        text: "¡Hola! Soy Eva, asistente de orientación vocacional de Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nSerá una charla natural, como hablar con alguien de total confianza.\n\n¿Todo listo para empezar?",
+        text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nSerá una charla natural, como hablar con alguien de total confianza.\n\n¿Todo listo para empezar?",
         buttons: [
           { label: "Si, vamos!", value: "si_empezar", action: "PREGUNTA_1_NOMBRE" },
           { label: "Tengo dudas", value: "tengo_dudas", action: "MENSAJE_DUDAS" }
@@ -357,7 +357,7 @@ export function TypebotChat() {
               <Lock className="w-3 h-3" />
               Seguro y confidencial
             </div>
-            <span>Powered by Universidad Latino</span>
+            <span>Powered by la Universidad Latino</span>
           </div>
         )}
       </div>
