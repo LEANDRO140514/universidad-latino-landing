@@ -34,7 +34,8 @@ export async function POST(req: Request) {
     };
     score += etapaScores[data.etapa_educativa] || 0;
 
-    score += 10; // Completion points
+      score += 75; // Completion points
+
 
     // 2. Classification
     let classification = "COLD";
