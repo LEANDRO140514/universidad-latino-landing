@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { VisualEditsMessenger } from "orchids-visual-edits";
+import { WhatsAppWidget } from "@/components/WhatsAppWidget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,10 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-        <VisualEditsMessenger />
-      </body>
+        >
+          {children}
+          <WhatsAppWidget />
+          <VisualEditsMessenger />
+        </body>
     </html>
   );
 }

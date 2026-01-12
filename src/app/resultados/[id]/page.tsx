@@ -246,20 +246,30 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
             </div>
           </motion.div>
 
-          {/* AI Analysis */}
-          <section className="bg-white p-8 lg:p-12 rounded-[2rem] shadow-xl space-y-8">
-            <h2 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-3">
-              <Sparkles className="text-[#667eea]" /> TU ANÁLISIS PERSONALIZADO
-            </h2>
-            <div className="prose prose-lg text-gray-600 max-w-none leading-relaxed">
-              <p>
-                {lead.nombre}, tu perfil vocacional muestra una clara inclinación basada en tus intereses en <strong>{lead.materias_favoritas}</strong>. Tu pasión por <strong>{lead.actividades_pasion}</strong> y tu superpoder de <strong>{lead.superpower?.replace('_', ' ')}</strong> indican que prosperarías en un entorno de <strong>{lead.entorno_trabajo?.replace('_', ' ')}</strong>.
-              </p>
-              <p>
-                Tu visión de futuro: <em>"{lead.vision_futuro}"</em> demuestra una gran claridad de propósito. Basado en tu desempeño académico y tu motivación por <strong>{lead.motivacion_principal?.replace('_', ' ')}</strong>, Universidad Latino es el lugar ideal para transformar tu potencial en una carrera exitosa.
-              </p>
-            </div>
-          </section>
+            {/* AI Analysis */}
+            <section className="bg-white p-8 lg:p-12 rounded-[2rem] shadow-xl space-y-8">
+              <h2 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-3">
+                <Sparkles className="text-[#667eea]" /> TU ANÁLISIS PERSONALIZADO
+              </h2>
+              <div className="prose prose-lg text-gray-600 max-w-none leading-relaxed">
+                <p>
+                  {lead.nombre}, tu perfil vocacional muestra una clara inclinación basada en tus intereses en <strong>{lead.materias_favoritas}</strong>. Tu pasión por <strong>{lead.actividades_pasion}</strong> y tu superpoder de <strong>{lead.superpower?.replace('_', ' ')}</strong> indican que prosperarías en un entorno de <strong>{lead.entorno_trabajo?.replace('_', ' ')}</strong>.
+                </p>
+                {lead.trabaja && lead.trabaja !== 'no_trabaja' && (
+                  <div className="my-6 p-6 bg-blue-50 border-l-4 border-[#1E3A8A] rounded-r-xl">
+                    <h4 className="text-[#1E3A8A] font-bold mb-2 flex items-center gap-2">
+                      <Calendar className="w-5 h-5" /> Modalidad Recomendada: Sabatina u Online
+                    </h4>
+                    <p className="text-sm text-gray-700">
+                      Dado que mencionaste que te encuentras trabajando, en la Universidad Latino tenemos opciones flexibles para ti. Puedes cursar tu carrera en <strong>modalidad sabatina</strong> o <strong>100% online</strong>, permitiéndote balancear tu desarrollo profesional con tus estudios sin sacrificar ninguna de las dos.
+                    </p>
+                  </div>
+                )}
+                <p>
+                  Tu visión de futuro: <em>"{lead.vision_futuro}"</em> demuestra una gran claridad de propósito. Basado en tu desempeño académico y tu motivación por <strong>{lead.motivacion_principal?.replace('_', ' ')}</strong>, Universidad Latino es el lugar ideal para transformar tu potencial en una carrera exitosa.
+                </p>
+              </div>
+            </section>
 
           {/* Next Steps / Schedule */}
             <section className="bg-[#2d1b69] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl text-center space-y-8">

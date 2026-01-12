@@ -83,15 +83,27 @@ export function TypebotChat() {
         id: Date.now().toString(),
         type: "bot",
         text: `Mucho gusto, ${currentResponses.nombre || value}!\n\nEn que etapa estas?`,
-        buttons: [
-          { label: "Estoy en 6to semestre de prepa", value: "sexto_semestre", action: "PREGUNTA_3", variable: "etapa_educativa" },
-          { label: "Acabo de terminar la prepa", value: "acabo_terminar", action: "PREGUNTA_3", variable: "etapa_educativa" },
-          { label: "Termine hace 1-2 anos", value: "1_2_anos", action: "PREGUNTA_3", variable: "etapa_educativa" },
-          { label: "Termine hace mas de 2 anos", value: "mas_2_anos", action: "PREGUNTA_3", variable: "etapa_educativa" },
-          { label: "Estoy en otra carrera y quiero cambiar", value: "cambio_carrera", action: "PREGUNTA_3", variable: "etapa_educativa" }
-        ]
-      }]);
-    } else if (action === "PREGUNTA_3") {
+          buttons: [
+            { label: "Estoy en 6to semestre de prepa", value: "sexto_semestre", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
+            { label: "Acabo de terminar la prepa", value: "acabo_terminar", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
+            { label: "Termine hace 1-2 anos", value: "1_2_anos", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
+            { label: "Termine hace mas de 2 anos", value: "mas_2_anos", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
+            { label: "Estoy en otra carrera y quiero cambiar", value: "cambio_carrera", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" }
+          ]
+        }]);
+      } else if (action === "PREGUNTA_2_TRABAJO") {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: "¡Entendido! Una pregunta rápida... ¿Actualmente te encuentras trabajando?",
+          buttons: [
+            { label: "Sí, trabajo tiempo completo", value: "si_completo", action: "PREGUNTA_3", variable: "trabaja" },
+            { label: "Sí, trabajo medio tiempo", value: "si_medio", action: "PREGUNTA_3", variable: "trabaja" },
+            { label: "Sí, trabajo por mi cuenta", value: "si_cuenta", action: "PREGUNTA_3", variable: "trabaja" },
+            { label: "No trabajo por el momento", value: "no_trabaja", action: "PREGUNTA_3", variable: "trabaja" }
+          ]
+        }]);
+      } else if (action === "PREGUNTA_3") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
