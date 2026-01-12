@@ -255,11 +255,11 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
           </section>
 
           {/* Next Steps / Schedule */}
-          <section className="bg-[#2d1b69] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl text-center space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-3xl font-display font-bold">¿Lista para el siguiente paso?</h2>
-              <p className="text-white/70">Agenda una cita personalizada y conoce nuestras instalaciones.</p>
-            </div>
+            <section className="bg-[#2d1b69] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl text-center space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-3xl font-display font-bold">¿Todo listo para el siguiente paso?</h2>
+                <p className="text-white/70">Agenda una cita personalizada y conoce nuestras instalaciones.</p>
+              </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
