@@ -13,13 +13,13 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 h-20 bg-[#1E3A8A]/95 backdrop-blur-md z-[1000] border-b border-white/10">
       <div className="container mx-auto h-full px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
-          <Image
-            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-ul-main-header-1768158382220.png?width=8000&height=8000&resize=contain"
-            alt="Universidad Latino"
-            width={140}
-            height={60}
-            className="h-14 w-auto object-contain"
-          />
+            <Image
+              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-ul-main-header-1768158382220.png?width=8000&height=8000&resize=contain"
+              alt="Universidad Latino"
+              width={200}
+              height={80}
+              className="h-16 w-auto object-contain"
+            />
         </Link>
         
         <button

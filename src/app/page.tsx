@@ -5,10 +5,6 @@ import { Sparkles, Target, Smartphone, Zap } from "lucide-react";
 export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden bg-gradient-hero">
-      {/* Banner de Verificación - ELIMINAR DESPUÉS */}
-      <div className="bg-red-600 text-white text-center py-2 font-bold z-[2000] relative">
-        CÓDIGO ACTUALIZADO: VERSIÓN LATINO
-      </div>
       <div className="absolute top-0 left-0 w-96 h-96 bg-[#4F46E5] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#F59E0B] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
       <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#1E3A8A] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
@@ -64,11 +60,6 @@ export default function Home() {
           </div>
 
           <div className="chatbot-container relative h-[650px] lg:h-[750px] w-full max-w-[550px] mx-auto lg:ml-auto">
-            <div className="absolute -top-4 -right-4 z-20 animate-pulse hidden md:block">
-              <div className="bg-gradient-gold px-4 py-2 rounded-full shadow-xl text-[#111827] font-bold text-sm border-2 border-white/50">
-                100% Gratis
-              </div>
-            </div>
             <TypebotChat />
           </div>
 
