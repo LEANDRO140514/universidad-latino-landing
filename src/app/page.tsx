@@ -12,9 +12,9 @@ export default function Home() {
       <Header />
 
       <div className="container mx-auto px-4 pt-24 md:pt-32 pb-20 relative z-10">
-        <div className="grid lg:grid-cols-[40%_60%] gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           
-          <div className="hero-text-section space-y-8">
+          <div className="hero-text-section space-y-8 max-w-xl">
             <div className="space-y-4">
               <h1 className="text-white font-display font-bold text-5xl lg:text-6xl leading-[1.1] tracking-tight">
                 Descubre tu <br />
@@ -27,7 +27,7 @@ export default function Home() {
 
             <div className="space-y-4 pt-4">
               {[
-                { icon: Sparkles, text: "Analisis con IA de ultima generacion" },
+                { icon: Sparkles, text: "Análisis con IA de última generación" },
                 { icon: Target, text: "Matching personalizado con tus talentos" },
                 { icon: Smartphone, text: "Resultados inmediatos en tu WhatsApp" },
                 { icon: Zap, text: "100% Gratis, sin compromiso" },
@@ -57,9 +57,9 @@ export default function Home() {
                 +500 estudiantes ya encontraron su camino
               </p>
             </div>
-            </div>
+          </div>
 
-          <div className="chatbot-container relative h-[650px] lg:h-[750px]">
+          <div className="chatbot-container relative h-[650px] lg:h-[750px] w-full max-w-[550px] mx-auto lg:ml-auto">
             <div className="absolute -top-4 -right-4 z-20 animate-pulse hidden md:block">
               <div className="bg-gradient-gold px-4 py-2 rounded-full shadow-xl text-[#111827] font-bold text-sm border-2 border-white/50">
                 100% Gratis
