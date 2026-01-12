@@ -122,28 +122,28 @@ export function TypebotChat() {
         id: Date.now().toString(),
         type: "bot",
         text: `Me encanta, ${currentResponses.nombre}!\n\nSi tuvieras un SUPERPODER natural, cual de estos seria?`,
-        buttons: [
-          { label: "Resolver problemas complejos", value: "resolver_problemas", action: "PREGUNTA_6", variable: "superpoder" },
-          { label: "Conectar y entender a las personas", value: "entender_personas", action: "PREGUNTA_6", variable: "superpoder" },
-          { label: "Crear cosas con mis manos", value: "crear_manos", action: "PREGUNTA_6", variable: "superpoder" },
-          { label: "Organizar y liderar equipos", value: "liderar", action: "PREGUNTA_6", variable: "superpoder" },
-          { label: "Analizar datos y encontrar patrones", value: "analizar_datos", action: "PREGUNTA_6", variable: "superpoder" },
-          { label: "Comunicar ideas de forma persuasiva", value: "comunicar", action: "PREGUNTA_6", variable: "superpoder" }
-        ]
-      }]);
-    } else if (action === "PREGUNTA_6") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: "Perfecto\n\nImagina tu TRABAJO IDEAL dentro de 10 anos...\n\nEn que tipo de ambiente te ves trabajando?",
-        buttons: [
-          { label: "Con pacientes/clientes (cara a cara)", value: "personas_directo", action: "PREGUNTA_7", variable: "ambiente_ideal" },
-          { label: "En una oficina/empresa corporativa", value: "oficina_corporativa", action: "PREGUNTA_7", variable: "ambiente_ideal" },
-          { label: "Desde casa o lugares remotos", value: "remoto", action: "PREGUNTA_7", variable: "ambiente_ideal" },
-          { label: "En laboratorios/cocinas/talleres", value: "laboratorio_taller", action: "PREGUNTA_7", variable: "ambiente_ideal" },
-          { label: "Al aire libre o en movimiento", value: "aire_libre", action: "PREGUNTA_7", variable: "ambiente_ideal" },
-          { label: "Mi propio negocio/emprendimiento", value: "emprendimiento", action: "PREGUNTA_7", variable: "ambiente_ideal" }
-        ]
+          buttons: [
+            { label: "Resolver problemas complejos", value: "resolver_problemas", action: "PREGUNTA_6", variable: "superpower" },
+            { label: "Conectar y entender a las personas", value: "entender_personas", action: "PREGUNTA_6", variable: "superpower" },
+            { label: "Crear cosas con mis manos", value: "crear_manos", action: "PREGUNTA_6", variable: "superpower" },
+            { label: "Organizar y liderar equipos", value: "liderar", action: "PREGUNTA_6", variable: "superpower" },
+            { label: "Analizar datos y encontrar patrones", value: "analizar_datos", action: "PREGUNTA_6", variable: "superpower" },
+            { label: "Comunicar ideas de forma persuasiva", value: "comunicar", action: "PREGUNTA_6", variable: "superpower" }
+          ]
+        }]);
+      } else if (action === "PREGUNTA_6") {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: "Perfecto\n\nImagina tu TRABAJO IDEAL dentro de 10 anos...\n\nEn que tipo de ambiente te ves trabajando?",
+          buttons: [
+            { label: "Con pacientes/clientes (cara a cara)", value: "personas_directo", action: "PREGUNTA_7", variable: "entorno_trabajo" },
+            { label: "En una oficina/empresa corporativa", value: "oficina_corporativa", action: "PREGUNTA_7", variable: "entorno_trabajo" },
+            { label: "Desde casa o lugares remotos", value: "remoto", action: "PREGUNTA_7", variable: "entorno_trabajo" },
+            { label: "En laboratorios/cocinas/talleres", value: "laboratorio_taller", action: "PREGUNTA_7", variable: "entorno_trabajo" },
+            { label: "Al aire libre o en movimiento", value: "aire_libre", action: "PREGUNTA_7", variable: "entorno_trabajo" },
+            { label: "Mi propio negocio/emprendimiento", value: "emprendimiento", action: "PREGUNTA_7", variable: "entorno_trabajo" }
+          ]
       }]);
     } else if (action === "PREGUNTA_7") {
       setMessages(prev => [...prev, {
