@@ -106,10 +106,14 @@ function calculateDimensions(data: Record<string, any>) {
     V_RESPONSABILIDADES: data.Q09 || 3,
     V_REMOTO: data.Q10 || 3,
     V_FINDE: data.Q11 || 3,
-    M_CLARIDAD_META: data.Q12 || 3,
-    M_COMPROMISO: data.Q13 || 3,
-    C_URGENCIA: { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 }[data.urgencia] || 3,
-    C_PROMEDIO: { "EXCELENTE": 5, "MUY_BUENO": 4, "BUENO": 3, "REGULAR": 2, "NO_DIGO": 3 }[data.promedio] || 3
+    LS_PERSISTENCIA: data.Q12 || 3,
+    LS_APRENDIZAJE: data.Q13 || 3,
+    LS_ESTRUCTURA: data.Q14 || 3,
+    AI_RELATION: data.Q15 || 3,
+    C_URGENCIA: data.Q16 || { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 }[data.urgencia] || 3,
+    C_PROMEDIO: data.Q17 || { "EXCELENTE": 5, "MUY_BUENO": 4, "BUENO": 3, "REGULAR": 2, "NO_DIGO": 3 }[data.promedio] || 3,
+    M_CLARIDAD_META: 3,
+    M_COMPROMISO: 3
   };
 }
 
@@ -260,12 +264,13 @@ function calculateLeadScore(dims: Record<string, number>, topProgramScore: numbe
     Math.min(Math.max((val - min) / (max - min), 0), 1) * 100;
   
   const vocationalCompat = normalize(topProgramScore, 1, 5) * 0.45;
-  const avgPersistence = (dims.A_AUTOGESTION + dims.M_COMPROMISO + dims.M_CLARIDAD_META) / 3;
-  const persistenceScore = normalize(avgPersistence, 1, 5) * 0.25;
+  const avgPersistence = (dims.A_AUTOGESTION + dims.LS_PERSISTENCIA + dims.M_COMPROMISO) / 3;
+  const persistenceScore = normalize(avgPersistence, 1, 5) * 0.22;
   const urgencyScore = normalize(dims.C_URGENCIA, 2, 5) * 0.20;
-  const performanceScore = normalize(dims.C_PROMEDIO, 2, 5) * 0.10;
+  const performanceScore = normalize(dims.C_PROMEDIO, 2, 5) * 0.08;
+  const aiRelationScore = normalize(dims.AI_RELATION, 1, 5) * 0.05;
   
-  return Math.round(vocationalCompat + persistenceScore + urgencyScore + performanceScore);
+  return Math.round(vocationalCompat + persistenceScore + urgencyScore + performanceScore + aiRelationScore);
 }
 
 function classifyLead(score: number): string {
