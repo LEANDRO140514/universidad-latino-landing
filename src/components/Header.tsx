@@ -5,9 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 export function Header() {
-  const handleResetTest = () => {
-    window.location.reload();
-  };
+    const handleResetTest = () => {
+      window.location.href = "/";
+    };
 
   return (
     <header className="fixed top-0 left-0 right-0 h-20 bg-[#1E3A8A]/95 backdrop-blur-md z-[1000] border-b border-white/10">
