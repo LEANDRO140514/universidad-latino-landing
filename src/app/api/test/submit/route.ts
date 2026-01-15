@@ -383,7 +383,13 @@ function generateDictamen(
 
 export async function POST(req: Request) {
   try {
-    const data = await req.json();
+    let data;
+    try {
+      data = await req.json();
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      return NextResponse.json({ success: false, error: "Invalid JSON format" }, { status: 400 });
+    }
     
     const openQuestions: OpenQuestions = {
       contexto: sanitizeOpenText(data.OQ01_contexto),
@@ -538,6 +544,8 @@ export async function POST(req: Request) {
       let lead;
       let error;
 
+      const emailNorm = data.email?.toLowerCase().trim() || null;
+
       if (data.lead_id) {
         const result = await supabase
           .from('leads')
@@ -546,14 +554,14 @@ export async function POST(req: Request) {
           .select();
         lead = result.data?.[0];
         error = result.error;
-      } else if (data.email) {
+      } else if (emailNorm) {
         const { data: existingLeads } = await supabase
           .from('leads')
           .select('id')
-          .eq('email', data.email.toLowerCase().trim())
+          .eq('email', emailNorm)
           .order('created_at', { ascending: false })
           .limit(1);
-
+        
         const existingLead = existingLeads?.[0];
 
         if (existingLead) {
@@ -567,7 +575,7 @@ export async function POST(req: Request) {
         } else {
           const result = await supabase
             .from('leads')
-            .insert([leadData])
+            .insert([{ ...leadData, email: emailNorm }])
             .select();
           lead = result.data?.[0];
           error = result.error;
@@ -581,7 +589,15 @@ export async function POST(req: Request) {
         error = result.error;
       }
 
-    if (error) throw error;
+    if (error) {
+      console.error("Supabase error:", error);
+      throw error;
+    }
+
+    if (!lead) {
+      console.error("Lead not created/updated");
+      throw new Error("Failed to save lead");
+    }
 
       const ghlWebhookUrl = process.env.GHL_WEBHOOK_URL;
       if (ghlWebhookUrl && lead) {
