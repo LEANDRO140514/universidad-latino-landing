@@ -480,54 +480,51 @@ export async function POST(req: Request) {
       tags
     };
 
-    let lead;
-    let error;
+      let lead;
+      let error;
 
-    if (data.lead_id) {
-      const result = await supabase
-        .from('leads')
-        .update(leadData)
-        .eq('id', data.lead_id)
-        .select()
-        .single();
-      lead = result.data;
-      error = result.error;
-    } else if (data.email) {
-      const { data: existingLead } = await supabase
-        .from('leads')
-        .select('id')
-        .eq('email', data.email.toLowerCase().trim())
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
-
-      if (existingLead) {
+      if (data.lead_id) {
         const result = await supabase
           .from('leads')
           .update(leadData)
-          .eq('id', existingLead.id)
-          .select()
-          .single();
-        lead = result.data;
+          .eq('id', data.lead_id)
+          .select();
+        lead = result.data?.[0];
         error = result.error;
+      } else if (data.email) {
+        const { data: existingLeads } = await supabase
+          .from('leads')
+          .select('id')
+          .eq('email', data.email.toLowerCase().trim())
+          .order('created_at', { ascending: false })
+          .limit(1);
+
+        const existingLead = existingLeads?.[0];
+
+        if (existingLead) {
+          const result = await supabase
+            .from('leads')
+            .update(leadData)
+            .eq('id', existingLead.id)
+            .select();
+          lead = result.data?.[0];
+          error = result.error;
+        } else {
+          const result = await supabase
+            .from('leads')
+            .insert([leadData])
+            .select();
+          lead = result.data?.[0];
+          error = result.error;
+        }
       } else {
         const result = await supabase
           .from('leads')
           .insert([leadData])
-          .select()
-          .single();
-        lead = result.data;
+          .select();
+        lead = result.data?.[0];
         error = result.error;
       }
-    } else {
-      const result = await supabase
-        .from('leads')
-        .insert([leadData])
-        .select()
-        .single();
-      lead = result.data;
-      error = result.error;
-    }
 
     if (error) throw error;
 
