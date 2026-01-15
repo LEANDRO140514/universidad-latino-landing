@@ -5,13 +5,108 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Lock, Bot } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+type LikertOption = {
+  value: number;
+  label: string;
+};
+
 type Message = {
   id: string;
   type: "bot" | "user";
   text: string;
-  buttons?: { label: string; value: string; action?: string; variable?: string; scoring?: number; sector?: string[]; beca_flag?: string }[];
-  input?: { type: "text" | "phone" | "email" | "textarea"; variable: string; placeholder: string; required: boolean; validation?: any };
+  buttons?: { label: string; value: string; action?: string; variable?: string }[];
+  likert?: { variable: string; nextAction: string };
+  input?: { type: "text" | "phone" | "email" | "textarea"; variable: string; placeholder: string; required: boolean };
   loading?: boolean;
+};
+
+const LIKERT_OPTIONS: LikertOption[] = [
+  { value: 1, label: "Nada" },
+  { value: 2, label: "Poco" },
+  { value: 3, label: "Moderado" },
+  { value: 4, label: "Mucho" },
+  { value: 5, label: "Totalmente" }
+];
+
+const QUESTIONS = {
+  A1: {
+    id: "A1",
+    prompt: "Me interesa comprender el bienestar físico y participar en acciones que ayuden a mejorar hábitos de salud.",
+    dimension: "I_SALUD",
+    next: "A2"
+  },
+  A2: {
+    id: "A2",
+    prompt: "Me atrae acompañar, orientar o apoyar a otras personas en situaciones personales o emocionales.",
+    dimension: "I_SOCIAL",
+    next: "A3"
+  },
+  A3: {
+    id: "A3",
+    prompt: "Disfruto coordinar, tomar decisiones y mejorar el funcionamiento de un equipo o una organización.",
+    dimension: "I_NEGOCIOS",
+    next: "A4"
+  },
+  A4: {
+    id: "A4",
+    prompt: "Me llama la atención la tecnología y cómo se pueden crear o mejorar soluciones digitales.",
+    dimension: "I_TECNOLOGIA",
+    next: "B1"
+  },
+  B1: {
+    id: "B1",
+    prompt: "Cuando aparece un reto, se me facilita analizarlo y encontrar una ruta de solución.",
+    dimension: "A_ANALITICO",
+    next: "B2"
+  },
+  B2: {
+    id: "B2",
+    prompt: "Me resulta natural escuchar con atención y captar lo que otra persona necesita, incluso si no lo dice directamente.",
+    dimension: "A_EMPATICO",
+    next: "B3"
+  },
+  B3: {
+    id: "B3",
+    prompt: "Aprendo mejor cuando puedo practicar, experimentar o aplicar lo aprendido en situaciones reales.",
+    dimension: "A_PRACTICO",
+    next: "B4"
+  },
+  B4: {
+    id: "B4",
+    prompt: "Cuando tengo responsabilidades importantes, puedo organizarme y cumplir sin necesidad de supervisión constante.",
+    dimension: "A_AUTOGESTION",
+    next: "C1"
+  },
+  C1: {
+    id: "C1",
+    prompt: "En este momento tengo actividades (trabajo, familia u otras) que limitan mi disponibilidad entre semana.",
+    dimension: "V_RESPONSABILIDADES",
+    next: "C2"
+  },
+  C2: {
+    id: "C2",
+    prompt: "Me acomoda estudiar desde casa y mantener avance con actividades en línea.",
+    dimension: "V_REMOTO",
+    next: "C3"
+  },
+  C3: {
+    id: "C3",
+    prompt: "Tengo disponibilidad y energía para concentrar estudio los sábados (o fines de semana).",
+    dimension: "V_FINDE",
+    next: "D1"
+  },
+  D1: {
+    id: "D1",
+    prompt: "En esta etapa, veo la universidad como una meta concreta y prioritaria.",
+    dimension: "M_CLARIDAD_META",
+    next: "D2"
+  },
+  D2: {
+    id: "D2",
+    prompt: "Estoy dispuesto(a) a sostener el esfuerzo académico, incluso cuando haya semanas exigentes.",
+    dimension: "M_COMPROMISO",
+    next: "E1"
+  }
 };
 
 export function TypebotChat() {
@@ -19,6 +114,7 @@ export function TypebotChat() {
   const [inputValue, setInputValue] = useState("");
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [isTyping, setIsTyping] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -45,13 +141,28 @@ export function TypebotChat() {
       {
         id: "1",
         type: "bot",
-        text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nSerá una charla natural, como hablar con alguien de total confianza.\n\n¿Todo listo para empezar?",
+        text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nTe haré 15 preguntas rápidas sobre tus intereses, habilidades y estilo de vida.\n\n¿Todo listo para empezar?",
         buttons: [
-          { label: "Si, vamos!", value: "si_empezar", action: "PREGUNTA_1_NOMBRE" },
+          { label: "Sí, vamos!", value: "si_empezar", action: "PREGUNTA_NOMBRE" },
           { label: "Tengo dudas", value: "tengo_dudas", action: "MENSAJE_DUDAS" }
         ]
       }
     ]);
+  };
+
+  const showLikertQuestion = async (questionId: string, userName: string) => {
+    const question = QUESTIONS[questionId as keyof typeof QUESTIONS];
+    if (!question) return;
+
+    setCurrentQuestion(questionId);
+    const questionNumber = Object.keys(QUESTIONS).indexOf(questionId) + 1;
+    
+    setMessages(prev => [...prev, {
+      id: Date.now().toString(),
+      type: "bot",
+      text: `Pregunta ${questionNumber} de 13:\n\n${question.prompt}`,
+      likert: { variable: question.id, nextAction: question.next }
+    }]);
   };
 
   const handleAction = async (action: string, value: string, currentResponses: Record<string, any>) => {
@@ -61,155 +172,69 @@ export function TypebotChat() {
     setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: label }]);
     
     setIsTyping(true);
-    await new Promise(r => setTimeout(r, 1500));
+    await new Promise(r => setTimeout(r, 800));
     setIsTyping(false);
 
     if (action === "MENSAJE_DUDAS") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: "Sin problema\n\nEl test es completamente GRATIS y te tomara solo 5 minutos.\n\nTe voy a hacer preguntas sobre:\n- Tus materias favoritas\n- Tus intereses y pasiones\n- Como te imaginas en el futuro\n\nAl final recibiras:\n- Mensaje en WhatsApp con tu carrera ideal\n- Email con analisis completo\n- Informacion sobre becas\n\nEmpezamos?",
-        buttons: [{ label: "Si, ahora si!", value: "si_ahora", action: "PREGUNTA_1_NOMBRE" }]
+        text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará solo 5 minutos.\n\nTe haré 15 preguntas sobre:\n• Tus intereses vocacionales\n• Tus habilidades y fortalezas\n• Tu estilo de vida y disponibilidad\n• Tu motivación y metas\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis de tus fortalezas\n• Opciones de becas disponibles\n\n¿Empezamos?",
+        buttons: [{ label: "Sí, ahora sí!", value: "si_ahora", action: "PREGUNTA_NOMBRE" }]
       }]);
-    } else if (action === "PREGUNTA_1_NOMBRE") {
+    } else if (action === "PREGUNTA_NOMBRE") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: "Perfecto! Comencemos\n\nComo te llamas?",
+        text: "¡Perfecto! Comencemos.\n\n¿Cómo te llamas?",
         input: { type: "text", variable: "nombre", placeholder: "Tu nombre...", required: true }
       }]);
-    } else if (action === "PREGUNTA_2") {
+    } else if (action === "START_TEST") {
+      showLikertQuestion("A1", currentResponses.nombre);
+    } else if (action === "E1") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: `Mucho gusto, ${currentResponses.nombre || value}!\n\nEn que etapa estas?`,
-          buttons: [
-            { label: "Estoy en 6to semestre de prepa", value: "sexto_semestre", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
-            { label: "Acabo de terminar la prepa", value: "acabo_terminar", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
-            { label: "Termine hace 1-2 anos", value: "1_2_anos", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
-            { label: "Termine hace mas de 2 anos", value: "mas_2_anos", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" },
-            { label: "Estoy en otra carrera y quiero cambiar", value: "cambio_carrera", action: "PREGUNTA_2_TRABAJO", variable: "etapa_educativa" }
-          ]
-        }]);
-      } else if (action === "PREGUNTA_2_TRABAJO") {
-        setMessages(prev => [...prev, {
-          id: Date.now().toString(),
-          type: "bot",
-          text: "¡Entendido! Una pregunta rápida... ¿Actualmente te encuentras trabajando?",
-          buttons: [
-            { label: "Sí, trabajo tiempo completo", value: "si_completo", action: "PREGUNTA_3", variable: "trabaja" },
-            { label: "Sí, trabajo medio tiempo", value: "si_medio", action: "PREGUNTA_3", variable: "trabaja" },
-            { label: "Sí, trabajo por mi cuenta", value: "si_cuenta", action: "PREGUNTA_3", variable: "trabaja" },
-            { label: "No trabajo por el momento", value: "no_trabaja", action: "PREGUNTA_3", variable: "trabaja" }
-          ]
-        }]);
-      } else if (action === "PREGUNTA_3") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: `Excelente, ${currentResponses.nombre}!\n\nCuentame... cuales son las 3 MATERIAS que mas disfrutaste en la prepa?\n\nEscribelas separadas por comas.\n\nEjemplo: Matematicas, Biologia, Historia`,
-        input: { type: "text", variable: "materias_favoritas", placeholder: "Matematicas, Biologia, Historia...", required: true }
-      }]);
-    } else if (action === "PREGUNTA_4") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: "Interesante eleccion!\n\nAhora hablame de tus PASIONES fuera de la escuela.\n\nQue actividades haces en tu tiempo libre que realmente disfrutas?\n\nPueden ser hobbies, deportes, intereses... lo que sea que te emocione",
-        input: { type: "text", variable: "actividades_pasion", placeholder: "Ejemplo: Hacer ejercicio, leer, videojuegos...", required: true }
-      }]);
-    } else if (action === "PREGUNTA_5") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: `Me encanta, ${currentResponses.nombre}!\n\nSi tuvieras un SUPERPODER natural, cual de estos seria?`,
-          buttons: [
-            { label: "Resolver problemas complejos", value: "resolver_problemas", action: "PREGUNTA_6", variable: "superpower" },
-            { label: "Conectar y entender a las personas", value: "entender_personas", action: "PREGUNTA_6", variable: "superpower" },
-            { label: "Crear cosas con mis manos", value: "crear_manos", action: "PREGUNTA_6", variable: "superpower" },
-            { label: "Organizar y liderar equipos", value: "liderar", action: "PREGUNTA_6", variable: "superpower" },
-            { label: "Analizar datos y encontrar patrones", value: "analizar_datos", action: "PREGUNTA_6", variable: "superpower" },
-            { label: "Comunicar ideas de forma persuasiva", value: "comunicar", action: "PREGUNTA_6", variable: "superpower" }
-          ]
-        }]);
-      } else if (action === "PREGUNTA_6") {
-        setMessages(prev => [...prev, {
-          id: Date.now().toString(),
-          type: "bot",
-          text: "Perfecto\n\nImagina tu TRABAJO IDEAL dentro de 10 anos...\n\nEn que tipo de ambiente te ves trabajando?",
-          buttons: [
-            { label: "Con pacientes/clientes (cara a cara)", value: "personas_directo", action: "PREGUNTA_7", variable: "entorno_trabajo" },
-            { label: "En una oficina/empresa corporativa", value: "oficina_corporativa", action: "PREGUNTA_7", variable: "entorno_trabajo" },
-            { label: "Desde casa o lugares remotos", value: "remoto", action: "PREGUNTA_7", variable: "entorno_trabajo" },
-            { label: "En laboratorios/cocinas/talleres", value: "laboratorio_taller", action: "PREGUNTA_7", variable: "entorno_trabajo" },
-            { label: "Al aire libre o en movimiento", value: "aire_libre", action: "PREGUNTA_7", variable: "entorno_trabajo" },
-            { label: "Mi propio negocio/emprendimiento", value: "emprendimiento", action: "PREGUNTA_7", variable: "entorno_trabajo" }
-          ]
-      }]);
-    } else if (action === "PREGUNTA_7") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-          text: "Que es lo que MAS te motiva a elegir una carrera?\n\nResponde con total sinceridad, no hay respuestas incorrectas",
+        text: "¡Excelente progreso!\n\n¿Cuándo te gustaría iniciar tu carrera universitaria?",
         buttons: [
-          { label: "Ayudar a mejorar la vida de las personas", value: "ayudar_personas", action: "PREGUNTA_8", variable: "motivacion_principal" },
-          { label: "Ganar bien y tener estabilidad economica", value: "estabilidad_economica", action: "PREGUNTA_8", variable: "motivacion_principal" },
-          { label: "Ser creativo e innovar constantemente", value: "creatividad", action: "PREGUNTA_8", variable: "motivacion_principal" },
-          { label: "Tener poder de decision y liderazgo", value: "liderazgo", action: "PREGUNTA_8", variable: "motivacion_principal" },
-          { label: "Trabajar en algo que me apasiona", value: "pasion", action: "PREGUNTA_8", variable: "motivacion_principal" },
-          { label: "Balance vida-trabajo y flexibilidad", value: "balance", action: "PREGUNTA_8", variable: "motivacion_principal" }
+          { label: "Lo antes posible", value: "ASAP", action: "E2", variable: "urgencia" },
+          { label: "Este año", value: "ESTE_ANIO", action: "E2", variable: "urgencia" },
+          { label: "En los próximos 6 a 12 meses", value: "6_12", action: "E2", variable: "urgencia" },
+          { label: "Solo estoy explorando por ahora", value: "EXPLORANDO", action: "E2", variable: "urgencia" }
         ]
       }]);
-    } else if (action === "PREGUNTA_8") {
+    } else if (action === "E2") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: `Ya casi terminamos, ${currentResponses.nombre}!\n\nCierra los ojos por un segundo e imaginate dentro de 10 anos...\n\nQue estas haciendo? Como es un dia tipico en tu vida?\n\nDescribelo en una frase o dos.`,
-        input: { type: "textarea", variable: "vision_futuro", placeholder: "Ejemplo: Ayudando a personas...", required: true }
-      }]);
-    } else if (action === "PREGUNTA_9") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: `Excelente, ${currentResponses.nombre}!\n\nUna pregunta importante...\n\nQue tan URGENTE es para ti empezar una carrera universitaria?`,
+        text: "Última pregunta:\n\n¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
         buttons: [
-          { label: "Muy urgente - Quiero iniciar lo antes posible", value: "muy_urgente", action: "PREGUNTA_10", variable: "urgencia_timeline" },
-          { label: "Urgente - Quisiera empezar este ano", value: "urgente", action: "PREGUNTA_10", variable: "urgencia_timeline" },
-          { label: "Tengo tiempo - En los proximos 6-12 meses", value: "tengo_tiempo", action: "PREGUNTA_10", variable: "urgencia_timeline" },
-          { label: "Sin prisa - Solo estoy explorando opciones", value: "sin_prisa", action: "PREGUNTA_10", variable: "urgencia_timeline" }
-        ]
-      }]);
-    } else if (action === "PREGUNTA_10") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: `Ultima pregunta, ${currentResponses.nombre}!\n\nComo describirias tu DESEMPENO ACADEMICO en la prepa?`,
-        buttons: [
-          { label: "Excelente - Promedio 9.5 o superior", value: "excelente", action: "CAPTURA_CONTACTO", variable: "desempeno_academico" },
-          { label: "Muy bueno - Promedio 9.0 a 9.4", value: "muy_bueno", action: "CAPTURA_CONTACTO", variable: "desempeno_academico" },
-          { label: "Bueno - Promedio 8.5 a 8.9", value: "bueno", action: "CAPTURA_CONTACTO", variable: "desempeno_academico" },
-          { label: "Regular - Promedio 8.0 a 8.4", value: "regular", action: "CAPTURA_CONTACTO", variable: "desempeno_academico" },
-          { label: "Prefiero no decirlo", value: "no_decir", action: "CAPTURA_CONTACTO", variable: "desempeno_academico" }
+          { label: "Excelente (≈ 9.5 o más)", value: "EXCELENTE", action: "CAPTURA_CONTACTO", variable: "promedio" },
+          { label: "Muy bueno (≈ 9.0 a 9.4)", value: "MUY_BUENO", action: "CAPTURA_CONTACTO", variable: "promedio" },
+          { label: "Bueno (≈ 8.5 a 8.9)", value: "BUENO", action: "CAPTURA_CONTACTO", variable: "promedio" },
+          { label: "Regular (≈ 8.0 a 8.4)", value: "REGULAR", action: "CAPTURA_CONTACTO", variable: "promedio" },
+          { label: "Prefiero no decirlo", value: "NO_DIGO", action: "CAPTURA_CONTACTO", variable: "promedio" }
         ]
       }]);
     } else if (action === "CAPTURA_CONTACTO") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: `Excelente, ${currentResponses.nombre}!\n\nYa tengo todo lo que necesito para crear tu PERFIL VOCACIONAL PERSONALIZADO.\n\nPara enviarte tus resultados completos, necesito tu WhatsApp:`,
+        text: `¡Excelente, ${currentResponses.nombre}!\n\nYa tengo todo lo que necesito para crear tu PERFIL VOCACIONAL PERSONALIZADO.\n\nPara enviarte tus resultados completos, necesito tu WhatsApp:`,
         input: { type: "phone", variable: "telefono", placeholder: "Ej: 999 123 4567", required: true }
       }]);
     } else if (action === "CAPTURA_EMAIL") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: "Y por ultimo, tu correo electronico:",
+        text: "Y por último, tu correo electrónico:",
         input: { type: "email", variable: "email", placeholder: "tu@email.com", required: true }
       }]);
     } else if (action === "PROCESAMIENTO") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: `Perfecto, ${currentResponses.nombre}!\n\nEstoy analizando tu perfil con nuestra inteligencia artificial...\n\nEsto tomara menos de 30 segundos.`,
+        text: `Perfecto, ${currentResponses.nombre}!\n\nEstoy analizando tu perfil con nuestra inteligencia artificial...\n\nEsto tomará menos de 30 segundos.`,
         loading: true
       }]);
       
@@ -225,9 +250,9 @@ export function TypebotChat() {
           setMessages(prev => [...prev.slice(0, -1), {
             id: Date.now().toString(),
             type: "bot",
-            text: `Listo, ${currentResponses.nombre}!\n\nTu perfil vocacional fue enviado a:\nWhatsApp: ${currentResponses.telefono}\nEmail: ${currentResponses.email}\n\nCheca tus mensajes AHORA MISMO`,
+            text: `¡Listo, ${currentResponses.nombre}!\n\nTu perfil vocacional fue generado exitosamente.\n\nWhatsApp: ${currentResponses.telefono}\nEmail: ${currentResponses.email}\n\n¿Quieres ver tus resultados ahora?`,
             buttons: [
-              { label: "Si, mostrar resultados", value: result.leadId, action: "REDIRECT" },
+              { label: "Sí, mostrar resultados", value: result.leadId, action: "REDIRECT" },
               { label: "Hablar con un asesor AHORA", value: "hablar_asesor", action: "CALL" }
             ]
           }]);
@@ -247,6 +272,25 @@ export function TypebotChat() {
     }
   };
 
+  const handleLikertSelect = async (value: number, variable: string, nextAction: string) => {
+    const labelMap: Record<number, string> = { 1: "Nada", 2: "Poco", 3: "Moderado", 4: "Mucho", 5: "Totalmente" };
+    
+    setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: labelMap[value] }]);
+    
+    const updatedResponses = { ...responses, [variable]: value };
+    setResponses(updatedResponses);
+    
+    setIsTyping(true);
+    await new Promise(r => setTimeout(r, 600));
+    setIsTyping(false);
+
+    if (QUESTIONS[nextAction as keyof typeof QUESTIONS]) {
+      showLikertQuestion(nextAction, updatedResponses.nombre);
+    } else {
+      handleAction(nextAction, String(value), updatedResponses);
+    }
+  };
+
   const handleInputSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -257,7 +301,6 @@ export function TypebotChat() {
     const variable = currentMsg.input.variable;
     let finalValue = inputValue;
 
-    // Default Mexico for phone
     if (variable === "telefono") {
       const clean = inputValue.replace(/\D/g, "");
       if (clean.length === 10) {
@@ -270,11 +313,10 @@ export function TypebotChat() {
     const updatedResponses = { ...responses, [variable]: finalValue };
     setResponses(updatedResponses);
     
+    setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: inputValue }]);
+    
     let nextAction = "";
-    if (variable === "nombre") nextAction = "PREGUNTA_2";
-    else if (variable === "materias_favoritas") nextAction = "PREGUNTA_4";
-    else if (variable === "actividades_pasion") nextAction = "PREGUNTA_5";
-    else if (variable === "vision_futuro") nextAction = "PREGUNTA_9";
+    if (variable === "nombre") nextAction = "START_TEST";
     else if (variable === "telefono") nextAction = "CAPTURA_EMAIL";
     else if (variable === "email") nextAction = "PROCESAMIENTO";
 
@@ -292,7 +334,7 @@ export function TypebotChat() {
   };
 
   return (
-      <div className="flex flex-col h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/20 text-gray-900">
+    <div className="flex flex-col h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/20 text-gray-900">
       <div className="bg-gradient-to-r from-[#1E3A8A] to-[#4F46E5] p-6 text-white shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -302,7 +344,7 @@ export function TypebotChat() {
             <h3 className="font-display font-semibold text-lg leading-tight">Eva, asistencia vocacional IA</h3>
             <div className="flex items-center gap-2 text-sm opacity-90">
               <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-              En linea
+              En línea
             </div>
           </div>
         </div>
@@ -329,6 +371,13 @@ export function TypebotChat() {
               >
                 <div className="whitespace-pre-wrap">{msg.text}</div>
                 
+                {msg.loading && (
+                  <div className="mt-4 flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-[#4F46E5] border-t-transparent"></div>
+                    <span className="text-sm text-gray-500">Procesando...</span>
+                  </div>
+                )}
+                
                 {msg.buttons && (
                   <div className="mt-4 grid gap-2">
                     {msg.buttons.map((btn) => (
@@ -340,6 +389,31 @@ export function TypebotChat() {
                         {btn.label}
                       </button>
                     ))}
+                  </div>
+                )}
+
+                {msg.likert && (
+                  <div className="mt-4 space-y-3">
+                    <div className="flex justify-between text-xs text-gray-400 px-1">
+                      <span>Nada</span>
+                      <span>Totalmente</span>
+                    </div>
+                    <div className="flex gap-2 justify-center">
+                      {LIKERT_OPTIONS.map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => handleLikertSelect(opt.value, msg.likert!.variable, msg.likert!.nextAction)}
+                          className="w-12 h-12 rounded-full border-2 border-gray-200 bg-white text-gray-700 font-bold text-lg hover:border-[#F59E0B] hover:bg-[#F59E0B] hover:text-white transition-all active:scale-95 flex items-center justify-center"
+                        >
+                          {opt.value}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex justify-between text-[10px] text-gray-400 px-1">
+                      {LIKERT_OPTIONS.map((opt) => (
+                        <span key={opt.value} className="w-12 text-center">{opt.label}</span>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -370,7 +444,7 @@ export function TypebotChat() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={messages[messages.length - 1].input?.placeholder}
-                className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors"
+              className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors"
               autoFocus
             />
             <button 
