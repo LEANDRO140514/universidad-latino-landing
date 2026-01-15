@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Header() {
     const handleResetTest = () => {
-      window.location.href = "/";
+      window.location.href = "/?reset=" + Date.now();
     };
 
   return (
