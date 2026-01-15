@@ -1,6 +1,21 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+function sanitizeOpenText(text: string | undefined | null, maxLength = 900): string {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .replace(/<[^>]*>/g, '')
+    .replace(/[<>]/g, '')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function truncateForCRM(text: string, maxLength = 250): string {
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength - 3) + '...';
+}
+
 type Program = {
   id: string;
   name: string;
@@ -299,13 +314,20 @@ function getLearningStylePhrase(dims: Record<string, number>): string {
   return "equilibrio entre teoría, práctica y seguimiento académico";
 }
 
+type OpenQuestions = {
+  contexto: string;
+  intereses: string;
+  vision: string;
+};
+
 function generateDictamen(
   nombre: string,
   sectorPrimary: string,
   sectorSecondary: string | null,
   dims: Record<string, number>,
   topPrograms: any[],
-  isMixed: boolean
+  isMixed: boolean,
+  openQuestions?: OpenQuestions
 ): string {
   const sectorNames: Record<string, string> = {
     SALUD: "Salud y Bienestar",
@@ -324,28 +346,51 @@ function generateDictamen(
   const top3 = topPrograms[2];
 
   let modalityInsert = "";
-  if (top1.mode === "PRESENCIAL") {
-    const program = PROGRAMS.find(p => p.id === top1.program_id);
-    if (program && program.modalities.length === 1) {
-      modalityInsert = " Por el componente práctico y el tipo de formación requerida, esta licenciatura se desarrolla en modalidad presencial.";
+    if (top1.mode === "PRESENCIAL") {
+      const program = PROGRAMS.find(p => p.id === top1.program_id);
+      if (program && program.modalities.length === 1) {
+        modalityInsert = " Por el componente práctico y el tipo de formación requerida, esta licenciatura se desarrolla en modalidad presencial.";
+      }
+    } else if (top1.mode === "ONLINE") {
+      modalityInsert = " Dado tu nivel de autonomía y preferencia por estudiar a distancia, la modalidad en línea resulta adecuada para sostener el avance con constancia.";
+    } else if (top1.mode === "SABATINA") {
+      modalityInsert = " Por tu disponibilidad de fin de semana y carga entre semana, el esquema sabatino facilita continuidad sin afectar tus otras responsabilidades.";
     }
-  } else if (top1.mode === "ONLINE") {
-    modalityInsert = " Dado tu nivel de autonomía y preferencia por estudiar a distancia, la modalidad en línea resulta adecuada para sostener el avance con constancia.";
-  } else if (top1.mode === "SABATINA") {
-    modalityInsert = " Por tu disponibilidad de fin de semana y carga entre semana, el esquema sabatino facilita continuidad sin afectar tus otras responsabilidades.";
-  }
 
-  if (isMixed && sectorSecondary) {
-    return `${nombre}, tus respuestas reflejan un perfil con dos ejes de interés relevantes: ${sectorNames[sectorPrimary]} como tendencia principal y ${sectorNames[sectorSecondary]} como área complementaria. Esto suele presentarse cuando una persona combina ${strength1} con ${strength2}, y mantiene apertura hacia distintos entornos de formación. Recomendación principal: ${top1.program_name} en modalidad ${top1.mode} y periodo ${top1.period}, por ser la opción con mejor ajuste global entre intereses, habilidades y contexto.${modalityInsert} Alternativas con sentido: ${top2?.program_name || "N/A"} (por habilidades transferibles) y ${top3?.program_name || "N/A"} (por alineación con el eje complementario).`;
-  }
+    let contextInsert = "";
+    if (openQuestions?.contexto) {
+      contextInsert = " Considerando tu situación actual, la recomendación busca adaptarse a tus circunstancias y necesidades de flexibilidad.";
+    }
 
-  return `${nombre}, con base en tus respuestas, se observa una afinidad predominante hacia el área de ${sectorNames[sectorPrimary]}. Tu perfil combina ${strength1} y ${strength2}, lo que favorece un desempeño consistente en procesos formativos con ${learningStyle}. Recomendación principal: ${top1.program_name} en modalidad ${top1.mode} y periodo ${top1.period}, de acuerdo con la oferta vigente.${modalityInsert} Como rutas complementarias, también aparecen ${top2?.program_name || "N/A"} y ${top3?.program_name || "N/A"}, por compartir componentes formativos compatibles con tu perfil.`;
+    let interestsInsert = "";
+    if (openQuestions?.intereses) {
+      interestsInsert = " Tus intereses y actividades fuera del ámbito académico refuerzan la orientación hacia este campo.";
+    }
+
+    let visionInsert = "";
+    if (openQuestions?.vision) {
+      visionInsert = " Tu visión de futuro es compatible con el perfil profesional de esta carrera.";
+    }
+
+    const personalizedInsert = contextInsert + interestsInsert + visionInsert;
+
+    if (isMixed && sectorSecondary) {
+      return `${nombre}, tus respuestas reflejan un perfil con dos ejes de interés relevantes: ${sectorNames[sectorPrimary]} como tendencia principal y ${sectorNames[sectorSecondary]} como área complementaria. Esto suele presentarse cuando una persona combina ${strength1} con ${strength2}, y mantiene apertura hacia distintos entornos de formación.${personalizedInsert} Recomendación principal: ${top1.program_name} en modalidad ${top1.mode} y periodo ${top1.period}, por ser la opción con mejor ajuste global entre intereses, habilidades y contexto.${modalityInsert} Alternativas con sentido: ${top2?.program_name || "N/A"} (por habilidades transferibles) y ${top3?.program_name || "N/A"} (por alineación con el eje complementario).`;
+    }
+
+    return `${nombre}, con base en tus respuestas, se observa una afinidad predominante hacia el área de ${sectorNames[sectorPrimary]}. Tu perfil combina ${strength1} y ${strength2}, lo que favorece un desempeño consistente en procesos formativos con ${learningStyle}.${personalizedInsert} Recomendación principal: ${top1.program_name} en modalidad ${top1.mode} y periodo ${top1.period}, de acuerdo con la oferta vigente.${modalityInsert} Como rutas complementarias, también aparecen ${top2?.program_name || "N/A"} y ${top3?.program_name || "N/A"}, por compartir componentes formativos compatibles con tu perfil.`;
 }
 
 export async function POST(req: Request) {
   try {
     const data = await req.json();
     
+    const openQuestions: OpenQuestions = {
+      contexto: sanitizeOpenText(data.OQ01_contexto),
+      intereses: sanitizeOpenText(data.OQ02_intereses),
+      vision: sanitizeOpenText(data.OQ03_vision)
+    };
+
     const dimensions = calculateDimensions(data);
     const sectorScores = calculateSectorScores(dimensions);
     
@@ -429,13 +474,14 @@ export async function POST(req: Request) {
     const leadClass = classifyLead(leadScore);
     
     const dictamenText = generateDictamen(
-      data.nombre,
-      sectorPrimary,
-      sectorSecondary,
-      dimensions,
-      topPrograms,
-      isMixed
-    );
+        data.nombre,
+        sectorPrimary,
+        sectorSecondary,
+        dimensions,
+        topPrograms,
+        isMixed,
+        openQuestions
+      );
 
     const becaMap: Record<string, string> = {
       'EXCELENTE': 'EXCELENCIA (40-50%)',
@@ -453,32 +499,41 @@ export async function POST(req: Request) {
     };
 
     const tags = [
-      "Test Vocacional UL",
-      "Fuente: Landing Test Vocacional",
-      leadClass === "HOT" ? "🔥 Hot Lead" : leadClass === "WARM" ? "🟡 Warm Lead" : "🔵 Cold Lead",
-      `Sector: ${sectorPrimary}`,
-      `Modalidad: ${topPrograms[0]?.mode || "PRESENCIAL"}`
-    ];
+        "Test Vocacional UL",
+        "Fuente: Landing Test Vocacional",
+        leadClass === "HOT" ? "🔥 Hot Lead" : leadClass === "WARM" ? "🟡 Warm Lead" : "🔵 Cold Lead",
+        `Sector: ${sectorPrimary}`,
+        `Modalidad: ${topPrograms[0]?.mode || "PRESENCIAL"}`
+      ];
 
-    const leadData = {
-      nombre: data.nombre,
-      email: data.email,
-      telefono: data.telefono,
-      urgencia: data.urgencia,
-      promedio: data.promedio,
-      responses: data,
-      dimensions,
-      sector_primary: sectorPrimary,
-      sector_secondary: sectorSecondary,
-      score: leadScore,
-      lead_class: leadClass,
-      classification: leadClass,
-      top_programs: topPrograms,
-      dictamen_text: dictamenText,
-      beca_elegible: beca,
-      cta_primary: ctaMap[leadClass],
-      tags
-    };
+      const oqSummary = [
+        openQuestions.contexto ? `Contexto: ${truncateForCRM(openQuestions.contexto)}` : '',
+        openQuestions.intereses ? `Intereses: ${truncateForCRM(openQuestions.intereses)}` : '',
+        openQuestions.vision ? `Visión: ${truncateForCRM(openQuestions.vision)}` : ''
+      ].filter(Boolean).join(' | ');
+
+      const leadData = {
+        nombre: data.nombre,
+        email: data.email,
+        telefono: data.telefono,
+        urgencia: data.urgencia,
+        promedio: data.promedio,
+        responses: data,
+        dimensions,
+        sector_primary: sectorPrimary,
+        sector_secondary: sectorSecondary,
+        score: leadScore,
+        lead_class: leadClass,
+        classification: leadClass,
+        top_programs: topPrograms,
+        dictamen_text: dictamenText,
+        beca_elegible: beca,
+        cta_primary: ctaMap[leadClass],
+        tags,
+        oq01_contexto: openQuestions.contexto || null,
+        oq02_intereses: openQuestions.intereses || null,
+        oq03_vision: openQuestions.vision || null
+      };
 
       let lead;
       let error;
@@ -528,7 +583,39 @@ export async function POST(req: Request) {
 
     if (error) throw error;
 
-    return NextResponse.json({ 
+      const ghlWebhookUrl = process.env.GHL_WEBHOOK_URL;
+      if (ghlWebhookUrl && lead) {
+        const ghlPayload = {
+          contact: {
+            firstName: data.nombre?.split(' ')[0] || '',
+            lastName: data.nombre?.split(' ').slice(1).join(' ') || '',
+            email: data.email,
+            phone: data.telefono,
+            tags: tags
+          },
+          customFields: {
+            sector_principal: sectorPrimary,
+            carrera_recomendada: topPrograms[0]?.program_name || '',
+            match_percent: topPrograms[0]?.match_percent || 0,
+            modalidad: topPrograms[0]?.mode || 'PRESENCIAL',
+            lead_score: leadScore,
+            lead_class: leadClass,
+            beca_elegible: beca,
+            urgencia: data.urgencia,
+            promedio: data.promedio,
+            oq_resumen: oqSummary || null,
+            dictamen_url: `${process.env.NEXT_PUBLIC_BASE_URL || ''}/resultados/${lead.id}`
+          }
+        };
+
+        fetch(ghlWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(ghlPayload)
+        }).catch(err => console.error('GHL webhook error:', err));
+      }
+
+      return NextResponse.json({
       success: true, 
       leadId: lead.id,
       preview: {
