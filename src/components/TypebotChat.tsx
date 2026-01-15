@@ -28,84 +28,84 @@ const LIKERT_OPTIONS: LikertOption[] = [
   { value: 5, label: "Totalmente" }
 ];
 
-const QUESTIONS = {
-  A1: {
-    id: "A1",
-    prompt: "Me interesa comprender el bienestar físico y participar en acciones que ayuden a mejorar hábitos de salud.",
+const QUESTIONS: Record<string, { id: string; prompt: string; dimension: string; next: string }> = {
+  Q01: {
+    id: "Q01",
+    prompt: "Me interesa comprender el bienestar físico y participar en acciones que favorezcan hábitos de cuidado y salud.",
     dimension: "I_SALUD",
-    next: "A2"
+    next: "Q02"
   },
-  A2: {
-    id: "A2",
-    prompt: "Me atrae acompañar, orientar o apoyar a otras personas en situaciones personales o emocionales.",
+  Q02: {
+    id: "Q02",
+    prompt: "Me atrae acompañar u orientar a otras personas en decisiones o situaciones personales.",
     dimension: "I_SOCIAL",
-    next: "A3"
+    next: "Q03"
   },
-  A3: {
-    id: "A3",
-    prompt: "Disfruto coordinar, tomar decisiones y mejorar el funcionamiento de un equipo o una organización.",
+  Q03: {
+    id: "Q03",
+    prompt: "Me motiva coordinar, mejorar procesos y lograr objetivos dentro de un equipo u organización.",
     dimension: "I_NEGOCIOS",
-    next: "A4"
+    next: "Q04"
   },
-  A4: {
-    id: "A4",
-    prompt: "Me llama la atención la tecnología y cómo se pueden crear o mejorar soluciones digitales.",
+  Q04: {
+    id: "Q04",
+    prompt: "Me llama la atención la tecnología y la posibilidad de crear o mejorar soluciones digitales.",
     dimension: "I_TECNOLOGIA",
-    next: "B1"
+    next: "Q05"
   },
-  B1: {
-    id: "B1",
-    prompt: "Cuando aparece un reto, se me facilita analizarlo y encontrar una ruta de solución.",
+  Q05: {
+    id: "Q05",
+    prompt: "Se me facilita analizar un problema y estructurar una solución paso a paso.",
     dimension: "A_ANALITICO",
-    next: "B2"
+    next: "Q06"
   },
-  B2: {
-    id: "B2",
-    prompt: "Me resulta natural escuchar con atención y captar lo que otra persona necesita, incluso si no lo dice directamente.",
+  Q06: {
+    id: "Q06",
+    prompt: "Suelo captar con facilidad lo que otra persona necesita y responder con sensibilidad y criterio.",
     dimension: "A_EMPATICO",
-    next: "B3"
+    next: "Q07"
   },
-  B3: {
-    id: "B3",
-    prompt: "Aprendo mejor cuando puedo practicar, experimentar o aplicar lo aprendido en situaciones reales.",
+  Q07: {
+    id: "Q07",
+    prompt: "Aprendo mejor cuando puedo aplicar lo aprendido en prácticas, casos o situaciones reales.",
     dimension: "A_PRACTICO",
-    next: "B4"
+    next: "Q08"
   },
-  B4: {
-    id: "B4",
-    prompt: "Cuando tengo responsabilidades importantes, puedo organizarme y cumplir sin necesidad de supervisión constante.",
+  Q08: {
+    id: "Q08",
+    prompt: "Puedo organizarme y avanzar con constancia sin depender de supervisión continua.",
     dimension: "A_AUTOGESTION",
-    next: "C1"
+    next: "Q09"
   },
-  C1: {
-    id: "C1",
-    prompt: "En este momento tengo actividades (trabajo, familia u otras) que limitan mi disponibilidad entre semana.",
+  Q09: {
+    id: "Q09",
+    prompt: "Actualmente tengo responsabilidades (trabajo, familia u otras) que limitan mi disponibilidad entre semana.",
     dimension: "V_RESPONSABILIDADES",
-    next: "C2"
+    next: "Q10"
   },
-  C2: {
-    id: "C2",
-    prompt: "Me acomoda estudiar desde casa y mantener avance con actividades en línea.",
+  Q10: {
+    id: "Q10",
+    prompt: "Me adapto bien a estudiar desde casa y sostener avances con actividades en línea.",
     dimension: "V_REMOTO",
-    next: "C3"
+    next: "Q11"
   },
-  C3: {
-    id: "C3",
-    prompt: "Tengo disponibilidad y energía para concentrar estudio los sábados (o fines de semana).",
+  Q11: {
+    id: "Q11",
+    prompt: "Cuento con disponibilidad real para concentrar estudio en fin de semana (especialmente sábados).",
     dimension: "V_FINDE",
-    next: "D1"
+    next: "Q12"
   },
-  D1: {
-    id: "D1",
-    prompt: "En esta etapa, veo la universidad como una meta concreta y prioritaria.",
+  Q12: {
+    id: "Q12",
+    prompt: "En este momento, iniciar la universidad es una meta concreta y prioritaria para mí.",
     dimension: "M_CLARIDAD_META",
-    next: "D2"
+    next: "Q13"
   },
-  D2: {
-    id: "D2",
-    prompt: "Estoy dispuesto(a) a sostener el esfuerzo académico, incluso cuando haya semanas exigentes.",
+  Q13: {
+    id: "Q13",
+    prompt: "Estoy dispuesto(a) a sostener el esfuerzo académico incluso cuando haya semanas exigentes.",
     dimension: "M_COMPROMISO",
-    next: "E1"
+    next: "Q14"
   }
 };
 
@@ -150,8 +150,8 @@ export function TypebotChat() {
     ]);
   };
 
-  const showLikertQuestion = async (questionId: string, userName: string) => {
-    const question = QUESTIONS[questionId as keyof typeof QUESTIONS];
+  const showLikertQuestion = async (questionId: string) => {
+    const question = QUESTIONS[questionId];
     if (!question) return;
 
     setCurrentQuestion(questionId);
@@ -190,20 +190,20 @@ export function TypebotChat() {
         input: { type: "text", variable: "nombre", placeholder: "Tu nombre...", required: true }
       }]);
     } else if (action === "START_TEST") {
-      showLikertQuestion("A1", currentResponses.nombre);
-    } else if (action === "E1") {
+      showLikertQuestion("Q01");
+    } else if (action === "Q14") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
         text: "¡Excelente progreso!\n\n¿Cuándo te gustaría iniciar tu carrera universitaria?",
         buttons: [
-          { label: "Lo antes posible", value: "ASAP", action: "E2", variable: "urgencia" },
-          { label: "Este año", value: "ESTE_ANIO", action: "E2", variable: "urgencia" },
-          { label: "En los próximos 6 a 12 meses", value: "6_12", action: "E2", variable: "urgencia" },
-          { label: "Solo estoy explorando por ahora", value: "EXPLORANDO", action: "E2", variable: "urgencia" }
+          { label: "Lo antes posible", value: "ASAP", action: "Q15", variable: "urgencia" },
+          { label: "Este año", value: "ESTE_ANIO", action: "Q15", variable: "urgencia" },
+          { label: "En los próximos 6 a 12 meses", value: "6_12", action: "Q15", variable: "urgencia" },
+          { label: "Solo estoy explorando por ahora", value: "EXPLORANDO", action: "Q15", variable: "urgencia" }
         ]
       }]);
-    } else if (action === "E2") {
+    } else if (action === "Q15") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
@@ -284,8 +284,8 @@ export function TypebotChat() {
     await new Promise(r => setTimeout(r, 600));
     setIsTyping(false);
 
-    if (QUESTIONS[nextAction as keyof typeof QUESTIONS]) {
-      showLikertQuestion(nextAction, updatedResponses.nombre);
+    if (QUESTIONS[nextAction]) {
+      showLikertQuestion(nextAction);
     } else {
       handleAction(nextAction, String(value), updatedResponses);
     }

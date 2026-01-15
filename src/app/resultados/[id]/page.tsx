@@ -2,7 +2,7 @@
 
 import { Header } from "@/components/Header";
 import { motion } from "framer-motion";
-import { CheckCircle2, TrendingUp, Download, Calendar, ArrowRight, Share2, Sparkles, Smartphone, GraduationCap, Clock, MapPin } from "lucide-react";
+import { CheckCircle2, Download, Calendar, ArrowRight, Share2, Smartphone, GraduationCap, Clock, MapPin, Sparkles, MessageCircle, Phone } from "lucide-react";
 import { useEffect, useState, use } from "react";
 import { supabase } from "@/lib/supabase";
 
@@ -18,7 +18,6 @@ type TopProgram = {
 
 const SECTOR_NAMES: Record<string, string> = {
   SALUD: "Salud y Bienestar",
-  SOCIAL: "Ciencias Sociales",
   NEGOCIOS: "Negocios y Gestión",
   TECNOLOGIA: "Tecnología e Innovación",
   DERECHO: "Derecho y Ciencias Jurídicas"
@@ -26,7 +25,6 @@ const SECTOR_NAMES: Record<string, string> = {
 
 const SECTOR_ICONS: Record<string, string> = {
   SALUD: "🏥",
-  SOCIAL: "🤝",
   NEGOCIOS: "📊",
   TECNOLOGIA: "💻",
   DERECHO: "⚖️"
@@ -125,7 +123,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
   useEffect(() => {
     async function fetchLead() {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('leads')
         .select('*')
         .eq('id', id)
@@ -158,8 +156,10 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
   const topPrograms: TopProgram[] = lead.top_programs || [];
   const sectorPrimary = lead.sector_primary || "NEGOCIOS";
+  const sectorSecondary = lead.sector_secondary;
   const leadScore = lead.score || 75;
   const leadClass = lead.lead_class || "WARM";
+  const ctaPrimary = lead.cta_primary || "Ver plan de estudios";
 
   return (
     <main className="min-h-screen bg-[#f6f9fc] pb-20">
@@ -189,6 +189,18 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                     <p className="font-bold text-lg">{SECTOR_NAMES[sectorPrimary] || sectorPrimary}</p>
                   </div>
                 </div>
+
+                {sectorSecondary && (
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl">
+                      {SECTOR_ICONS[sectorSecondary] || "📚"}
+                    </div>
+                    <div>
+                      <p className="text-white/60 text-xs font-medium uppercase">Sector Complementario</p>
+                      <p className="font-bold text-lg">{SECTOR_NAMES[sectorSecondary] || sectorSecondary}</p>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold ${
@@ -225,6 +237,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
           {topPrograms.map((program, i) => {
             const details = PROGRAM_DETAILS[program.program_id] || PROGRAM_DETAILS.P_VENTAS_MKT;
             const image = PROGRAM_IMAGES[program.program_id] || PROGRAM_IMAGES.P_VENTAS_MKT;
+            const isFromSecondary = sectorSecondary && program.sector === sectorSecondary;
             
             return (
               <motion.div 
@@ -239,6 +252,11 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 {i === 0 && (
                   <div className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-[#2d1b69] px-6 py-2 text-center font-bold text-sm">
                     ⭐ MEJOR MATCH PARA TI
+                  </div>
+                )}
+                {isFromSecondary && i > 0 && (
+                  <div className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-2 text-center font-bold text-sm">
+                    🔄 OPCIÓN DEL SECTOR COMPLEMENTARIO
                   </div>
                 )}
                 <div className="grid lg:grid-cols-[40%_60%]">
@@ -290,7 +308,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                     <div className="grid md:grid-cols-2 gap-8">
                       <div className="space-y-4">
                         <h4 className="font-semibold text-gray-900 flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-green-500" /> Por qué es perfecta para ti:
+                          <CheckCircle2 className="w-4 h-4 text-green-500" /> Por qué es ideal para ti:
                         </h4>
                         <ul className="space-y-2">
                           {details.reasons.map((r, j) => (
@@ -331,7 +349,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                     {i === 0 && (
                       <div className="flex flex-wrap gap-4">
                         <button className="flex-1 min-w-[200px] bg-gradient-primary text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-[#667eea]/40 transition-all flex items-center justify-center gap-2">
-                          <Calendar className="w-5 h-5" /> Agendar Visita al Campus
+                          <Calendar className="w-5 h-5" /> {ctaPrimary}
                         </button>
                         <button className="px-6 py-4 border-2 border-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-50 transition-all flex items-center gap-2">
                           <Download className="w-5 h-5" /> PDF
@@ -426,31 +444,29 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
             )}
           </section>
 
-          <section className="bg-[#2d1b69] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl text-center space-y-8">
-            <div className="space-y-4">
+          <section className="bg-[#2d1b69] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl space-y-8">
+            <div className="text-center space-y-4">
               <h2 className="text-3xl font-display font-bold">¿Todo listo para el siguiente paso?</h2>
-              <p className="text-white/70">Agenda una cita personalizada y conoce nuestras instalaciones.</p>
+              <p className="text-white/70">Elige cómo quieres continuar:</p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                { date: "Sábado 18 Ene", time: "10:00 AM" },
-                { date: "Sábado 18 Ene", time: "4:00 PM" },
-                { date: "Lunes 20 Ene", time: "11:00 AM" }
-              ].map((slot, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-colors group">
-                  <p className="text-sm font-medium opacity-60 mb-1">{slot.date}</p>
-                  <p className="text-xl font-bold mb-4">{slot.time}</p>
-                  <button className="w-full py-2 bg-[#FFD700] text-[#2d1b69] rounded-lg font-bold text-sm">
-                    Agendar
-                  </button>
-                </div>
-              ))}
+            <div className="grid sm:grid-cols-3 gap-4">
+              <button className="bg-[#25D366] hover:bg-[#128C7E] text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3">
+                <MessageCircle className="w-8 h-8" />
+                <span className="font-bold">WhatsApp</span>
+                <span className="text-sm opacity-80">Respuesta inmediata</span>
+              </button>
+              <button className="bg-[#FFD700] hover:bg-[#FFA500] text-[#2d1b69] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3">
+                <Calendar className="w-8 h-8" />
+                <span className="font-bold">Agendar Cita</span>
+                <span className="text-sm opacity-80">Visita al campus</span>
+              </button>
+              <button className="bg-white/10 hover:bg-white/20 text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3 border border-white/20">
+                <Phone className="w-8 h-8" />
+                <span className="font-bold">Llamar Ahora</span>
+                <span className="text-sm opacity-80">Habla con un asesor</span>
+              </button>
             </div>
-            
-            <button className="text-white/60 text-sm font-medium hover:text-white transition-colors">
-              Ver calendario completo →
-            </button>
           </section>
 
           <div className="flex flex-col items-center gap-4 py-8">

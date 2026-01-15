@@ -1,124 +1,113 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
-const PROGRAMS = [
-  {
-    id: "P_NUTRICION",
-    name: "Licenciatura en Nutrición",
-    sector: "SALUD",
-    mode: "PRESENCIAL",
-    period: "SEMESTRAL",
-    duration: "4 años",
-    online_allowed: false,
-    sabatina_allowed: false
-  },
-  {
-    id: "P_ENFERMERIA",
-    name: "Licenciatura en Enfermería",
-    sector: "SALUD",
-    mode: "PRESENCIAL",
-    period: "SEMESTRAL",
-    duration: "4 años",
-    online_allowed: false,
-    sabatina_allowed: false
-  },
-  {
-    id: "P_PSICOLOGIA",
-    name: "Licenciatura en Psicología",
-    sector: "SALUD",
-    mode: "PRESENCIAL",
-    period: "SEMESTRAL",
-    duration: "4 años",
-    online_allowed: false,
-    sabatina_allowed: false
-  },
-  {
-    id: "P_GASTRONOMIA",
-    name: "Licenciatura en Gastronomía",
-    sector: "SALUD",
-    mode: "PRESENCIAL",
-    period: "SEMESTRAL",
-    duration: "4 años",
-    online_allowed: false,
-    sabatina_allowed: false
-  },
+type Program = {
+  id: string;
+  name: string;
+  sector: string;
+  modalities: { mode: string; period: string; duration: string }[];
+};
+
+const PROGRAMS: Program[] = [
   {
     id: "P_VENTAS_MKT",
     name: "Licenciatura en Ventas y Mercadotecnia",
     sector: "NEGOCIOS",
-    mode: "PRESENCIAL",
-    period: "CUATRIMESTRAL",
-    duration: "3 años 4 meses",
-    online_allowed: true,
-    sabatina_allowed: false
+    modalities: [
+      { mode: "PRESENCIAL", period: "CUATRIMESTRAL", duration: "3 años 4 meses" },
+      { mode: "ONLINE", period: "SEMESTRAL", duration: "4 años" }
+    ]
   },
   {
     id: "P_NEGOCIOS_INT",
     name: "Licenciatura en Negocios Internacionales",
     sector: "NEGOCIOS",
-    mode: "PRESENCIAL",
-    period: "CUATRIMESTRAL",
-    duration: "3 años 4 meses",
-    online_allowed: false,
-    sabatina_allowed: false
+    modalities: [
+      { mode: "PRESENCIAL", period: "CUATRIMESTRAL", duration: "3 años 4 meses" }
+    ]
+  },
+  {
+    id: "P_GASTRONOMIA",
+    name: "Licenciatura en Gastronomía",
+    sector: "SALUD",
+    modalities: [
+      { mode: "PRESENCIAL", period: "SEMESTRAL", duration: "4 años" }
+    ]
+  },
+  {
+    id: "P_NUTRICION",
+    name: "Licenciatura en Nutrición",
+    sector: "SALUD",
+    modalities: [
+      { mode: "PRESENCIAL", period: "SEMESTRAL", duration: "4 años" }
+    ]
+  },
+  {
+    id: "P_ENFERMERIA",
+    name: "Licenciatura en Enfermería",
+    sector: "SALUD",
+    modalities: [
+      { mode: "PRESENCIAL", period: "SEMESTRAL", duration: "4 años" }
+    ]
+  },
+  {
+    id: "P_PSICOLOGIA",
+    name: "Licenciatura en Psicología",
+    sector: "SALUD",
+    modalities: [
+      { mode: "PRESENCIAL", period: "SEMESTRAL", duration: "4 años" }
+    ]
   },
   {
     id: "P_DERECHO",
     name: "Licenciatura en Derecho",
     sector: "DERECHO",
-    mode: "PRESENCIAL",
-    period: "CUATRIMESTRAL",
-    duration: "4 años",
-    online_allowed: true,
-    sabatina_allowed: false
+    modalities: [
+      { mode: "PRESENCIAL", period: "CUATRIMESTRAL", duration: "4 años" },
+      { mode: "ONLINE", period: "SEMESTRAL", duration: "4 años" }
+    ]
   },
   {
     id: "P_SISTEMAS",
     name: "Ingeniería en Sistemas Computacionales",
     sector: "TECNOLOGIA",
-    mode: "PRESENCIAL",
-    period: "CUATRIMESTRAL",
-    duration: "3 años 8 meses",
-    online_allowed: false,
-    sabatina_allowed: false
+    modalities: [
+      { mode: "PRESENCIAL", period: "CUATRIMESTRAL", duration: "3 años 8 meses" }
+    ]
   },
   {
     id: "P_ADMIN_SAB",
     name: "Licenciatura en Administración (Sabatina)",
     sector: "NEGOCIOS",
-    mode: "SABATINA",
-    period: "SEMESTRAL",
-    duration: "4 años",
-    online_allowed: false,
-    sabatina_allowed: true
+    modalities: [
+      { mode: "SABATINA", period: "SEMESTRAL", duration: "4 años" }
+    ]
   },
   {
     id: "P_ADMIN_DEV_EMP",
     name: "Licenciatura en Administración y Desarrollo Empresarial",
     sector: "NEGOCIOS",
-    mode: "ONLINE",
-    period: "SEMESTRAL",
-    duration: "4 años",
-    online_allowed: true,
-    sabatina_allowed: false
+    modalities: [
+      { mode: "ONLINE", period: "SEMESTRAL", duration: "4 años" }
+    ]
   }
 ];
 
 function calculateDimensions(data: Record<string, any>) {
   return {
-    I_SALUD: data.A1 || 3,
-    I_SOCIAL: data.A2 || 3,
-    I_NEGOCIOS: data.A3 || 3,
-    I_TECNOLOGIA: data.A4 || 3,
-    A_ANALITICO: data.B1 || 3,
-    A_EMPATICO: data.B2 || 3,
-    A_PRACTICO: data.B3 || 3,
-    A_AUTOGESTION: data.B4 || 3,
-    V_RESPONSABILIDADES: data.C1 || 3,
-    V_REMOTO: data.C2 || 3,
-    V_FINDE: data.C3 || 3,
-    M_CLARIDAD_META: data.D1 || 3,
-    M_COMPROMISO: data.D2 || 3,
+    I_SALUD: data.Q01 || 3,
+    I_SOCIAL: data.Q02 || 3,
+    I_NEGOCIOS: data.Q03 || 3,
+    I_TECNOLOGIA: data.Q04 || 3,
+    A_ANALITICO: data.Q05 || 3,
+    A_EMPATICO: data.Q06 || 3,
+    A_PRACTICO: data.Q07 || 3,
+    A_AUTOGESTION: data.Q08 || 3,
+    V_RESPONSABILIDADES: data.Q09 || 3,
+    V_REMOTO: data.Q10 || 3,
+    V_FINDE: data.Q11 || 3,
+    M_CLARIDAD_META: data.Q12 || 3,
+    M_COMPROMISO: data.Q13 || 3,
     C_URGENCIA: { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 }[data.urgencia] || 3,
     C_PROMEDIO: { "EXCELENTE": 5, "MUY_BUENO": 4, "BUENO": 3, "REGULAR": 2, "NO_DIGO": 3 }[data.promedio] || 3
   };
@@ -126,60 +115,151 @@ function calculateDimensions(data: Record<string, any>) {
 
 function calculateSectorScores(dims: Record<string, number>) {
   return {
-    SALUD: dims.I_SALUD * 1.0 + dims.A_PRACTICO * 0.3 + dims.A_EMPATICO * 0.2,
-    SOCIAL: dims.I_SOCIAL * 1.0 + dims.A_EMPATICO * 0.4,
-    NEGOCIOS: dims.I_NEGOCIOS * 1.0 + dims.A_ANALITICO * 0.3,
-    TECNOLOGIA: dims.I_TECNOLOGIA * 1.0 + dims.A_ANALITICO * 0.5,
-    DERECHO: dims.I_NEGOCIOS * 0.3 + dims.A_ANALITICO * 0.6 + dims.M_CLARIDAD_META * 0.3
+    SALUD: dims.I_SALUD * 1.0 + dims.A_PRACTICO * 0.30 + dims.A_EMPATICO * 0.20 + dims.I_SOCIAL * 0.30,
+    NEGOCIOS: dims.I_NEGOCIOS * 1.0 + dims.A_ANALITICO * 0.30 + dims.A_AUTOGESTION * 0.15,
+    TECNOLOGIA: dims.I_TECNOLOGIA * 1.0 + dims.A_ANALITICO * 0.55,
+    DERECHO: dims.A_ANALITICO * 0.55 + dims.M_CLARIDAD_META * 0.25 + dims.I_NEGOCIOS * 0.20
   };
 }
 
-function calculateProgramScores(dims: Record<string, number>) {
-  const scores: Record<string, number> = {
-    P_NUTRICION: dims.I_SALUD * 1.0 + dims.A_ANALITICO * 0.3,
-    P_ENFERMERIA: dims.I_SALUD * 0.9 + dims.A_PRACTICO * 0.4 + dims.A_EMPATICO * 0.2,
-    P_PSICOLOGIA: dims.I_SOCIAL * 0.9 + dims.A_EMPATICO * 0.6,
-    P_GASTRONOMIA: dims.I_SALUD * 0.7 + dims.A_PRACTICO * 0.5,
-    P_VENTAS_MKT: dims.I_NEGOCIOS * 1.0 + dims.A_AUTOGESTION * 0.2 + dims.A_ANALITICO * 0.2,
-    P_NEGOCIOS_INT: dims.I_NEGOCIOS * 0.9 + dims.A_ANALITICO * 0.5,
-    P_DERECHO: dims.I_NEGOCIOS * 0.3 + dims.A_ANALITICO * 0.6 + dims.M_CLARIDAD_META * 0.3,
-    P_SISTEMAS: dims.I_TECNOLOGIA * 1.0 + dims.A_ANALITICO * 0.6,
-    P_ADMIN_SAB: dims.I_NEGOCIOS * 0.8 + dims.V_FINDE * 0.6 + dims.V_RESPONSABILIDADES * 0.2,
-    P_ADMIN_DEV_EMP: dims.I_NEGOCIOS * 0.8 + dims.V_REMOTO * 0.6 + dims.A_AUTOGESTION * 0.4
+function checkCohesionGate(sector: string, dims: Record<string, number>): boolean {
+  const gates: Record<string, { mustAll?: { dim: string; value: number }[]; mustAny?: { dim: string; value: number }[] }> = {
+    SALUD: {
+      mustAll: [{ dim: "I_SALUD", value: 3 }],
+      mustAny: [{ dim: "A_PRACTICO", value: 3 }, { dim: "A_EMPATICO", value: 3 }]
+    },
+    NEGOCIOS: {
+      mustAll: [{ dim: "I_NEGOCIOS", value: 3 }],
+      mustAny: [{ dim: "A_ANALITICO", value: 3 }, { dim: "A_AUTOGESTION", value: 3 }]
+    },
+    TECNOLOGIA: {
+      mustAll: [{ dim: "I_TECNOLOGIA", value: 3 }, { dim: "A_ANALITICO", value: 3 }]
+    },
+    DERECHO: {
+      mustAny: [{ dim: "A_ANALITICO", value: 3 }, { dim: "M_CLARIDAD_META", value: 3 }]
+    }
   };
+
+  const gate = gates[sector];
+  if (!gate) return true;
+
+  if (gate.mustAll) {
+    const allPass = gate.mustAll.every(cond => dims[cond.dim] >= cond.value);
+    if (!allPass) return false;
+  }
+
+  if (gate.mustAny) {
+    const anyPass = gate.mustAny.some(cond => dims[cond.dim] >= cond.value);
+    if (!anyPass) return false;
+  }
+
+  return true;
+}
+
+function calculateProgramScores(dims: Record<string, number>, sector: string) {
+  const formulas: Record<string, Record<string, { dim: string; mul: number }[]>> = {
+    SALUD: {
+      P_NUTRICION: [
+        { dim: "I_SALUD", mul: 1.0 },
+        { dim: "A_ANALITICO", mul: 0.30 },
+        { dim: "A_PRACTICO", mul: 0.15 }
+      ],
+      P_ENFERMERIA: [
+        { dim: "I_SALUD", mul: 0.90 },
+        { dim: "A_PRACTICO", mul: 0.45 },
+        { dim: "A_EMPATICO", mul: 0.20 }
+      ],
+      P_PSICOLOGIA: [
+        { dim: "I_SOCIAL", mul: 0.70 },
+        { dim: "A_EMPATICO", mul: 0.65 },
+        { dim: "M_CLARIDAD_META", mul: 0.10 }
+      ],
+      P_GASTRONOMIA: [
+        { dim: "I_SALUD", mul: 0.70 },
+        { dim: "A_PRACTICO", mul: 0.55 }
+      ]
+    },
+    NEGOCIOS: {
+      P_VENTAS_MKT: [
+        { dim: "I_NEGOCIOS", mul: 1.0 },
+        { dim: "A_AUTOGESTION", mul: 0.25 },
+        { dim: "A_ANALITICO", mul: 0.20 }
+      ],
+      P_NEGOCIOS_INT: [
+        { dim: "I_NEGOCIOS", mul: 0.85 },
+        { dim: "A_ANALITICO", mul: 0.60 }
+      ],
+      P_ADMIN_SAB: [
+        { dim: "I_NEGOCIOS", mul: 0.80 },
+        { dim: "V_FINDE", mul: 0.65 },
+        { dim: "V_RESPONSABILIDADES", mul: 0.20 }
+      ],
+      P_ADMIN_DEV_EMP: [
+        { dim: "I_NEGOCIOS", mul: 0.80 },
+        { dim: "V_REMOTO", mul: 0.65 },
+        { dim: "A_AUTOGESTION", mul: 0.45 }
+      ]
+    },
+    DERECHO: {
+      P_DERECHO: [
+        { dim: "A_ANALITICO", mul: 0.65 },
+        { dim: "M_CLARIDAD_META", mul: 0.35 }
+      ]
+    },
+    TECNOLOGIA: {
+      P_SISTEMAS: [
+        { dim: "I_TECNOLOGIA", mul: 1.0 },
+        { dim: "A_ANALITICO", mul: 0.70 },
+        { dim: "A_AUTOGESTION", mul: 0.15 }
+      ]
+    }
+  };
+
+  const sectorFormulas = formulas[sector] || {};
+  const scores: Record<string, number> = {};
+
+  for (const [programId, formula] of Object.entries(sectorFormulas)) {
+    scores[programId] = formula.reduce((sum, { dim, mul }) => sum + (dims[dim] || 0) * mul, 0);
+  }
+
   return scores;
 }
 
 function scoreToMatchPercent(score: number): number {
   const minScore = 1.0;
-  const maxScore = 8.0;
+  const maxScore = 5.0;
   const minPercent = 70;
   const maxPercent = 96;
   const normalized = Math.min(Math.max((score - minScore) / (maxScore - minScore), 0), 1);
   return Math.round(minPercent + normalized * (maxPercent - minPercent));
 }
 
-function determineModality(program: typeof PROGRAMS[0], dims: Record<string, number>): string {
-  if (!program.online_allowed && !program.sabatina_allowed) {
-    return "PRESENCIAL";
-  }
+function determineModality(program: Program, dims: Record<string, number>): { mode: string; period: string; duration: string } {
+  const modalities = program.modalities;
   
-  if (program.online_allowed && dims.V_REMOTO >= 4 && dims.A_AUTOGESTION >= 4) {
-    return "ONLINE";
+  if (modalities.length === 1) {
+    return modalities[0];
   }
-  
-  if (program.sabatina_allowed && dims.V_FINDE >= 4 && dims.V_RESPONSABILIDADES >= 3) {
-    return "SABATINA";
+
+  const hasSabatina = modalities.find(m => m.mode === "SABATINA");
+  if (hasSabatina && dims.V_FINDE >= 4 && dims.V_RESPONSABILIDADES >= 3) {
+    return hasSabatina;
   }
-  
-  return program.mode;
+
+  const hasOnline = modalities.find(m => m.mode === "ONLINE");
+  if (hasOnline && dims.V_REMOTO >= 4 && dims.A_AUTOGESTION >= 4) {
+    return hasOnline;
+  }
+
+  const hasPresencial = modalities.find(m => m.mode === "PRESENCIAL");
+  return hasPresencial || modalities[0];
 }
 
 function calculateLeadScore(dims: Record<string, number>, topProgramScore: number): number {
   const normalize = (val: number, min: number, max: number) => 
     Math.min(Math.max((val - min) / (max - min), 0), 1) * 100;
   
-  const vocationalCompat = normalize(topProgramScore, 1, 8) * 0.45;
+  const vocationalCompat = normalize(topProgramScore, 1, 5) * 0.45;
   const avgPersistence = (dims.A_AUTOGESTION + dims.M_COMPROMISO + dims.M_CLARIDAD_META) / 3;
   const persistenceScore = normalize(avgPersistence, 1, 5) * 0.25;
   const urgencyScore = normalize(dims.C_URGENCIA, 2, 5) * 0.20;
@@ -194,37 +274,67 @@ function classifyLead(score: number): string {
   return "COLD";
 }
 
+function getStrengthPhrases(dims: Record<string, number>): string[] {
+  const phrases: string[] = [];
+  if (dims.A_ANALITICO >= 4) phrases.push("capacidad para analizar situaciones y estructurar soluciones");
+  if (dims.A_EMPATICO >= 4) phrases.push("habilidad para comprender necesidades y comunicarte con sensibilidad");
+  if (dims.A_PRACTICO >= 4) phrases.push("preferencia por aprender a través de práctica y aplicación");
+  if (dims.A_AUTOGESTION >= 4) phrases.push("autonomía para sostener un plan académico con constancia");
+  
+  if (phrases.length === 0) {
+    phrases.push("interés vocacional definido", "compromiso con tu formación");
+  }
+  
+  return phrases;
+}
+
+function getLearningStylePhrase(dims: Record<string, number>): string {
+  if (dims.A_PRACTICO >= 4) return "aprendizaje con componente aplicado y experiencias formativas reales";
+  if (dims.A_ANALITICO >= 4) return "análisis, razonamiento y estructura en el estudio";
+  return "equilibrio entre teoría, práctica y seguimiento académico";
+}
+
 function generateDictamen(
   nombre: string,
   sectorPrimary: string,
+  sectorSecondary: string | null,
   dims: Record<string, number>,
-  topProgram: typeof PROGRAMS[0],
-  modality: string
+  topPrograms: any[],
+  isMixed: boolean
 ): string {
   const sectorNames: Record<string, string> = {
     SALUD: "Salud y Bienestar",
-    SOCIAL: "Ciencias Sociales",
     NEGOCIOS: "Negocios y Gestión",
     TECNOLOGIA: "Tecnología e Innovación",
     DERECHO: "Derecho y Ciencias Jurídicas"
   };
 
-  const strengths: string[] = [];
-  if (dims.A_ANALITICO >= 4) strengths.push("capacidad analítica");
-  if (dims.A_EMPATICO >= 4) strengths.push("sensibilidad interpersonal");
-  if (dims.A_PRACTICO >= 4) strengths.push("orientación práctica");
-  if (dims.A_AUTOGESTION >= 4) strengths.push("autonomía y autogestión");
-  
+  const strengths = getStrengthPhrases(dims);
   const strength1 = strengths[0] || "interés vocacional definido";
-  const strength2 = strengths[1] || "compromiso académico";
+  const strength2 = strengths[1] || "compromiso con tu formación";
+  const learningStyle = getLearningStylePhrase(dims);
 
-  const modalityText = modality === "ONLINE" 
-    ? "Dado tu nivel de autonomía y preferencia por estudiar a distancia, la modalidad en línea resulta una opción adecuada."
-    : modality === "SABATINA"
-    ? "Por tu disponibilidad de fin de semana y carga entre semana, el esquema sabatino facilita continuidad."
-    : "Por el componente práctico y el tipo de formación requerida, esta licenciatura se desarrolla en modalidad presencial.";
+  const top1 = topPrograms[0];
+  const top2 = topPrograms[1];
+  const top3 = topPrograms[2];
 
-  return `${nombre}, con base en tus respuestas, se identifica una afinidad predominante hacia el área de ${sectorNames[sectorPrimary] || sectorPrimary}. Tu perfil combina ${strength1} y ${strength2}, lo que favorece un desempeño sólido en trayectos formativos con aplicación real. La opción con mayor compatibilidad es ${topProgram.name}, dentro de la modalidad ${modality} y periodo ${topProgram.period}. ${modalityText}`;
+  let modalityInsert = "";
+  if (top1.mode === "PRESENCIAL") {
+    const program = PROGRAMS.find(p => p.id === top1.program_id);
+    if (program && program.modalities.length === 1) {
+      modalityInsert = " Por el componente práctico y el tipo de formación requerida, esta licenciatura se desarrolla en modalidad presencial.";
+    }
+  } else if (top1.mode === "ONLINE") {
+    modalityInsert = " Dado tu nivel de autonomía y preferencia por estudiar a distancia, la modalidad en línea resulta adecuada para sostener el avance con constancia.";
+  } else if (top1.mode === "SABATINA") {
+    modalityInsert = " Por tu disponibilidad de fin de semana y carga entre semana, el esquema sabatino facilita continuidad sin afectar tus otras responsabilidades.";
+  }
+
+  if (isMixed && sectorSecondary) {
+    return `${nombre}, tus respuestas reflejan un perfil con dos ejes de interés relevantes: ${sectorNames[sectorPrimary]} como tendencia principal y ${sectorNames[sectorSecondary]} como área complementaria. Esto suele presentarse cuando una persona combina ${strength1} con ${strength2}, y mantiene apertura hacia distintos entornos de formación. Recomendación principal: ${top1.program_name} en modalidad ${top1.mode} y periodo ${top1.period}, por ser la opción con mejor ajuste global entre intereses, habilidades y contexto.${modalityInsert} Alternativas con sentido: ${top2?.program_name || "N/A"} (por habilidades transferibles) y ${top3?.program_name || "N/A"} (por alineación con el eje complementario).`;
+  }
+
+  return `${nombre}, con base en tus respuestas, se observa una afinidad predominante hacia el área de ${sectorNames[sectorPrimary]}. Tu perfil combina ${strength1} y ${strength2}, lo que favorece un desempeño consistente en procesos formativos con ${learningStyle}. Recomendación principal: ${top1.program_name} en modalidad ${top1.mode} y periodo ${top1.period}, de acuerdo con la oferta vigente.${modalityInsert} Como rutas complementarias, también aparecen ${top2?.program_name || "N/A"} y ${top3?.program_name || "N/A"}, por compartir componentes formativos compatibles con tu perfil.`;
 }
 
 export async function POST(req: Request) {
@@ -233,44 +343,93 @@ export async function POST(req: Request) {
     
     const dimensions = calculateDimensions(data);
     const sectorScores = calculateSectorScores(dimensions);
-    const programScores = calculateProgramScores(dimensions);
     
     const sortedSectors = Object.entries(sectorScores)
+      .filter(([sector]) => checkCohesionGate(sector, dimensions))
       .sort(([,a], [,b]) => b - a);
+    
+    if (sortedSectors.length === 0) {
+      sortedSectors.push(["NEGOCIOS", sectorScores.NEGOCIOS]);
+    }
+    
     const sectorPrimary = sortedSectors[0][0];
-    const sectorSecondary = (sortedSectors[0][1] - sortedSectors[1][1]) <= 0.5 
-      ? sortedSectors[1][0] 
-      : null;
+    const sectorPrimaryScore = sortedSectors[0][1];
+    const sectorSecondaryEntry = sortedSectors[1];
     
-    const sortedPrograms = Object.entries(programScores)
-      .sort(([,a], [,b]) => b - a)
-      .slice(0, 3);
+    const gap = sectorSecondaryEntry 
+      ? sectorPrimaryScore - sectorSecondaryEntry[1] 
+      : 999;
     
-    const topPrograms = sortedPrograms.map(([programId, score]) => {
+    const isMixed = gap < 0.8;
+    const sectorSecondary = isMixed && sectorSecondaryEntry ? sectorSecondaryEntry[0] : null;
+
+    const primaryProgramScores = calculateProgramScores(dimensions, sectorPrimary);
+    const sortedPrimaryPrograms = Object.entries(primaryProgramScores)
+      .sort(([,a], [,b]) => b - a);
+
+    let topProgramEntries: [string, number][] = [];
+    
+    if (isMixed && sectorSecondary) {
+      topProgramEntries = sortedPrimaryPrograms.slice(0, 2);
+      
+      const secondaryProgramScores = calculateProgramScores(dimensions, sectorSecondary);
+      const sortedSecondaryPrograms = Object.entries(secondaryProgramScores)
+        .filter(([, score]) => score >= 3.4)
+        .sort(([,a], [,b]) => b - a);
+      
+      if (sortedSecondaryPrograms.length > 0) {
+        topProgramEntries.push(sortedSecondaryPrograms[0]);
+      } else if (sortedPrimaryPrograms.length > 2) {
+        topProgramEntries.push(sortedPrimaryPrograms[2]);
+      }
+    } else {
+      topProgramEntries = sortedPrimaryPrograms.slice(0, 3);
+    }
+
+    const topPrograms = topProgramEntries.map(([programId, score]) => {
       const program = PROGRAMS.find(p => p.id === programId)!;
       const modality = determineModality(program, dimensions);
       return {
         program_id: programId,
         program_name: program.name,
         sector: program.sector,
-        mode: modality,
-        period: program.period,
-        duration: program.duration,
+        mode: modality.mode,
+        period: modality.period,
+        duration: modality.duration,
         match_percent: scoreToMatchPercent(score),
         raw_score: score
       };
     });
 
-    const leadScore = calculateLeadScore(dimensions, sortedPrograms[0][1]);
+    while (topPrograms.length < 3) {
+      const fallbackProgram = PROGRAMS.find(p => !topPrograms.some(tp => tp.program_id === p.id));
+      if (fallbackProgram) {
+        const modality = determineModality(fallbackProgram, dimensions);
+        topPrograms.push({
+          program_id: fallbackProgram.id,
+          program_name: fallbackProgram.name,
+          sector: fallbackProgram.sector,
+          mode: modality.mode,
+          period: modality.period,
+          duration: modality.duration,
+          match_percent: 70,
+          raw_score: 1
+        });
+      } else {
+        break;
+      }
+    }
+
+    const leadScore = calculateLeadScore(dimensions, topProgramEntries[0]?.[1] || 3);
     const leadClass = classifyLead(leadScore);
     
-    const topProgram = PROGRAMS.find(p => p.id === topPrograms[0].program_id)!;
     const dictamenText = generateDictamen(
       data.nombre,
       sectorPrimary,
+      sectorSecondary,
       dimensions,
-      topProgram,
-      topPrograms[0].mode
+      topPrograms,
+      isMixed
     );
 
     const becaMap: Record<string, string> = {
@@ -281,6 +440,20 @@ export async function POST(req: Request) {
       'NO_DIGO': 'BÁSICA (15-20%)'
     };
     const beca = becaMap[data.promedio] || 'BÁSICA (15-20%)';
+
+    const ctaMap: Record<string, string> = {
+      HOT: "Hablar con un asesor ahora",
+      WARM: "Ver plan de estudios",
+      COLD: "Explorar carreras"
+    };
+
+    const tags = [
+      "Test Vocacional UL",
+      "Fuente: Landing Test Vocacional",
+      leadClass === "HOT" ? "🔥 Hot Lead" : leadClass === "WARM" ? "🟡 Warm Lead" : "🔵 Cold Lead",
+      `Sector: ${sectorPrimary}`,
+      `Modalidad: ${topPrograms[0]?.mode || "PRESENCIAL"}`
+    ];
 
     const { data: lead, error } = await supabase
       .from('leads')
@@ -299,7 +472,9 @@ export async function POST(req: Request) {
         classification: leadClass,
         top_programs: topPrograms,
         dictamen_text: dictamenText,
-        beca_elegible: beca
+        beca_elegible: beca,
+        cta_primary: ctaMap[leadClass],
+        tags
       }])
       .select()
       .single();
@@ -311,6 +486,8 @@ export async function POST(req: Request) {
       leadId: lead.id,
       preview: {
         sector: sectorPrimary,
+        sectorSecondary,
+        isMixed,
         topProgram: topPrograms[0].program_name,
         matchPercent: topPrograms[0].match_percent,
         leadClass
