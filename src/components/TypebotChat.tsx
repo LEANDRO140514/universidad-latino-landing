@@ -165,11 +165,12 @@ export function TypebotChat() {
     }]);
   };
 
-  const handleAction = async (action: string, value: string, currentResponses: Record<string, any>) => {
-    const userMsg = messages.find(m => m.buttons?.some(b => b.value === value));
-    const label = userMsg?.buttons?.find(b => b.value === value)?.label || value;
-    
-    setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: label }]);
+  const handleAction = async (action: string, value: string, currentResponses: Record<string, any>, skipUserMessage = false) => {
+    if (!skipUserMessage) {
+      const userMsg = messages.find(m => m.buttons?.some(b => b.value === value));
+      const label = userMsg?.buttons?.find(b => b.value === value)?.label || value;
+      setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: label }]);
+    }
     
     setIsTyping(true);
     await new Promise(r => setTimeout(r, 800));
@@ -320,7 +321,7 @@ export function TypebotChat() {
     else if (variable === "telefono") nextAction = "CAPTURA_EMAIL";
     else if (variable === "email") nextAction = "PROCESAMIENTO";
 
-    handleAction(nextAction, finalValue, updatedResponses);
+    handleAction(nextAction, finalValue, updatedResponses, true);
     setInputValue("");
   };
 
