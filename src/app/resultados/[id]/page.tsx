@@ -407,31 +407,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               <p>{lead.dictamen_text}</p>
             </div>
             
-            {(lead.oq01_contexto || lead.oq02_intereses || lead.oq03_vision) && (
-              <div className="pt-6 border-t border-gray-100">
-                <h3 className="font-semibold text-gray-900 mb-4">Lo que nos compartiste:</h3>
-                <div className="space-y-4">
-                  {lead.oq01_contexto && (
-                    <div className="bg-gray-50 p-4 rounded-xl">
-                      <p className="text-sm text-gray-500 mb-1">Tu situación actual</p>
-                      <p className="text-gray-700">{lead.oq01_contexto}</p>
-                    </div>
-                  )}
-                  {lead.oq02_intereses && (
-                    <div className="bg-gray-50 p-4 rounded-xl">
-                      <p className="text-sm text-gray-500 mb-1">Tus intereses y actividades</p>
-                      <p className="text-gray-700">{lead.oq02_intereses}</p>
-                    </div>
-                  )}
-                  {lead.oq03_vision && (
-                    <div className="bg-gray-50 p-4 rounded-xl">
-                      <p className="text-sm text-gray-500 mb-1">Tu visión a futuro</p>
-                      <p className="text-gray-700">{lead.oq03_vision}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+
             
             {lead.dimensions && (
               <div className="pt-6 border-t border-gray-100">
