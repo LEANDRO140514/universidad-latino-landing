@@ -206,7 +206,7 @@ const showLikertQuestion = async (questionId: string) => {
         id: Date.now().toString(),
         type: "bot",
         text: `Pregunta abierta ${questionNumber} de 3:\n\n${question.prompt}\n\n💡 ${question.helperText}`,
-        input: { type: "textarea", variable: question.id, placeholder: question.placeholder, required: true }
+        input: { type: "textarea", variable: questionId, placeholder: question.placeholder, required: true }
       }]);
     };
 
@@ -386,7 +386,7 @@ let nextAction = "";
             id: Date.now().toString(),
             type: "bot",
             text: `Por favor, escribe al menos ${openQ.minChars} caracteres para poder entender mejor tu situación.`,
-            input: { type: "textarea", variable: openQ.id, placeholder: openQ.placeholder, required: true }
+            input: { type: "textarea", variable: variable, placeholder: openQ.placeholder, required: true }
           }]);
           setInputValue("");
           return;
@@ -394,7 +394,7 @@ let nextAction = "";
         if (finalValue.length > openQ.maxChars) {
           finalValue = finalValue.substring(0, openQ.maxChars);
         }
-        const updatedWithOpen = { ...responses, [variable]: finalValue };
+        const updatedWithOpen = { ...responses, [openQ.id]: finalValue };
         setResponses(updatedWithOpen);
         
         if (QUESTIONS[openQ.next]) {
