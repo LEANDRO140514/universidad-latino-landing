@@ -29,83 +29,104 @@ const LIKERT_OPTIONS: LikertOption[] = [
 ];
 
 const QUESTIONS: Record<string, { id: string; prompt: string; dimension: string; next: string }> = {
-  Q01: {
-    id: "Q01",
-    prompt: "Me interesa comprender el bienestar físico y participar en acciones que favorezcan hábitos de cuidado y salud.",
-    dimension: "I_SALUD",
-    next: "Q02"
+    Q01: {
+      id: "Q01",
+      prompt: "Me interesa comprender el bienestar físico y participar en acciones que favorezcan hábitos de cuidado y salud.",
+      dimension: "I_SALUD",
+      next: "Q02"
+    },
+    Q02: {
+      id: "Q02",
+      prompt: "Me atrae acompañar u orientar a otras personas en decisiones o situaciones personales.",
+      dimension: "I_SOCIAL",
+      next: "Q03"
+    },
+    Q03: {
+      id: "Q03",
+      prompt: "Me motiva coordinar, mejorar procesos y lograr objetivos dentro de un equipo u organización.",
+      dimension: "I_NEGOCIOS",
+      next: "Q04"
+    },
+    Q04: {
+      id: "Q04",
+      prompt: "Me llama la atención la tecnología y la posibilidad de crear o mejorar soluciones digitales.",
+      dimension: "I_TECNOLOGIA",
+      next: "Q05"
+    },
+    Q05: {
+      id: "Q05",
+      prompt: "Se me facilita analizar un problema y estructurar una solución paso a paso.",
+      dimension: "A_ANALITICO",
+      next: "Q06"
+    },
+    Q06: {
+      id: "Q06",
+      prompt: "Suelo captar con facilidad lo que otra persona necesita y responder con sensibilidad y criterio.",
+      dimension: "A_EMPATICO",
+      next: "Q07"
+    },
+    Q07: {
+      id: "Q07",
+      prompt: "Aprendo mejor cuando puedo aplicar lo aprendido en prácticas, casos o situaciones reales.",
+      dimension: "A_PRACTICO",
+      next: "Q08"
+    },
+    Q08: {
+      id: "Q08",
+      prompt: "Puedo organizarme y avanzar con constancia sin depender de supervisión continua.",
+      dimension: "A_AUTOGESTION",
+      next: "Q09"
+    },
+    Q09: {
+      id: "Q09",
+      prompt: "Actualmente tengo responsabilidades (trabajo, familia u otras) que limitan mi disponibilidad entre semana.",
+      dimension: "V_RESPONSABILIDADES",
+      next: "Q10"
+    },
+    Q10: {
+      id: "Q10",
+      prompt: "Me adapto bien a estudiar desde casa y sostener avances con actividades en línea.",
+      dimension: "V_REMOTO",
+      next: "Q11"
+    },
+    Q11: {
+      id: "Q11",
+      prompt: "Cuento con disponibilidad real para concentrar estudio en fin de semana (especialmente sábados).",
+      dimension: "V_FINDE",
+      next: "Q12"
+    },
+    Q12: {
+      id: "Q12",
+      prompt: "En este momento, iniciar la universidad es una meta concreta y prioritaria para mí.",
+      dimension: "M_CLARIDAD_META",
+      next: "Q13"
+    },
+    Q13: {
+      id: "Q13",
+      prompt: "Estoy dispuesto(a) a sostener el esfuerzo académico incluso cuando haya semanas exigentes.",
+      dimension: "M_COMPROMISO",
+      next: "OQ01"
+    }
+  };
+
+const OPEN_QUESTIONS: Record<string, { id: string; prompt: string; purpose: string; next: string }> = {
+  OQ01: {
+    id: "OQ01",
+    prompt: "¿Qué te gustaría lograr en los próximos 3 años a nivel profesional?",
+    purpose: "Claridad de metas",
+    next: "OQ02"
   },
-  Q02: {
-    id: "Q02",
-    prompt: "Me atrae acompañar u orientar a otras personas en decisiones o situaciones personales.",
-    dimension: "I_SOCIAL",
-    next: "Q03"
+  OQ02: {
+    id: "OQ02",
+    prompt: "¿Hay algo que te preocupe o te detenga de empezar la universidad?",
+    purpose: "Identificar objeciones",
+    next: "OQ03"
   },
-  Q03: {
-    id: "Q03",
-    prompt: "Me motiva coordinar, mejorar procesos y lograr objetivos dentro de un equipo u organización.",
-    dimension: "I_NEGOCIOS",
-    next: "Q04"
-  },
-  Q04: {
-    id: "Q04",
-    prompt: "Me llama la atención la tecnología y la posibilidad de crear o mejorar soluciones digitales.",
-    dimension: "I_TECNOLOGIA",
-    next: "Q05"
-  },
-  Q05: {
-    id: "Q05",
-    prompt: "Se me facilita analizar un problema y estructurar una solución paso a paso.",
-    dimension: "A_ANALITICO",
-    next: "Q06"
-  },
-  Q06: {
-    id: "Q06",
-    prompt: "Suelo captar con facilidad lo que otra persona necesita y responder con sensibilidad y criterio.",
-    dimension: "A_EMPATICO",
-    next: "Q07"
-  },
-  Q07: {
-    id: "Q07",
-    prompt: "Aprendo mejor cuando puedo aplicar lo aprendido en prácticas, casos o situaciones reales.",
-    dimension: "A_PRACTICO",
-    next: "Q08"
-  },
-  Q08: {
-    id: "Q08",
-    prompt: "Puedo organizarme y avanzar con constancia sin depender de supervisión continua.",
-    dimension: "A_AUTOGESTION",
-    next: "Q09"
-  },
-  Q09: {
-    id: "Q09",
-    prompt: "Actualmente tengo responsabilidades (trabajo, familia u otras) que limitan mi disponibilidad entre semana.",
-    dimension: "V_RESPONSABILIDADES",
-    next: "Q10"
-  },
-  Q10: {
-    id: "Q10",
-    prompt: "Me adapto bien a estudiar desde casa y sostener avances con actividades en línea.",
-    dimension: "V_REMOTO",
-    next: "Q11"
-  },
-  Q11: {
-    id: "Q11",
-    prompt: "Cuento con disponibilidad real para concentrar estudio en fin de semana (especialmente sábados).",
-    dimension: "V_FINDE",
-    next: "Q12"
-  },
-  Q12: {
-    id: "Q12",
-    prompt: "En este momento, iniciar la universidad es una meta concreta y prioritaria para mí.",
-    dimension: "M_CLARIDAD_META",
-    next: "Q13"
-  },
-  Q13: {
-    id: "Q13",
-    prompt: "Estoy dispuesto(a) a sostener el esfuerzo académico incluso cuando haya semanas exigentes.",
-    dimension: "M_COMPROMISO",
-    next: "Q14"
+  OQ03: {
+    id: "OQ03",
+    prompt: "¿Qué esperas encontrar en la universidad ideal para ti?",
+    purpose: "Expectativas",
+    next: "CONTEXT_URGENCIA"
   }
 };
 
@@ -150,20 +171,35 @@ export function TypebotChat() {
     ]);
   };
 
-  const showLikertQuestion = async (questionId: string) => {
-    const question = QUESTIONS[questionId];
-    if (!question) return;
+const showLikertQuestion = async (questionId: string) => {
+      const question = QUESTIONS[questionId];
+      if (!question) return;
 
-    setCurrentQuestion(questionId);
-    const questionNumber = Object.keys(QUESTIONS).indexOf(questionId) + 1;
-    
-    setMessages(prev => [...prev, {
-      id: Date.now().toString(),
-      type: "bot",
-      text: `Pregunta ${questionNumber} de 13:\n\n${question.prompt}`,
-      likert: { variable: question.id, nextAction: question.next }
-    }]);
-  };
+      setCurrentQuestion(questionId);
+      const questionNumber = Object.keys(QUESTIONS).indexOf(questionId) + 1;
+      
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        type: "bot",
+        text: `Pregunta ${questionNumber} de 13:\n\n${question.prompt}`,
+        likert: { variable: question.id, nextAction: question.next }
+      }]);
+    };
+
+    const showOpenQuestion = async (questionId: string) => {
+      const question = OPEN_QUESTIONS[questionId];
+      if (!question) return;
+
+      setCurrentQuestion(questionId);
+      const questionNumber = Object.keys(OPEN_QUESTIONS).indexOf(questionId) + 1;
+      
+      setMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        type: "bot",
+        text: `Pregunta abierta ${questionNumber} de 3:\n\n${question.prompt}`,
+        input: { type: "textarea", variable: question.id, placeholder: "Escribe tu respuesta...", required: true }
+      }]);
+    };
 
   const handleAction = async (action: string, value: string, currentResponses: Record<string, any>, skipUserMessage = false) => {
     if (!skipUserMessage) {
@@ -192,19 +228,31 @@ export function TypebotChat() {
       }]);
     } else if (action === "START_TEST") {
       showLikertQuestion("Q01");
-    } else if (action === "Q14") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: "¡Excelente progreso!\n\n¿Cuándo te gustaría iniciar tu carrera universitaria?",
-        buttons: [
-          { label: "Lo antes posible", value: "ASAP", action: "Q15", variable: "urgencia" },
-          { label: "Este año", value: "ESTE_ANIO", action: "Q15", variable: "urgencia" },
-          { label: "En los próximos 6 a 12 meses", value: "6_12", action: "Q15", variable: "urgencia" },
-          { label: "Solo estoy explorando por ahora", value: "EXPLORANDO", action: "Q15", variable: "urgencia" }
-        ]
-      }]);
-    } else if (action === "Q15") {
+} else if (action === "Q14") {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: "¡Excelente progreso!\n\n¿Cuándo te gustaría iniciar tu carrera universitaria?",
+          buttons: [
+            { label: "Lo antes posible", value: "ASAP", action: "Q15", variable: "urgencia" },
+            { label: "Este año", value: "ESTE_ANIO", action: "Q15", variable: "urgencia" },
+            { label: "En los próximos 6 a 12 meses", value: "6_12", action: "Q15", variable: "urgencia" },
+            { label: "Solo estoy explorando por ahora", value: "EXPLORANDO", action: "Q15", variable: "urgencia" }
+          ]
+        }]);
+      } else if (action === "CONTEXT_URGENCIA") {
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: "¡Muy bien! Ahora unas preguntas finales.\n\n¿Cuándo te gustaría iniciar tu carrera universitaria?",
+          buttons: [
+            { label: "Lo antes posible", value: "ASAP", action: "CONTEXT_PROMEDIO", variable: "urgencia" },
+            { label: "Este año", value: "ESTE_ANIO", action: "CONTEXT_PROMEDIO", variable: "urgencia" },
+            { label: "En los próximos 6 a 12 meses", value: "6_12", action: "CONTEXT_PROMEDIO", variable: "urgencia" },
+            { label: "Solo estoy explorando por ahora", value: "EXPLORANDO", action: "CONTEXT_PROMEDIO", variable: "urgencia" }
+          ]
+        }]);
+      } else if (action === "CONTEXT_PROMEDIO") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
@@ -285,14 +333,16 @@ export function TypebotChat() {
     await new Promise(r => setTimeout(r, 600));
     setIsTyping(false);
 
-    if (QUESTIONS[nextAction]) {
-      showLikertQuestion(nextAction);
-    } else {
-      handleAction(nextAction, String(value), updatedResponses);
-    }
+if (QUESTIONS[nextAction]) {
+        showLikertQuestion(nextAction);
+      } else if (OPEN_QUESTIONS[nextAction]) {
+        showOpenQuestion(nextAction);
+      } else {
+        handleAction(nextAction, String(value), updatedResponses);
+      }
   };
 
-  const handleInputSubmit = (e: React.FormEvent) => {
+  const handleInputSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
@@ -316,10 +366,23 @@ export function TypebotChat() {
     
     setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: inputValue }]);
     
-    let nextAction = "";
-    if (variable === "nombre") nextAction = "START_TEST";
-    else if (variable === "telefono") nextAction = "CAPTURA_EMAIL";
-    else if (variable === "email") nextAction = "PROCESAMIENTO";
+let nextAction = "";
+      if (variable === "nombre") nextAction = "START_TEST";
+      else if (variable === "telefono") nextAction = "CAPTURA_EMAIL";
+      else if (variable === "email") nextAction = "PROCESAMIENTO";
+      else if (OPEN_QUESTIONS[variable]) {
+        const openQ = OPEN_QUESTIONS[variable];
+        if (OPEN_QUESTIONS[openQ.next]) {
+          setIsTyping(true);
+          await new Promise(r => setTimeout(r, 600));
+          setIsTyping(false);
+          showOpenQuestion(openQ.next);
+          setInputValue("");
+          return;
+        } else {
+          nextAction = openQ.next;
+        }
+      }
 
     handleAction(nextAction, finalValue, updatedResponses, true);
     setInputValue("");
@@ -438,16 +501,26 @@ export function TypebotChat() {
       </div>
 
       <div className="p-4 bg-white border-t border-gray-100 shrink-0">
-        {messages.length > 0 && messages[messages.length - 1].input ? (
-          <form onSubmit={handleInputSubmit} className="flex gap-2">
-            <input
-              type={messages[messages.length - 1].input?.type === "phone" ? "tel" : "text"}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder={messages[messages.length - 1].input?.placeholder}
-              className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors"
-              autoFocus
-            />
+{messages.length > 0 && messages[messages.length - 1].input ? (
+            <form onSubmit={handleInputSubmit} className="flex gap-2">
+              {messages[messages.length - 1].input?.type === "textarea" ? (
+                <textarea
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder={messages[messages.length - 1].input?.placeholder}
+                  className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors resize-none min-h-[80px]"
+                  autoFocus
+                />
+              ) : (
+                <input
+                  type={messages[messages.length - 1].input?.type === "phone" ? "tel" : "text"}
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder={messages[messages.length - 1].input?.placeholder}
+                  className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors"
+                  autoFocus
+                />
+              )}
             <button 
               type="submit"
               className="bg-[#F59E0B] text-[#111827] p-3 rounded-xl hover:bg-[#D97706] transition-colors shadow-lg shadow-amber-500/20"

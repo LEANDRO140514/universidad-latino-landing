@@ -44,23 +44,28 @@
         "name": "Bloque Likert (13 ítems)",
         "items": "Q01–Q13"
       },
-      {
-        "id": "P3_CONTEXTO",
-        "name": "Contexto y metas (urgencia, promedio)",
-        "items": "urgencia, promedio"
-      },
-      {
-        "id": "P4_CONTACTO",
-        "name": "Captura de contacto",
-        "fields": [
-          "telefono",
-          "email"
-        ]
-      },
-      {
-        "id": "P5_RESULTADO",
-        "name": "Procesamiento y dictamen"
-      }
+{
+          "id": "P3_OPEN",
+          "name": "Preguntas abiertas (3 ítems)",
+          "items": "OQ01–OQ03"
+        },
+        {
+          "id": "P4_CONTEXTO",
+          "name": "Contexto y metas (urgencia, promedio)",
+          "items": "urgencia, promedio"
+        },
+        {
+          "id": "P5_CONTACTO",
+          "name": "Captura de contacto",
+          "fields": [
+            "telefono",
+            "email"
+          ]
+        },
+        {
+          "id": "P6_RESULTADO",
+          "name": "Procesamiento y dictamen"
+        }
     ]
   },
   "items": {
@@ -131,9 +136,29 @@
         "dimension": "M_COMPROMISO"
       }
     ],
-    "context_questions": [
-      {
-        "id": "urgencia",
+      "open_questions": [
+        {
+          "id": "OQ01",
+          "prompt": "¿Qué te gustaría lograr en los próximos 3 años a nivel profesional?",
+          "purpose": "Claridad de metas y proyección a futuro",
+          "use_in_dictamen": true
+        },
+        {
+          "id": "OQ02",
+          "prompt": "¿Hay algo que te preocupe o te detenga de empezar la universidad?",
+          "purpose": "Identificar objeciones y barreras",
+          "use_in_dictamen": true
+        },
+        {
+          "id": "OQ03",
+          "prompt": "¿Qué esperas encontrar en la universidad ideal para ti?",
+          "purpose": "Expectativas y valores de vida",
+          "use_in_dictamen": true
+        }
+      ],
+      "context_questions": [
+        {
+          "id": "urgencia",
         "prompt": "¿Cuándo te gustaría iniciar tu carrera universitaria?",
         "type": "single_choice",
         "options": [
@@ -537,15 +562,18 @@
       "crm_webhook"
     ]
   },
-  "typebot_variables": {
-    "input": {
-      "nombre": "string",
-      "telefono": "string (E.164)",
-      "email": "string",
-      "Q01_to_Q13": "likert_1_5",
-      "urgencia": "enum",
-      "promedio": "enum"
-    },
+"typebot_variables": {
+      "input": {
+        "nombre": "string",
+        "telefono": "string (E.164)",
+        "email": "string",
+        "Q01_to_Q13": "likert_1_5",
+        "OQ01": "string (open text)",
+        "OQ02": "string (open text)",
+        "OQ03": "string (open text)",
+        "urgencia": "enum",
+        "promedio": "enum"
+      },
     "output": {
       "sector_primary": "string",
       "sector_secondary": "string | null",

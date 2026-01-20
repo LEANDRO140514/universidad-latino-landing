@@ -394,11 +394,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "Invalid JSON format" }, { status: 400 });
     }
     
-    const openQuestions: OpenQuestions = {
-      contexto: sanitizeOpenText(data.OQ01_contexto),
-      intereses: sanitizeOpenText(data.OQ02_intereses),
-      vision: sanitizeOpenText(data.OQ03_vision)
-    };
+const openQuestions: OpenQuestions = {
+        contexto: sanitizeOpenText(data.OQ01),
+        intereses: sanitizeOpenText(data.OQ02),
+        vision: sanitizeOpenText(data.OQ03)
+      };
 
     const dimensions = calculateDimensions(data);
     const sectorScores = calculateSectorScores(dimensions);
@@ -539,9 +539,9 @@ export async function POST(req: Request) {
         beca_elegible: beca,
         cta_primary: ctaMap[leadClass],
         tags,
-        oq01_contexto: openQuestions.contexto || null,
-        oq02_intereses: openQuestions.intereses || null,
-        oq03_vision: openQuestions.vision || null
+oq01_contexto: openQuestions.contexto || null,
+          oq02_intereses: openQuestions.intereses || null,
+          oq03_vision: openQuestions.vision || null
       };
 
       let lead;
