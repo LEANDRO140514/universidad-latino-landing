@@ -109,6 +109,9 @@ const PROGRAMS: Program[] = [
 ];
 
 function calculateDimensions(data: Record<string, any>) {
+  const urgenciaMap: Record<string, number> = { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 };
+  const promedioMap: Record<string, number> = { "EXCELENTE": 5, "MUY_BUENO": 4, "BUENO": 3, "REGULAR": 2, "NO_DIGO": 3 };
+  
   return {
     I_SALUD: data.Q01 || 3,
     I_SOCIAL: data.Q02 || 3,
@@ -121,14 +124,14 @@ function calculateDimensions(data: Record<string, any>) {
     V_RESPONSABILIDADES: data.Q09 || 3,
     V_REMOTO: data.Q10 || 3,
     V_FINDE: data.Q11 || 3,
+    M_CLARIDAD_META: data.Q12 || 3,
+    M_COMPROMISO: data.Q13 || 3,
     LS_PERSISTENCIA: data.Q12 || 3,
     LS_APRENDIZAJE: data.Q13 || 3,
-    LS_ESTRUCTURA: data.Q14 || 3,
-    AI_RELATION: data.Q15 || 3,
-    C_URGENCIA: data.Q16 || { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 }[data.urgencia] || 3,
-    C_PROMEDIO: data.Q17 || { "EXCELENTE": 5, "MUY_BUENO": 4, "BUENO": 3, "REGULAR": 2, "NO_DIGO": 3 }[data.promedio] || 3,
-    M_CLARIDAD_META: 3,
-    M_COMPROMISO: 3
+    LS_ESTRUCTURA: 3,
+    AI_RELATION: 3,
+    C_URGENCIA: urgenciaMap[data.urgencia] || 3,
+    C_PROMEDIO: promedioMap[data.promedio] || 3
   };
 }
 

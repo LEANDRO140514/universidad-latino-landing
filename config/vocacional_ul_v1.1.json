@@ -1,504 +1,562 @@
 {
-  "test_id": "UL_TEST_VOCACIONAL_EVA",
-  "version": "1.1.0",
-  "locale": "es-MX",
-  "source_runtime": "typebot",
-  "typebot_variables": {
-    "numeric_1_5": ["Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q08", "Q09", "Q10", "Q11", "Q12", "Q13"],
-    "categorical": ["promedio", "urgencia"],
-    "contact": ["nombre", "email", "telefono"],
-    "open_text_new": ["OQ01_contexto", "OQ02_intereses", "OQ03_vision"]
+  "instrument": {
+    "test_id": "UL_TEST_VOCACIONAL",
+    "version": "1.2.0",
+    "name": "Test Vocacional Universidad Latino",
+    "description": "Instrumento psicométrico de orientación vocacional basado en el modelo Holland modificado (RIASEC → SINP) con capas de aptitudes, valores de vida y motivación.",
+    "total_items": 17,
+    "estimated_duration_minutes": 5,
+    "language": "es-MX"
   },
-
-  "institution": {
-    "name": "Universidad Latino",
-    "persona": {
-      "name": "Eva",
-      "role": "Psicóloga especialista en orientación vocacional",
-      "voice": {
-        "style": "profesional, cálida, institucional",
-        "rules": {
-          "avoid_echo_user_verbatim": true,
-          "use_paraphrases": true,
-          "no_shaming_language": true,
-          "no_absolute_claims": true,
-          "keep_balance_in_results": true
-        }
+  "voice": {
+    "persona": "Eva, asistente de orientación vocacional de la Universidad Latino",
+    "tone": "cálido, conciso, profesional",
+    "register": "tú (informal)",
+    "rules": [
+      "Mantener respuestas breves (máx. 3 líneas por turno cuando sea posible).",
+      "Validar cada respuesta antes de avanzar.",
+      "No revelar puntajes ni fórmulas internas.",
+      "Evitar repetir frases de bienvenida una vez iniciado el test.",
+      "use_examples: Utilizar ejemplos claros cuando sea necesario para explicar opciones.",
+      "do_not_overpromise_becas: Al mencionar becas, usar lenguaje tentativo (posibles, potenciales, según perfil). Nunca garantizar porcentajes exactos."
+    ]
+  },
+  "flow": {
+    "phases": [
+      {
+        "id": "P0_INTRO",
+        "name": "Bienvenida",
+        "steps": [
+          "greeting",
+          "explain_test",
+          "ask_consent"
+        ]
+      },
+      {
+        "id": "P1_DATOS",
+        "name": "Captura de nombre",
+        "fields": [
+          "nombre"
+        ]
+      },
+      {
+        "id": "P2_CORE",
+        "name": "Bloque Likert (13 ítems)",
+        "items": "Q01–Q13"
+      },
+      {
+        "id": "P3_CONTEXTO",
+        "name": "Contexto y metas (urgencia, promedio)",
+        "items": "urgencia, promedio"
+      },
+      {
+        "id": "P4_CONTACTO",
+        "name": "Captura de contacto",
+        "fields": [
+          "telefono",
+          "email"
+        ]
+      },
+      {
+        "id": "P5_RESULTADO",
+        "name": "Procesamiento y dictamen"
       }
-    }
+    ]
   },
-
-  "offer_catalog": {
-    "careers": [
+  "items": {
+    "likert_core": [
       {
-        "id": "C_VENTAS_MKT",
-        "name": "Ventas y Mercadotecnia",
-        "area": "NEGOCIOS",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL", "duration_text": "3 años 4 meses" },
-          { "mode": "EN_LINEA", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q01",
+        "prompt": "Me interesa comprender el bienestar físico y participar en acciones que favorezcan hábitos de cuidado y salud.",
+        "dimension": "I_SALUD"
       },
       {
-        "id": "C_NEGOCIOS_INT",
-        "name": "Negocios Internacionales",
-        "area": "NEGOCIOS",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL", "duration_text": "3 años 4 meses" }
-        ]
+        "id": "Q02",
+        "prompt": "Me atrae acompañar u orientar a otras personas en decisiones o situaciones personales.",
+        "dimension": "I_SOCIAL"
       },
       {
-        "id": "C_GASTRONOMIA",
-        "name": "Gastronomía",
-        "area": "SALUD",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q03",
+        "prompt": "Me motiva coordinar, mejorar procesos y lograr objetivos dentro de un equipo u organización.",
+        "dimension": "I_NEGOCIOS"
       },
       {
-        "id": "C_NUTRICION",
-        "name": "Nutrición",
-        "area": "SALUD",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q04",
+        "prompt": "Me llama la atención la tecnología y la posibilidad de crear o mejorar soluciones digitales.",
+        "dimension": "I_TECNOLOGIA"
       },
       {
-        "id": "C_ENFERMERIA",
-        "name": "Enfermería",
-        "area": "SALUD",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q05",
+        "prompt": "Se me facilita analizar un problema y estructurar una solución paso a paso.",
+        "dimension": "A_ANALITICO"
       },
       {
-        "id": "C_PSICOLOGIA",
-        "name": "Psicología",
-        "area": "SALUD",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q06",
+        "prompt": "Suelo captar con facilidad lo que otra persona necesita y responder con sensibilidad y criterio.",
+        "dimension": "A_EMPATICO"
       },
       {
-        "id": "C_DERECHO",
-        "name": "Derecho",
-        "area": "DERECHO",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL", "duration_text": "4 años" },
-          { "mode": "EN_LINEA", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q07",
+        "prompt": "Aprendo mejor cuando puedo aplicar lo aprendido en prácticas, casos o situaciones reales.",
+        "dimension": "A_PRACTICO"
       },
       {
-        "id": "C_SISTEMAS",
-        "name": "Ingeniería en Sistemas Computacionales",
-        "area": "TECNOLOGIA",
-        "modalities": [
-          { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL", "duration_text": "3 años 8 meses" }
-        ]
+        "id": "Q08",
+        "prompt": "Puedo organizarme y avanzar con constancia sin depender de supervisión continua.",
+        "dimension": "A_AUTOGESTION"
       },
       {
-        "id": "C_ADMIN_SABATINO",
-        "name": "Administración (Sabatina)",
-        "area": "NEGOCIOS",
-        "modalities": [
-          { "mode": "SABATINA", "pace": "SEMESTRAL", "duration_text": "4 años", "note": "Solo sábados" }
-        ]
+        "id": "Q09",
+        "prompt": "Actualmente tengo responsabilidades (trabajo, familia u otras) que limitan mi disponibilidad entre semana.",
+        "dimension": "V_RESPONSABILIDADES"
       },
       {
-        "id": "C_ADE_ONLINE",
-        "name": "Administración y Desarrollo Empresarial (En línea)",
-        "area": "NEGOCIOS",
-        "modalities": [
-          { "mode": "EN_LINEA", "pace": "SEMESTRAL", "duration_text": "4 años" }
-        ]
+        "id": "Q10",
+        "prompt": "Me adapto bien a estudiar desde casa y sostener avances con actividades en línea.",
+        "dimension": "V_REMOTO"
+      },
+      {
+        "id": "Q11",
+        "prompt": "Cuento con disponibilidad real para concentrar estudio en fin de semana (especialmente sábados).",
+        "dimension": "V_FINDE"
+      },
+      {
+        "id": "Q12",
+        "prompt": "En este momento, iniciar la universidad es una meta concreta y prioritaria para mí.",
+        "dimension": "M_CLARIDAD_META"
+      },
+      {
+        "id": "Q13",
+        "prompt": "Estoy dispuesto(a) a sostener el esfuerzo académico incluso cuando haya semanas exigentes.",
+        "dimension": "M_COMPROMISO"
       }
     ],
-    "constraints": {
-      "SALUD_requires_presencial": true,
-      "SISTEMAS_requires_presencial": true,
-      "ADMIN_sabatina_only": true,
-      "ADE_online_only": true
+    "context_questions": [
+      {
+        "id": "urgencia",
+        "prompt": "¿Cuándo te gustaría iniciar tu carrera universitaria?",
+        "type": "single_choice",
+        "options": [
+          {
+            "value": "ASAP",
+            "label": "Lo antes posible"
+          },
+          {
+            "value": "ESTE_ANIO",
+            "label": "Este año"
+          },
+          {
+            "value": "6_12",
+            "label": "En los próximos 6 a 12 meses"
+          },
+          {
+            "value": "EXPLORANDO",
+            "label": "Solo estoy explorando por ahora"
+          }
+        ],
+        "dimension": "C_URGENCIA"
+      },
+      {
+        "id": "promedio",
+        "prompt": "¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
+        "type": "single_choice",
+        "options": [
+          {
+            "value": "EXCELENTE",
+            "label": "Excelente (≈ 9.5 o más)"
+          },
+          {
+            "value": "MUY_BUENO",
+            "label": "Muy bueno (≈ 9.0 a 9.4)"
+          },
+          {
+            "value": "BUENO",
+            "label": "Bueno (≈ 8.5 a 8.9)"
+          },
+          {
+            "value": "REGULAR",
+            "label": "Regular (≈ 8.0 a 8.4)"
+          },
+          {
+            "value": "NO_DIGO",
+            "label": "Prefiero no decirlo"
+          }
+        ],
+        "dimension": "C_PROMEDIO"
+      }
+    ]
+  },
+  "dimensions": {
+    "interests": {
+      "I_SALUD": "Interés en salud y bienestar",
+      "I_SOCIAL": "Interés en acompañamiento/orientación",
+      "I_NEGOCIOS": "Interés en gestión y negocios",
+      "I_TECNOLOGIA": "Interés en tecnología"
+    },
+    "aptitudes": {
+      "A_ANALITICO": "Pensamiento analítico",
+      "A_EMPATICO": "Sensibilidad interpersonal",
+      "A_PRACTICO": "Aprendizaje aplicado",
+      "A_AUTOGESTION": "Autonomía y constancia"
+    },
+    "life_values": {
+      "V_RESPONSABILIDADES": "Carga de responsabilidades",
+      "V_REMOTO": "Adaptación a estudio remoto",
+      "V_FINDE": "Disponibilidad fin de semana"
+    },
+    "motivation": {
+      "M_CLARIDAD_META": "Claridad de meta universitaria",
+      "M_COMPROMISO": "Compromiso con esfuerzo académico"
+    },
+    "context": {
+      "C_URGENCIA": "Urgencia de inicio",
+      "C_PROMEDIO": "Desempeño académico previo"
     }
   },
-
-  "scales": {
-    "likert_1_5": {
+  "scoring": {
+    "likert_scale": {
       "min": 1,
       "max": 5,
       "labels": {
-        "1": "Totalmente en desacuerdo",
-        "2": "En desacuerdo",
-        "3": "Neutral",
-        "4": "De acuerdo",
-        "5": "Totalmente de acuerdo"
+        "1": "Nada",
+        "2": "Poco",
+        "3": "Moderado",
+        "4": "Mucho",
+        "5": "Totalmente"
+      }
+    },
+    "sector_formulas": {
+      "SALUD": "I_SALUD × 1.0 + A_PRACTICO × 0.30 + A_EMPATICO × 0.20 + I_SOCIAL × 0.30",
+      "NEGOCIOS": "I_NEGOCIOS × 1.0 + A_ANALITICO × 0.30 + A_AUTOGESTION × 0.15",
+      "TECNOLOGIA": "I_TECNOLOGIA × 1.0 + A_ANALITICO × 0.55",
+      "DERECHO": "A_ANALITICO × 0.55 + M_CLARIDAD_META × 0.25 + I_NEGOCIOS × 0.20"
+    },
+    "cohesion_gates": {
+      "SALUD": {
+        "must_all": [
+          {
+            "dim": "I_SALUD",
+            ">=": 3
+          }
+        ],
+        "must_any": [
+          {
+            "dim": "A_PRACTICO",
+            ">=": 3
+          },
+          {
+            "dim": "A_EMPATICO",
+            ">=": 3
+          }
+        ]
       },
-      "transform": {
-        "method": "linear_to_0_1",
-        "formula": "(x - 1) / 4"
-      }
-    }
-  },
-
-  "dimensions": {
-    "sectors": ["SALUD", "NEGOCIOS", "TECNOLOGIA", "DERECHO"],
-    "aptitudes": ["ANALITICO", "RELACIONAL", "PRACTICO", "AUTOGESTION"],
-    "context": ["MODALIDAD_RESTRICCIONES", "AI_RELACION"],
-    "learning": ["ESTRUCTURA", "PERSISTENCIA"]
-  },
-
-  "question_map": [
-    {
-      "id": "Q01",
-      "type": "likert_1_5",
-      "prompt": "Me interesa comprender cómo se relacionan la salud, la alimentación y el bienestar con la vida cotidiana.",
-      "targets": [{ "dimension": "SALUD", "weight": 1.0 }],
-      "weight": 0.085
-    },
-    {
-      "id": "Q02",
-      "type": "likert_1_5",
-      "prompt": "Me resulta significativo acompañar, orientar o atender a personas de manera directa.",
-      "targets": [{ "dimension": "RELACIONAL", "weight": 1.0 }],
-      "weight": 0.085
-    },
-    {
-      "id": "Q03",
-      "type": "likert_1_5",
-      "prompt": "Me motiva participar en proyectos de organización, gestión y toma de decisiones orientadas a resultados.",
-      "targets": [{ "dimension": "NEGOCIOS", "weight": 1.0 }],
-      "weight": 0.085
-    },
-    {
-      "id": "Q04",
-      "type": "likert_1_5",
-      "prompt": "Me interesa usar tecnología para resolver problemas, automatizar tareas o mejorar procesos.",
-      "targets": [{ "dimension": "TECNOLOGIA", "weight": 1.0 }],
-      "weight": 0.085
-    },
-    {
-      "id": "Q05",
-      "type": "likert_1_5",
-      "prompt": "Antes de actuar, suelo analizar información, comparar opciones y estructurar un plan.",
-      "targets": [{ "dimension": "ANALITICO", "weight": 1.0 }],
-      "weight": 0.065
-    },
-    {
-      "id": "Q06",
-      "type": "likert_1_5",
-      "prompt": "Me es natural comprender diferentes perspectivas y adaptar mi comunicación según el contexto.",
-      "targets": [{ "dimension": "RELACIONAL", "weight": 0.6 }, { "dimension": "DERECHO", "weight": 0.4 }],
-      "weight": 0.065
-    },
-    {
-      "id": "Q07",
-      "type": "likert_1_5",
-      "prompt": "Aprendo mejor cuando puedo aplicar lo que estudio en casos, prácticas o situaciones reales.",
-      "targets": [{ "dimension": "PRACTICO", "weight": 1.0 }],
-      "weight": 0.065
-    },
-    {
-      "id": "Q08",
-      "type": "likert_1_5",
-      "prompt": "Puedo mantener constancia y hábitos de estudio aun sin supervisión directa.",
-      "targets": [{ "dimension": "AUTOGESTION", "weight": 1.0 }],
-      "weight": 0.065
-    },
-    {
-      "id": "Q09",
-      "type": "likert_1_5",
-      "prompt": "Actualmente tengo compromisos personales, laborales o familiares que influyen en mis horarios.",
-      "targets": [{ "dimension": "MODALIDAD_RESTRICCIONES", "weight": 1.0 }],
-      "weight": 0.070
-    },
-    {
-      "id": "Q10",
-      "type": "likert_1_5",
-      "prompt": "Me adapto bien a estudiar desde casa usando plataformas y herramientas digitales.",
-      "targets": [{ "dimension": "MODALIDAD_RESTRICCIONES", "weight": 0.6 }, { "dimension": "AUTOGESTION", "weight": 0.4 }],
-      "weight": 0.065
-    },
-    {
-      "id": "Q11",
-      "type": "likert_1_5",
-      "prompt": "Puedo dedicar tiempo al estudio los fines de semana de manera consistente.",
-      "targets": [{ "dimension": "MODALIDAD_RESTRICCIONES", "weight": 1.0 }],
-      "weight": 0.065
-    },
-    {
-      "id": "Q12",
-      "type": "likert_1_5",
-      "prompt": "Cuando un tema me cuesta, suelo insistir, buscar apoyo y mantenerme hasta lograrlo.",
-      "targets": [{ "dimension": "PERSISTENCIA", "weight": 1.0 }],
-      "weight": 0.050
-    },
-    {
-      "id": "Q13",
-      "type": "likert_1_5",
-      "prompt": "Me funciona mejor un plan de estudio con objetivos y estructura clara (aunque exista flexibilidad).",
-      "targets": [{ "dimension": "ESTRUCTURA", "weight": 1.0 }],
-      "weight": 0.045
-    }
-  ],
-
-  "open_questions": [
-    {
-      "id": "OQ01_contexto",
-      "type": "open_text",
-      "weight": 0.0,
-      "after": "Q11",
-      "prompt": "Cuéntame brevemente cómo es tu situación actual (por ejemplo: si trabajas, si tienes responsabilidades familiares, si estás retomando estudios, etc.).",
-      "examples_empty_bullets": [
-        "• ____________________________________",
-        "• ____________________________________",
-        "• ____________________________________"
-      ],
-      "usage": {
-        "affects_scoring": false,
-        "may_adjust_modality_only_if_ambiguous": true,
-        "affects_narrative": true
-      }
-    },
-    {
-      "id": "OQ02_intereses",
-      "type": "open_text",
-      "weight": 0.0,
-      "after": "Q11",
-      "prompt": "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar.",
-      "examples_empty_bullets": [
-        "• ____________________________________",
-        "• ____________________________________",
-        "• ____________________________________"
-      ],
-      "usage": {
-        "affects_scoring": false,
-        "affects_narrative": true,
-        "may_help_tiebreak": true
-      }
-    },
-    {
-      "id": "OQ03_vision",
-      "type": "open_text",
-      "weight": 0.0,
-      "after": "Q11",
-      "prompt": "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (actividades, entorno e interacción con personas).",
-      "examples_empty_bullets": [
-        "• Tipo de actividades: _______________________________",
-        "• Entorno (casa/oficina/campo/otro): ___________________",
-        "• Interacción con personas (tipo/rol): _________________"
-      ],
-      "usage": {
-        "affects_scoring": false,
-        "affects_narrative": true,
-        "may_help_tiebreak": true
-      }
-    }
-  ],
-
-  "extra_question_ai": {
-    "id": "Q15_AI_RELACION",
-    "recommended_type_in_typebot": "choice_input",
-    "note": "Si deseas medir percepción/uso de IA, crea una variable nueva (p.ej. ai_uso). No reemplaza Q01–Q13.",
-    "prompt": "En relación con herramientas de inteligencia artificial aplicadas al aprendizaje, ¿con cuál opción te identificas más?",
-    "options": [
-      { "key": "A", "label": "Las utilizo como apoyo para comprender mejor temas y organizar mis ideas.", "score_1_5": 5 },
-      { "key": "B", "label": "Las uso ocasionalmente para resolver dudas puntuales o buscar ejemplos.", "score_1_5": 4 },
-      { "key": "C", "label": "Estoy empezando a explorarlas, pero aún prefiero métodos tradicionales.", "score_1_5": 3 },
-      { "key": "D", "label": "Prefiero no utilizarlas; me siento más cómodo/a aprendiendo sin ellas.", "score_1_5": 2 },
-      { "key": "E", "label": "No las utilizo ni me interesa incorporarlas por ahora.", "score_1_5": 1 }
-    ]
-  },
-
-  "scoring_engine": {
-    "normalize_to_100": true,
-    "components": {
-      "sector_interest_total": 0.34,
-      "aptitudes_total": 0.26,
-      "context_modality_total": 0.20,
-      "learning_persistence_total": 0.14,
-      "ai_relation_total": 0.06
-    },
-    "dimension_aggregation": {
-      "method": "weighted_sum",
-      "normalize_each_dimension_0_1": true
-    },
-    "career_fit": {
-      "base_sector_weight": 0.55,
-      "aptitude_weight": 0.35,
-      "context_weight": 0.10,
-      "mappings": [
-        {
-          "career_id": "C_NUTRICION",
-          "sector": "SALUD",
-          "aptitude_boosts": [{ "dimension": "RELACIONAL", "delta": 0.04 }, { "dimension": "PRACTICO", "delta": 0.04 }],
-          "context_notes": ["presencial_por_practica"]
-        },
-        {
-          "career_id": "C_ENFERMERIA",
-          "sector": "SALUD",
-          "aptitude_boosts": [{ "dimension": "RELACIONAL", "delta": 0.05 }, { "dimension": "PERSISTENCIA", "delta": 0.03 }],
-          "context_notes": ["presencial_por_practica"]
-        },
-        {
-          "career_id": "C_PSICOLOGIA",
-          "sector": "SALUD",
-          "aptitude_boosts": [{ "dimension": "RELACIONAL", "delta": 0.06 }, { "dimension": "ANALITICO", "delta": 0.02 }],
-          "context_notes": ["presencial_por_practica"]
-        },
-        {
-          "career_id": "C_GASTRONOMIA",
-          "sector": "SALUD",
-          "aptitude_boosts": [{ "dimension": "PRACTICO", "delta": 0.06 }],
-          "context_notes": ["presencial_por_practica"]
-        },
-        {
-          "career_id": "C_VENTAS_MKT",
-          "sector": "NEGOCIOS",
-          "aptitude_boosts": [{ "dimension": "RELACIONAL", "delta": 0.05 }, { "dimension": "AUTOGESTION", "delta": 0.02 }],
-          "context_notes": ["online_posible_si_autogestion_alta"]
-        },
-        {
-          "career_id": "C_NEGOCIOS_INT",
-          "sector": "NEGOCIOS",
-          "aptitude_boosts": [{ "dimension": "ANALITICO", "delta": 0.05 }],
-          "context_notes": ["presencial_recomendado"]
-        },
-        {
-          "career_id": "C_DERECHO",
-          "sector": "DERECHO",
-          "aptitude_boosts": [{ "dimension": "ANALITICO", "delta": 0.05 }, { "dimension": "ESTRUCTURA", "delta": 0.02 }],
-          "context_notes": ["online_condicionado_a_adaptacion_remota"]
-        },
-        {
-          "career_id": "C_SISTEMAS",
-          "sector": "TECNOLOGIA",
-          "aptitude_boosts": [{ "dimension": "ANALITICO", "delta": 0.05 }, { "dimension": "AUTOGESTION", "delta": 0.02 }],
-          "context_notes": ["presencial_requerido"]
-        },
-        {
-          "career_id": "C_ADMIN_SABATINO",
-          "sector": "NEGOCIOS",
-          "aptitude_boosts": [{ "dimension": "ESTRUCTURA", "delta": 0.04 }],
-          "context_notes": ["sabatino_por_disponibilidad"]
-        },
-        {
-          "career_id": "C_ADE_ONLINE",
-          "sector": "NEGOCIOS",
-          "aptitude_boosts": [{ "dimension": "AUTOGESTION", "delta": 0.05 }],
-          "context_notes": ["online_requerido"]
-        }
-      ],
-      "anti_dispersion_guardrails": {
-        "max_sectors_in_top3": 2,
-        "min_gap_top1_top2": 0.04,
-        "if_dispersion_detected": {
-          "rule": "restringir_top3_a_los_dos_sectores_mas_altos",
-          "note": "OQ2 y OQ3 se usan SOLO para narrativa y desempate cualitativo, sin alterar puntajes."
-        }
-      }
-    },
-    "modality_selection": {
-      "rules": [
-        { "if_career_area": "SALUD", "then": { "mode": "PRESENCIAL", "pace": "SEMESTRAL" } },
-        { "if_career_id": "C_SISTEMAS", "then": { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL" } },
-        { "if_career_id": "C_ADMIN_SABATINO", "then": { "mode": "SABATINA", "pace": "SEMESTRAL" } },
-        { "if_career_id": "C_ADE_ONLINE", "then": { "mode": "EN_LINEA", "pace": "SEMESTRAL" } },
-        {
-          "if_career_id": "C_DERECHO",
-          "then": {
-            "selector": "online_si_Q10_alto",
-            "inputs": { "Q10_min_likert_for_online": 4 },
-            "fallback": { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL" },
-            "online": { "mode": "EN_LINEA", "pace": "SEMESTRAL" }
+      "NEGOCIOS": {
+        "must_all": [
+          {
+            "dim": "I_NEGOCIOS",
+            ">=": 3
           }
+        ],
+        "must_any": [
+          {
+            "dim": "A_ANALITICO",
+            ">=": 3
+          },
+          {
+            "dim": "A_AUTOGESTION",
+            ">=": 3
+          }
+        ]
+      },
+      "TECNOLOGIA": {
+        "must_all": [
+          {
+            "dim": "I_TECNOLOGIA",
+            ">=": 3
+          },
+          {
+            "dim": "A_ANALITICO",
+            ">=": 3
+          }
+        ]
+      },
+      "DERECHO": {
+        "must_any": [
+          {
+            "dim": "A_ANALITICO",
+            ">=": 3
+          },
+          {
+            "dim": "M_CLARIDAD_META",
+            ">=": 3
+          }
+        ]
+      }
+    },
+    "mixed_profile_threshold": 0.8
+  },
+  "career_mappings": {
+    "sectors": [
+      "SALUD",
+      "NEGOCIOS",
+      "TECNOLOGIA",
+      "DERECHO"
+    ],
+    "programs": [
+      {
+        "id": "P_NUTRICION",
+        "name": "Licenciatura en Nutrición",
+        "sector": "SALUD",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_SALUD × 1.0 + A_ANALITICO × 0.30 + A_PRACTICO × 0.15"
+      },
+      {
+        "id": "P_ENFERMERIA",
+        "name": "Licenciatura en Enfermería",
+        "sector": "SALUD",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_SALUD × 0.90 + A_PRACTICO × 0.45 + A_EMPATICO × 0.20"
+      },
+      {
+        "id": "P_PSICOLOGIA",
+        "name": "Licenciatura en Psicología",
+        "sector": "SALUD",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_SOCIAL × 0.70 + A_EMPATICO × 0.65 + M_CLARIDAD_META × 0.10"
+      },
+      {
+        "id": "P_GASTRONOMIA",
+        "name": "Licenciatura en Gastronomía",
+        "sector": "SALUD",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_SALUD × 0.70 + A_PRACTICO × 0.55"
+      },
+      {
+        "id": "P_VENTAS_MKT",
+        "name": "Licenciatura en Ventas y Mercadotecnia",
+        "sector": "NEGOCIOS",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "CUATRIMESTRAL",
+            "duration": "3 años 4 meses"
+          },
+          {
+            "mode": "ONLINE",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_NEGOCIOS × 1.0 + A_AUTOGESTION × 0.25 + A_ANALITICO × 0.20"
+      },
+      {
+        "id": "P_NEGOCIOS_INT",
+        "name": "Licenciatura en Negocios Internacionales",
+        "sector": "NEGOCIOS",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "CUATRIMESTRAL",
+            "duration": "3 años 4 meses"
+          }
+        ],
+        "formula": "I_NEGOCIOS × 0.85 + A_ANALITICO × 0.60"
+      },
+      {
+        "id": "P_ADMIN_SAB",
+        "name": "Licenciatura en Administración (Sabatina)",
+        "sector": "NEGOCIOS",
+        "modalities": [
+          {
+            "mode": "SABATINA",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_NEGOCIOS × 0.80 + V_FINDE × 0.65 + V_RESPONSABILIDADES × 0.20"
+      },
+      {
+        "id": "P_ADMIN_DEV_EMP",
+        "name": "Licenciatura en Administración y Desarrollo Empresarial",
+        "sector": "NEGOCIOS",
+        "modalities": [
+          {
+            "mode": "ONLINE",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "I_NEGOCIOS × 0.80 + V_REMOTO × 0.65 + A_AUTOGESTION × 0.45"
+      },
+      {
+        "id": "P_SISTEMAS",
+        "name": "Ingeniería en Sistemas Computacionales",
+        "sector": "TECNOLOGIA",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "CUATRIMESTRAL",
+            "duration": "3 años 8 meses"
+          }
+        ],
+        "formula": "I_TECNOLOGIA × 1.0 + A_ANALITICO × 0.70 + A_AUTOGESTION × 0.15"
+      },
+      {
+        "id": "P_DERECHO",
+        "name": "Licenciatura en Derecho",
+        "sector": "DERECHO",
+        "modalities": [
+          {
+            "mode": "PRESENCIAL",
+            "period": "CUATRIMESTRAL",
+            "duration": "4 años"
+          },
+          {
+            "mode": "ONLINE",
+            "period": "SEMESTRAL",
+            "duration": "4 años"
+          }
+        ],
+        "formula": "A_ANALITICO × 0.65 + M_CLARIDAD_META × 0.35"
+      }
+    ],
+    "constraints": {
+      "max_recommendations": 3,
+      "mixed_profile_distribution": "2 del sector primario + 1 del secundario"
+    }
+  },
+  "modality_rules": {
+    "SABATINA": {
+      "conditions": [
+        {
+          "dim": "V_FINDE",
+          ">=": 4
         },
         {
-          "if_career_id": "C_VENTAS_MKT",
-          "then": {
-            "selector": "online_si_Q10_y_Q08_altos",
-            "inputs": { "Q10_min_likert_for_online": 4, "Q08_min_likert_for_online": 4 },
-            "fallback": { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL" },
-            "online": { "mode": "EN_LINEA", "pace": "SEMESTRAL" }
-          }
-        },
-        { "default": { "mode": "PRESENCIAL", "pace": "CUATRIMESTRAL" } }
+          "dim": "V_RESPONSABILIDADES",
+          ">=": 3
+        }
       ]
-    }
+    },
+    "ONLINE": {
+      "conditions": [
+        {
+          "dim": "V_REMOTO",
+          ">=": 4
+        },
+        {
+          "dim": "A_AUTOGESTION",
+          ">=": 4
+        }
+      ]
+    },
+    "fallback": "PRESENCIAL"
   },
-
-  "scholarship_logic": {
-    "avg_band_labels": [
-      { "key": "EXCELENCIA", "label": "Excelencia Académica", "range_hint": "9.5 a 10" },
-      { "key": "ALTO", "label": "Alto Desempeño Académico", "range_hint": "9.0 a 9.4" },
-      { "key": "BUENO", "label": "Buen Desempeño Académico", "range_hint": "8.5 a 8.9" },
-      { "key": "SATISFACTORIO", "label": "Desempeño Satisfactorio", "range_hint": "8.0 a 8.4" },
-      { "key": "DESARROLLO", "label": "Desempeño en Desarrollo", "range_hint": "7.0 a 7.9" },
-      { "key": "REFORZAMIENTO", "label": "Requiere Reforzamiento Académico", "range_hint": "menor a 7.0" }
-    ],
-    "offers": [
-      {
-        "if_promedio_key_in": ["SATISFACTORIO"],
-        "benefit_type": "BECA_IMPULSO",
-        "benefit_range": "10%-20%",
-        "message": "Tu desempeño académico es satisfactorio y muestra potencial. Podemos orientarte sobre apoyos disponibles y opciones de beca de impulso; el porcentaje final se confirma con Admisiones."
-      },
-      {
-        "if_promedio_key_in": ["DESARROLLO"],
-        "benefit_type": "DESCUENTO_OPORTUNIDAD_INSCRIPCION",
-        "benefit_range": "Variable",
-        "message": "Tu desempeño académico se encuentra en una etapa de desarrollo. Te sugerimos conversar con Admisiones para revisar alternativas de inscripción con beneficios especiales y acompañamiento académico."
-      }
-    ],
-    "policy": {
-      "no_exact_percent_promise": true,
-      "final_validation_in_admissions": true
-    }
-  },
-
   "lead_scoring": {
-    "score_0_100": true,
-    "components": [
-      { "name": "urgencia", "type": "categorical", "var": "urgencia", "points": { "ASAP": 30, "ESTE_ANO": 20, "6_12_MESES": 10, "EXPLORANDO": 0 } },
-      { "name": "promedio", "type": "categorical", "var": "promedio", "points": { "EXCELENCIA": 25, "ALTO": 20, "BUENO": 15, "SATISFACTORIO": 10, "DESARROLLO": 5, "REFORZAMIENTO": 0 } },
-      { "name": "match_top1", "type": "computed", "points": { "min": 0, "max": 25 }, "rule": "top1_match_percent * 0.25" },
-      { "name": "engagement", "type": "computed", "points": { "completed_test": 10 } },
-      { "name": "constraints_fit", "type": "computed", "points": { "fit": 10, "ambiguous": 5, "conflict": 0 } }
-    ],
-    "labels": [
-      { "min": 75, "label": "HOT" },
-      { "min": 50, "label": "WARM" },
-      { "min": 0, "label": "COLD" }
+    "formula": "vocational_compat × 0.45 + persistence × 0.22 + urgency × 0.20 + performance × 0.08 + ai_relation × 0.05",
+    "components": {
+      "vocational_compat": "normalize(top_program_score, 1, 5)",
+      "persistence": "avg(A_AUTOGESTION, M_COMPROMISO, M_CLARIDAD_META)",
+      "urgency": "C_URGENCIA mapped",
+      "performance": "C_PROMEDIO mapped",
+      "ai_relation": "fixed at 3 (neutral)"
+    },
+    "thresholds": {
+      "HOT": "≥ 85",
+      "WARM": "65–84",
+      "COLD": "< 65"
+    }
+  },
+  "scholarships_and_supports": {
+    "mapping": {
+      "EXCELENTE": {
+        "band": "EXCELENCIA",
+        "range": "40-50%",
+        "eva_message": "Por tu excelente desempeño, podrías acceder a una beca de excelencia académica que cubre entre 40% y 50% de tu colegiatura."
+      },
+      "MUY_BUENO": {
+        "band": "MÉRITO ALTO",
+        "range": "30-40%",
+        "eva_message": "Tu buen promedio te posiciona para una beca de mérito alto, con posible apoyo entre 30% y 40%."
+      },
+      "BUENO": {
+        "band": "MÉRITO MEDIO",
+        "range": "20-30%",
+        "eva_message": "Existen becas de mérito medio disponibles para tu perfil, que podrían cubrir entre 20% y 30%."
+      },
+      "REGULAR": {
+        "band": "BÁSICA",
+        "range": "15-20%",
+        "eva_message": "Hay opciones de beca básica disponibles que podrían apoyarte con 15% a 20% de tu colegiatura."
+      },
+      "NO_DIGO": {
+        "band": "BÁSICA",
+        "range": "15-20%",
+        "eva_message": "Sin importar tu promedio, existen opciones de apoyo económico. Un asesor puede orientarte sobre las becas disponibles."
+      }
+    }
+  },
+  "result_delivery": {
+    "dictamen_style": "Técnico-orientador: objetiva las fortalezas del candidato y justifica la recomendación con base en el perfil, sin exageraciones ni promesas.",
+    "templates": {
+      "single_sector": "{nombre}, con base en tus respuestas, se observa una afinidad predominante hacia el área de {sector_name}. Tu perfil combina {strength_1} y {strength_2}, lo que favorece un desempeño consistente en procesos formativos con {learning_style}. Recomendación principal: {top_program} en modalidad {mode} y periodo {period}. Como rutas complementarias, también aparecen {alt_1} y {alt_2}.",
+      "mixed_sector": "{nombre}, tus respuestas reflejan un perfil con dos ejes de interés relevantes: {sector_primary_name} como tendencia principal y {sector_secondary_name} como área complementaria. Esto suele presentarse cuando una persona combina {strength_1} con {strength_2}. Recomendación principal: {top_program} en modalidad {mode} y periodo {period}. Alternativas con sentido: {alt_1} (por habilidades transferibles) y {alt_2} (por alineación con el eje complementario)."
+    },
+    "cta_by_class": {
+      "HOT": "Hablar con un asesor ahora",
+      "WARM": "Ver plan de estudios",
+      "COLD": "Explorar carreras"
+    },
+    "channels": [
+      "web_page",
+      "whatsapp_message",
+      "crm_webhook"
     ]
   },
-
-  "result_delivery": {
-    "top_n_careers": 3,
-    "show_match_percent": true,
-    "show_modality": true,
-    "sections": [
-      "Resumen profesional",
-      "Fortalezas observadas",
-      "Recomendación principal y justificación",
-      "Alternativas consistentes",
-      "Modalidad sugerida",
-      "Apoyos académicos y beca (si aplica)",
-      "Siguiente paso con Admisiones"
-    ],
-    "template_phrases": {
-      "opening": "A partir de tus respuestas, se identifica una tendencia hacia el área de {sector_primary}. Te comparto opciones alineadas con tu estilo de aprendizaje y tus condiciones actuales.",
-      "avoid_verbatim_rule": "No repetir literalmente frases del estudiante; usar reformulación profesional con sinónimos y ejemplos.",
-      "cta": "Si lo deseas, puedo conectarte con Admisiones para revisar tu modalidad ideal, resolver dudas y orientarte sobre apoyos disponibles."
-    }
-  },
-
-  "data_capture": {
-    "fields": [
-      { "id": "nombre", "type": "text", "required": false },
-      { "id": "telefono", "type": "phone", "required": true },
-      { "id": "email", "type": "email", "required": true }
-    ],
-    "consent": {
-      "required": true,
-      "prompt": "Tus datos se utilizarán para enviarte tu dictamen vocacional y brindarte seguimiento académico. Puedes solicitar la eliminación de tus datos cuando lo desees."
+  "typebot_variables": {
+    "input": {
+      "nombre": "string",
+      "telefono": "string (E.164)",
+      "email": "string",
+      "Q01_to_Q13": "likert_1_5",
+      "urgencia": "enum",
+      "promedio": "enum"
+    },
+    "output": {
+      "sector_primary": "string",
+      "sector_secondary": "string | null",
+      "is_mixed": "boolean",
+      "top_programs": "array[3]",
+      "lead_score": "integer 0-100",
+      "lead_class": "HOT | WARM | COLD",
+      "dictamen_text": "string",
+      "beca_elegible": "string",
+      "cta_primary": "string",
+      "result_url": "string"
     }
   }
 }
