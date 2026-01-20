@@ -592,15 +592,16 @@ export async function POST(req: Request) {
         error = result.error;
       }
 
-    if (error) {
-      console.error("Supabase error:", error);
-      throw error;
-    }
+      if (error) {
+        console.error("Supabase error details:", JSON.stringify(error, null, 2));
+        throw new Error(`Supabase error: ${error.message || JSON.stringify(error)}`);
+      }
 
-    if (!lead) {
-      console.error("Lead not created/updated");
-      throw new Error("Failed to save lead");
-    }
+      if (!lead) {
+        console.error("Lead not created/updated - no data returned from Supabase");
+        console.error("leadData was:", JSON.stringify(leadData, null, 2));
+        throw new Error("Failed to save lead - no data returned");
+      }
 
       const ghlWebhookUrl = process.env.GHL_WEBHOOK_URL;
       if (ghlWebhookUrl && lead) {
