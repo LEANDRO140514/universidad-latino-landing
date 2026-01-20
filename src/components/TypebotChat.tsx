@@ -347,7 +347,7 @@ if (QUESTIONS[nextAction]) {
       } else if (OPEN_QUESTIONS[nextAction]) {
         showOpenQuestion(nextAction);
       } else {
-        handleAction(nextAction, String(value), updatedResponses);
+        handleAction(nextAction, String(value), updatedResponses, true);
       }
   };
 
