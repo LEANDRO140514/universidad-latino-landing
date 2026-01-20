@@ -395,9 +395,9 @@ export async function POST(req: Request) {
     }
     
 const openQuestions: OpenQuestions = {
-        contexto: sanitizeOpenText(data.OQ01),
-        intereses: sanitizeOpenText(data.OQ02),
-        vision: sanitizeOpenText(data.OQ03)
+        contexto: sanitizeOpenText(data.OQ01_contexto),
+        intereses: sanitizeOpenText(data.OQ02_intereses),
+        vision: sanitizeOpenText(data.OQ03_vision)
       };
 
     const dimensions = calculateDimensions(data);

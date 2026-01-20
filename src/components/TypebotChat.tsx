@@ -93,7 +93,7 @@ const QUESTIONS: Record<string, { id: string; prompt: string; dimension: string;
       id: "Q11",
       prompt: "Cuento con disponibilidad real para concentrar estudio en fin de semana (especialmente sábados).",
       dimension: "V_FINDE",
-      next: "Q12"
+      next: "OQ01"
     },
     Q12: {
       id: "Q12",
@@ -105,28 +105,37 @@ const QUESTIONS: Record<string, { id: string; prompt: string; dimension: string;
       id: "Q13",
       prompt: "Estoy dispuesto(a) a sostener el esfuerzo académico incluso cuando haya semanas exigentes.",
       dimension: "M_COMPROMISO",
-      next: "OQ01"
+      next: "CONTEXT_URGENCIA"
     }
   };
 
-const OPEN_QUESTIONS: Record<string, { id: string; prompt: string; purpose: string; next: string }> = {
+const OPEN_QUESTIONS: Record<string, { id: string; prompt: string; helperText: string; placeholder: string; minChars: number; maxChars: number; next: string }> = {
   OQ01: {
-    id: "OQ01",
-    prompt: "¿Qué te gustaría lograr en los próximos 3 años a nivel profesional?",
-    purpose: "Claridad de metas",
+    id: "OQ01_contexto",
+    prompt: "Cuéntame brevemente cómo es tu situación actual (por ejemplo: si trabajas, si tienes responsabilidades familiares, si estás retomando estudios, etc.).",
+    helperText: "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
+    placeholder: "Escribe aquí...",
+    minChars: 15,
+    maxChars: 700,
     next: "OQ02"
   },
   OQ02: {
-    id: "OQ02",
-    prompt: "¿Hay algo que te preocupe o te detenga de empezar la universidad?",
-    purpose: "Identificar objeciones",
+    id: "OQ02_intereses",
+    prompt: "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar.",
+    helperText: "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
+    placeholder: "Escribe aquí...",
+    minChars: 15,
+    maxChars: 700,
     next: "OQ03"
   },
   OQ03: {
-    id: "OQ03",
-    prompt: "¿Qué esperas encontrar en la universidad ideal para ti?",
-    purpose: "Expectativas",
-    next: "CONTEXT_URGENCIA"
+    id: "OQ03_vision",
+    prompt: "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (actividades, entorno e interacción con personas).",
+    helperText: "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
+    placeholder: "Escribe aquí...",
+    minChars: 15,
+    maxChars: 900,
+    next: "Q12"
   }
 };
 
@@ -196,8 +205,8 @@ const showLikertQuestion = async (questionId: string) => {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: `Pregunta abierta ${questionNumber} de 3:\n\n${question.prompt}`,
-        input: { type: "textarea", variable: question.id, placeholder: "Escribe tu respuesta...", required: true }
+        text: `Pregunta abierta ${questionNumber} de 3:\n\n${question.prompt}\n\n💡 ${question.helperText}`,
+        input: { type: "textarea", variable: question.id, placeholder: question.placeholder, required: true }
       }]);
     };
 
@@ -372,7 +381,30 @@ let nextAction = "";
       else if (variable === "email") nextAction = "PROCESAMIENTO";
       else if (OPEN_QUESTIONS[variable]) {
         const openQ = OPEN_QUESTIONS[variable];
-        if (OPEN_QUESTIONS[openQ.next]) {
+        if (finalValue.length < openQ.minChars) {
+          setMessages(prev => [...prev, {
+            id: Date.now().toString(),
+            type: "bot",
+            text: `Por favor, escribe al menos ${openQ.minChars} caracteres para poder entender mejor tu situación.`,
+            input: { type: "textarea", variable: openQ.id, placeholder: openQ.placeholder, required: true }
+          }]);
+          setInputValue("");
+          return;
+        }
+        if (finalValue.length > openQ.maxChars) {
+          finalValue = finalValue.substring(0, openQ.maxChars);
+        }
+        const updatedWithOpen = { ...responses, [variable]: finalValue };
+        setResponses(updatedWithOpen);
+        
+        if (QUESTIONS[openQ.next]) {
+          setIsTyping(true);
+          await new Promise(r => setTimeout(r, 600));
+          setIsTyping(false);
+          showLikertQuestion(openQ.next);
+          setInputValue("");
+          return;
+        } else if (OPEN_QUESTIONS[openQ.next]) {
           setIsTyping(true);
           await new Promise(r => setTimeout(r, 600));
           setIsTyping(false);
