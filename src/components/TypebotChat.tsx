@@ -180,35 +180,42 @@ export function TypebotChat() {
     ]);
   };
 
-const showLikertQuestion = async (questionId: string) => {
-      const question = QUESTIONS[questionId];
-      if (!question) return;
+const QUESTION_ORDER = [
+    "Q01", "Q02", "Q03", "Q04", "Q05", "Q06", "Q07", "Q08", "Q09", "Q10", "Q11",
+    "OQ01", "OQ02", "OQ03",
+    "Q12", "Q13"
+  ];
+  const TOTAL_QUESTIONS = QUESTION_ORDER.length;
 
-      setCurrentQuestion(questionId);
-      const questionNumber = Object.keys(QUESTIONS).indexOf(questionId) + 1;
-      
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: `Pregunta ${questionNumber} de 13:\n\n${question.prompt}`,
-        likert: { variable: question.id, nextAction: question.next }
-      }]);
-    };
+  const showLikertQuestion = async (questionId: string) => {
+        const question = QUESTIONS[questionId];
+        if (!question) return;
 
-    const showOpenQuestion = async (questionId: string) => {
-      const question = OPEN_QUESTIONS[questionId];
-      if (!question) return;
+        setCurrentQuestion(questionId);
+        const questionNumber = QUESTION_ORDER.indexOf(questionId) + 1;
+        
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: `Reactivo ${questionNumber} de ${TOTAL_QUESTIONS}:\n\n${question.prompt}`,
+          likert: { variable: question.id, nextAction: question.next }
+        }]);
+      };
 
-      setCurrentQuestion(questionId);
-      const questionNumber = Object.keys(OPEN_QUESTIONS).indexOf(questionId) + 1;
-      
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: `Pregunta abierta ${questionNumber} de 3:\n\n${question.prompt}\n\n💡 ${question.helperText}`,
-        input: { type: "textarea", variable: questionId, placeholder: question.placeholder, required: true }
-      }]);
-    };
+      const showOpenQuestion = async (questionId: string) => {
+        const question = OPEN_QUESTIONS[questionId];
+        if (!question) return;
+
+        setCurrentQuestion(questionId);
+        const questionNumber = QUESTION_ORDER.indexOf(questionId) + 1;
+        
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: `Reactivo ${questionNumber} de ${TOTAL_QUESTIONS} (abierto):\n\n${question.prompt}\n\n💡 ${question.helperText}`,
+          input: { type: "textarea", variable: questionId, placeholder: question.placeholder, required: true }
+        }]);
+      };
 
   const handleAction = async (action: string, value: string, currentResponses: Record<string, any>, skipUserMessage = false) => {
     if (!skipUserMessage) {
