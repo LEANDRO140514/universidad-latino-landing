@@ -493,13 +493,13 @@ const openQuestions: OpenQuestions = {
       );
 
     const becaMap: Record<string, string> = {
-      'EXCELENTE': 'EXCELENCIA (40-50%)',
-      'MUY_BUENO': 'MÉRITO ALTO (30-40%)',
-      'BUENO': 'MÉRITO MEDIO (20-30%)',
-      'REGULAR': 'BÁSICA (15-20%)',
-      'NO_DIGO': 'BÁSICA (15-20%)'
+      'EXCELENTE': 'Beca de Excelencia (45-55%)',
+      'MUY_BUENO': 'Beca de Mérito Académico (35-45%)',
+      'BUENO': 'Beca de Esfuerzo Académico (25-35%)',
+      'REGULAR': 'Apoyo Académico (15-25%)',
+      'NO_DIGO': 'Apoyo Académico (15-25%)'
     };
-    const beca = becaMap[data.promedio] || 'BÁSICA (15-20%)';
+    const beca = becaMap[data.promedio] || 'Apoyo Académico (15-25%)';
 
     const ctaMap: Record<string, string> = {
       HOT: "Hablar con un asesor ahora",
