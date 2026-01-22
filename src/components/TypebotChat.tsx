@@ -269,18 +269,19 @@ const QUESTION_ORDER = [
           ]
         }]);
       } else if (action === "CONTEXT_PROMEDIO") {
-      setMessages(prev => [...prev, {
-        id: Date.now().toString(),
-        type: "bot",
-        text: "Última pregunta:\n\n¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
-        buttons: [
-          { label: "Excelente (≈ 9.5 o más)", value: "EXCELENTE", action: "CAPTURA_CONTACTO", variable: "promedio" },
-          { label: "Muy bueno (≈ 9.0 a 9.4)", value: "MUY_BUENO", action: "CAPTURA_CONTACTO", variable: "promedio" },
-          { label: "Bueno (≈ 8.5 a 8.9)", value: "BUENO", action: "CAPTURA_CONTACTO", variable: "promedio" },
-          { label: "Regular (≈ 8.0 a 8.4)", value: "REGULAR", action: "CAPTURA_CONTACTO", variable: "promedio" },
-          { label: "Prefiero no decirlo", value: "NO_DIGO", action: "CAPTURA_CONTACTO", variable: "promedio" }
-        ]
-      }]);
+        setMessages(prev => [...prev, {
+          id: Date.now().toString(),
+          type: "bot",
+          text: "Última pregunta:\n\n¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
+          buttons: [
+            { label: "Sobresaliente (≈ 9.5 o más)", value: "SOBRESALIENTE", action: "CAPTURA_CONTACTO", variable: "promedio" },
+            { label: "Muy alto (≈ 9.0 a 9.4)", value: "MUY_ALTO", action: "CAPTURA_CONTACTO", variable: "promedio" },
+            { label: "Alto (≈ 8.5 a 8.9)", value: "ALTO", action: "CAPTURA_CONTACTO", variable: "promedio" },
+            { label: "Bueno (≈ 8.0 a 8.4)", value: "BUENO", action: "CAPTURA_CONTACTO", variable: "promedio" },
+            { label: "Suficiente (≈ 7.0 a 7.9)", value: "SUFICIENTE", action: "CAPTURA_CONTACTO", variable: "promedio" },
+            { label: "Prefiero no decirlo", value: "NO_DIGO", action: "CAPTURA_CONTACTO", variable: "promedio" }
+          ]
+        }]);
     } else if (action === "CAPTURA_CONTACTO") {
       setMessages(prev => [...prev, {
         id: Date.now().toString(),

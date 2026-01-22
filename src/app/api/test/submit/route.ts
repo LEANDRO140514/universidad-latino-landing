@@ -108,11 +108,18 @@ const PROGRAMS: Program[] = [
   }
 ];
 
-function calculateDimensions(data: Record<string, any>) {
-  const urgenciaMap: Record<string, number> = { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 };
-  const promedioMap: Record<string, number> = { "EXCELENTE": 5, "MUY_BUENO": 4, "BUENO": 3, "REGULAR": 2, "NO_DIGO": 3 };
-  
-  return {
+  function calculateDimensions(data: Record<string, any>) {
+    const urgenciaMap: Record<string, number> = { "ASAP": 5, "ESTE_ANIO": 4, "6_12": 3, "EXPLORANDO": 2 };
+    const promedioMap: Record<string, number> = { 
+      "SOBRESALIENTE": 5, 
+      "MUY_ALTO": 4, 
+      "ALTO": 3, 
+      "BUENO": 2, 
+      "SUFICIENTE": 1, 
+      "NO_DIGO": 3 
+    };
+    
+    return {
     I_SALUD: data.Q01 || 3,
     I_SOCIAL: data.Q02 || 3,
     I_NEGOCIOS: data.Q03 || 3,
@@ -283,10 +290,10 @@ function calculateLeadScore(dims: Record<string, number>, topProgramScore: numbe
   
   const vocationalCompat = normalize(topProgramScore, 1, 5) * 0.45;
   const avgPersistence = (dims.A_AUTOGESTION + dims.LS_PERSISTENCIA + dims.M_COMPROMISO) / 3;
-  const persistenceScore = normalize(avgPersistence, 1, 5) * 0.22;
-  const urgencyScore = normalize(dims.C_URGENCIA, 2, 5) * 0.20;
-  const performanceScore = normalize(dims.C_PROMEDIO, 2, 5) * 0.08;
-  const aiRelationScore = normalize(dims.AI_RELATION, 1, 5) * 0.05;
+    const persistenceScore = normalize(avgPersistence, 1, 5) * 0.22;
+    const urgencyScore = normalize(dims.C_URGENCIA, 2, 5) * 0.20;
+    const performanceScore = normalize(dims.C_PROMEDIO, 1, 5) * 0.08;
+    const aiRelationScore = normalize(dims.AI_RELATION, 1, 5) * 0.05;
   
   return Math.round(vocationalCompat + persistenceScore + urgencyScore + performanceScore + aiRelationScore);
 }
@@ -493,10 +500,11 @@ const openQuestions: OpenQuestions = {
       );
 
     const becaMap: Record<string, string> = {
-      'EXCELENTE': 'Beca de Excelencia (45-55%)',
-      'MUY_BUENO': 'Beca de Mérito Académico (35-45%)',
-      'BUENO': 'Beca de Esfuerzo Académico (25-35%)',
-      'REGULAR': 'Apoyo Académico (15-25%)',
+      'SOBRESALIENTE': 'Beca de Excelencia (45-55%)',
+      'MUY_ALTO': 'Beca de Mérito Académico (35-45%)',
+      'ALTO': 'Beca de Esfuerzo Académico (25-35%)',
+      'BUENO': 'Apoyo Académico (15-25%)',
+      'SUFICIENTE': 'Descuento de Oportunidad en Inscripción (10-20%)',
       'NO_DIGO': 'Apoyo Académico (15-25%)'
     };
     const beca = becaMap[data.promedio] || 'Apoyo Académico (15-25%)';

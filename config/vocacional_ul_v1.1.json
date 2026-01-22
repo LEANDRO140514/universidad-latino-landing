@@ -215,34 +215,38 @@
         ],
         "dimension": "C_URGENCIA"
       },
-      {
-        "id": "promedio",
-        "prompt": "¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
-        "type": "single_choice",
-        "options": [
-          {
-            "value": "EXCELENTE",
-            "label": "Excelente (≈ 9.5 o más)"
-          },
-          {
-            "value": "MUY_BUENO",
-            "label": "Muy bueno (≈ 9.0 a 9.4)"
-          },
-          {
-            "value": "BUENO",
-            "label": "Bueno (≈ 8.5 a 8.9)"
-          },
-          {
-            "value": "REGULAR",
-            "label": "Regular (≈ 8.0 a 8.4)"
-          },
-          {
-            "value": "NO_DIGO",
-            "label": "Prefiero no decirlo"
-          }
-        ],
-        "dimension": "C_PROMEDIO"
-      }
+        {
+          "id": "promedio",
+          "prompt": "¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
+          "type": "single_choice",
+          "options": [
+            {
+              "value": "SOBRESALIENTE",
+              "label": "Sobresaliente (≈ 9.5 o más)"
+            },
+            {
+              "value": "MUY_ALTO",
+              "label": "Muy alto (≈ 9.0 a 9.4)"
+            },
+            {
+              "value": "ALTO",
+              "label": "Alto (≈ 8.5 a 8.9)"
+            },
+            {
+              "value": "BUENO",
+              "label": "Bueno (≈ 8.0 a 8.4)"
+            },
+            {
+              "value": "SUFICIENTE",
+              "label": "Suficiente (≈ 7.0 a 7.9)"
+            },
+            {
+              "value": "NO_DIGO",
+              "label": "Prefiero no decirlo"
+            }
+          ],
+          "dimension": "C_PROMEDIO"
+        }
     ]
   },
   "dimensions": {
