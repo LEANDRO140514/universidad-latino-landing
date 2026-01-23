@@ -4,15 +4,47 @@ import { Header } from "@/components/Header";
 import { TypebotChat } from "@/components/TypebotChat";
 import { Sparkles, Target, Smartphone, Zap, Stethoscope, Apple, Brain, ChefHat, Scale, Monitor, Briefcase, GraduationCap, ArrowRight, CheckCircle2, Clock } from "lucide-react";
 
-const CAREERS = [
-  { name: "Enfermería", icon: Stethoscope, sector: "Salud" },
-  { name: "Nutrición", icon: Apple, sector: "Salud" },
-  { name: "Psicología", icon: Brain, sector: "Salud" },
-  { name: "Gastronomía", icon: ChefHat, sector: "Bienestar" },
-  { name: "Derecho", icon: Scale, sector: "Legal" },
-  { name: "Sistemas", icon: Monitor, sector: "Tecnología" },
-  { name: "Administración", icon: Briefcase, sector: "Negocios" },
-  { name: "Marketing", icon: Zap, sector: "Negocios" },
+const CAREER_GROUPS = [
+  { 
+    sector: "Tecnología", 
+    icon: Monitor, 
+    careers: [
+      { name: "Ingeniería en Sistemas", modality: "Presencial Cuatrimestral" }
+    ] 
+  },
+  { 
+    sector: "Legal", 
+    icon: Scale, 
+    careers: [
+      { name: "Derecho", modality: "Presencial Cuatrimestral / Online" }
+    ] 
+  },
+  { 
+    sector: "Bienestar", 
+    icon: ChefHat, 
+    careers: [
+      { name: "Gastronomía", modality: "Presencial Semestral" }
+    ] 
+  },
+  { 
+    sector: "Salud", 
+    icon: Stethoscope, 
+    careers: [
+      { name: "Enfermería", modality: "Presencial Semestral" },
+      { name: "Nutrición", modality: "Presencial Semestral" },
+      { name: "Psicología", modality: "Presencial Semestral" }
+    ] 
+  },
+  { 
+    sector: "Negocios", 
+    icon: Briefcase, 
+    careers: [
+      { name: "Ventas y Mercadotecnia", modality: "Presencial Cuatrimestral / Online" },
+      { name: "Negocios Internacionales", modality: "Presencial Cuatrimestral" },
+      { name: "Administración", modality: "Sabatina" },
+      { name: "Administración y Desarrollo Empresarial", modality: "Online" }
+    ] 
+  },
 ];
 
 export default function Home() {
@@ -78,21 +110,32 @@ export default function Home() {
             <div className="w-24 h-1.5 bg-[#E6B400] mx-auto rounded-full" />
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {CAREERS.map((career, i) => (
+          <div className="flex flex-wrap justify-center gap-8">
+            {CAREER_GROUPS.map((group, i) => (
               <div 
                 key={i} 
-                className="group p-8 bg-white rounded-3xl border border-gray-100 hover:border-[#002D62]/20 hover:shadow-2xl hover:shadow-[#002D62]/5 transition-all duration-500"
+                className="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-2rem)] group p-8 bg-white rounded-3xl border border-gray-100 hover:border-[#002D62]/20 hover:shadow-2xl hover:shadow-[#002D62]/5 transition-all duration-500"
               >
                 <div className="w-16 h-16 bg-[#002D62]/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#002D62] transition-colors duration-500">
-                  <career.icon className="w-8 h-8 text-[#002D62] group-hover:text-white transition-colors duration-500" />
+                  <group.icon className="w-8 h-8 text-[#002D62] group-hover:text-white transition-colors duration-500" />
                 </div>
-                <p className="text-xs font-bold text-[#E6B400] uppercase tracking-wider mb-2">{career.sector}</p>
-                <h3 className="text-2xl font-bold text-[#002D62] mb-4">{career.name}</h3>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center gap-2 text-sm text-gray-500">
-                    <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> Presencial, Online y Sabatina
-                  </li>
+                <p className="text-xs font-bold text-[#E6B400] uppercase tracking-wider mb-2">{group.sector}</p>
+                <h3 className="text-2xl font-bold text-[#002D62] mb-6">Licenciaturas en {group.sector}</h3>
+                
+                <div className="space-y-6">
+                  {group.careers.map((career, j) => (
+                    <div key={j} className="space-y-2 border-l-2 border-[#E6B400]/20 pl-4 py-1">
+                      <h4 className="text-lg font-bold text-[#002D62] leading-tight">{career.name}</h4>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="text-[10px] bg-[#002D62]/5 text-[#002D62] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                          {career.modality}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <ul className="mt-8 space-y-2 mb-8 pt-6 border-t border-gray-50">
                   <li className="flex items-center gap-2 text-sm text-gray-500">
                     <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> RVOE SEP Federal
                   </li>
@@ -100,6 +143,7 @@ export default function Home() {
                     <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> Titulación Automática
                   </li>
                 </ul>
+
                 <button 
                   onClick={scrollToChat}
                   className="text-[#002D62] font-bold text-sm flex items-center gap-2 hover:translate-x-2 transition-transform underline decoration-[#E6B400] underline-offset-4"
