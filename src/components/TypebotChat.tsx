@@ -146,20 +146,35 @@ export function TypebotChat() {
   const [isTyping, setIsTyping] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const scrollToBottom = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior, block: "nearest" });
     }
   };
 
+  // Efecto para auto-scroll cuando cambian los mensajes o el estado de escritura
   useEffect(() => {
     const timer = setTimeout(() => {
       scrollToBottom();
-    }, 100);
+    }, 150);
     return () => clearTimeout(timer);
   }, [messages, isTyping]);
+
+  // Asegurar que la sección del chatbot esté visible en pantalla al interactuar
+  const ensureSectionVisible = () => {
+    const section = document.getElementById('chatbot-section');
+    if (section) {
+      const rect = section.getBoundingClientRect();
+      const isVisible = (rect.top >= 0 && rect.bottom <= window.innerHeight);
+      
+      if (!isVisible) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  };
 
   useEffect(() => {
     startChat();
@@ -345,6 +360,7 @@ const QUESTION_ORDER = [
     const labelMap: Record<number, string> = { 1: "Nada", 2: "Poco", 3: "Moderado", 4: "Mucho", 5: "Totalmente" };
     
     setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: labelMap[value] }]);
+    ensureSectionVisible();
     
     const updatedResponses = { ...responses, [variable]: value };
     setResponses(updatedResponses);
@@ -385,6 +401,7 @@ if (QUESTIONS[nextAction]) {
     setResponses(updatedResponses);
     
     setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: inputValue }]);
+    ensureSectionVisible();
     
 let nextAction = "";
       if (variable === "nombre") nextAction = "START_TEST";
@@ -437,8 +454,10 @@ let nextAction = "";
       updatedResponses[btn.variable] = btn.value;
       setResponses(updatedResponses);
     }
+    ensureSectionVisible();
     handleAction(btn.action || "", btn.value, updatedResponses);
   };
+
 
   return (
     <div className="flex flex-col h-full bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/20 text-gray-900">
@@ -539,9 +558,11 @@ let nextAction = "";
                 <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
               </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+            )}
+          </AnimatePresence>
+          <div ref={messagesEndRef} className="h-0" />
+        </div>
+
 
       <div className="p-4 bg-white border-t border-gray-100 shrink-0">
 {messages.length > 0 && messages[messages.length - 1].input ? (
