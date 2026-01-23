@@ -137,48 +137,48 @@
       }
     ],
       "open_questions": [
-        {
-          "id": "OQ01_contexto",
-          "variable": "OQ01_contexto",
-          "label_internal": "OQ01 - Contexto actual",
-            "prompt": "Cuéntame brevemente cómo es tu situación actual (ejemplo: recién terminé la preparatoria).",
-          "placeholder": "Escribe aquí...",
-          "helper_text": "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
-          "validation": {
-            "required": true,
-            "min_chars": 15,
-            "max_chars": 700,
-            "sanitize": "strip_html"
+          {
+            "id": "OQ01_contexto",
+            "variable": "OQ01_contexto",
+            "label_internal": "OQ01 - Contexto actual",
+              "prompt": "Para iniciar, cuéntame brevemente cuál es tu situación actual.",
+            "placeholder": "Ejemplo: Recién terminé la preparatoria / Trabajo actualmente y busco titularme.",
+            "helper_text": "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
+            "validation": {
+              "required": true,
+              "min_chars": 15,
+              "max_chars": 700,
+              "sanitize": "strip_html"
+            },
+            "insert_after": "Q11",
+            "use_in_dictamen": true,
+            "affects_scoring": false,
+            "purpose": ["credibilidad_profesional", "personalizacion_dictamen", "sugerencia_modalidad"]
           },
-          "insert_after": "Q11",
-          "use_in_dictamen": true,
-          "affects_scoring": false,
-          "purpose": ["credibilidad_profesional", "personalizacion_dictamen", "sugerencia_modalidad"]
-        },
-        {
-          "id": "OQ02_intereses",
-          "variable": "OQ02_intereses",
-          "label_internal": "OQ02 - Intereses fuera de la escuela",
-            "prompt": "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar (ejemplo: me gusta hacer deportes).",
-          "placeholder": "Escribe aquí...",
-          "helper_text": "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
-          "validation": {
-            "required": true,
-            "min_chars": 15,
-            "max_chars": 700,
-            "sanitize": "strip_html"
+          {
+            "id": "OQ02_intereses",
+            "variable": "OQ02_intereses",
+            "label_internal": "OQ02 - Intereses fuera de la escuela",
+              "prompt": "Cuéntame qué actividades realizas usualmente en tu tiempo libre.",
+            "placeholder": "Ejemplo: Hago deporte y escucho música / Paso tiempo con mi familia.",
+            "helper_text": "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
+            "validation": {
+              "required": true,
+              "min_chars": 15,
+              "max_chars": 700,
+              "sanitize": "strip_html"
+            },
+            "use_in_dictamen": true,
+            "affects_scoring": false,
+            "purpose": ["credibilidad_profesional", "personalizacion_dictamen", "tiebreak_cualitativo"]
           },
-          "use_in_dictamen": true,
-          "affects_scoring": false,
-          "purpose": ["credibilidad_profesional", "personalizacion_dictamen", "tiebreak_cualitativo"]
-        },
-        {
-          "id": "OQ03_vision",
-          "variable": "OQ03_vision",
-          "label_internal": "OQ03 - Visión a futuro",
-            "prompt": "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (ejemplo: me veo como empresario con mi propia empresa).",
-          "placeholder": "Escribe aquí...",
-          "helper_text": "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
+          {
+            "id": "OQ03_vision",
+            "variable": "OQ03_vision",
+            "label_internal": "OQ03 - Visión a futuro",
+              "prompt": "Imagina tu vida en unos años, ¿cuál es tu objetivo principal?",
+            "placeholder": "Ejemplo: Tener mi propio negocio o consultorio / Conseguir un mejor puesto en mi trabajo.",
+            "helper_text": "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
           "validation": {
             "required": true,
             "min_chars": 15,

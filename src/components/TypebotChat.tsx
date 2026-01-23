@@ -112,27 +112,27 @@ const QUESTIONS: Record<string, { id: string; prompt: string; dimension: string;
 const OPEN_QUESTIONS: Record<string, { id: string; prompt: string; helperText: string; placeholder: string; minChars: number; maxChars: number; next: string }> = {
     OQ01: {
       id: "OQ01_contexto",
-      prompt: "Cuéntame brevemente cómo es tu situación actual (ejemplo: recién terminé la preparatoria).",
+      prompt: "Para iniciar, cuéntame brevemente cuál es tu situación actual.",
       helperText: "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
-      placeholder: "Escribe aquí...",
+      placeholder: "Ejemplo: Recién terminé la preparatoria / Trabajo actualmente y busco titularme.",
       minChars: 15,
       maxChars: 700,
       next: "OQ02"
     },
     OQ02: {
       id: "OQ02_intereses",
-      prompt: "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar (ejemplo: me gusta hacer deportes).",
+      prompt: "Cuéntame qué actividades realizas usualmente en tu tiempo libre.",
       helperText: "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
-      placeholder: "Escribe aquí...",
+      placeholder: "Ejemplo: Hago deporte y escucho música / Paso tiempo con mi familia.",
       minChars: 15,
       maxChars: 700,
       next: "OQ03"
     },
     OQ03: {
       id: "OQ03_vision",
-      prompt: "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (ejemplo: me veo como empresario con mi propia empresa).",
+      prompt: "Imagina tu vida en unos años, ¿cuál es tu objetivo principal?",
       helperText: "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
-      placeholder: "Escribe aquí...",
+      placeholder: "Ejemplo: Tener mi propio negocio o consultorio / Conseguir un mejor puesto en mi trabajo.",
       minChars: 15,
       maxChars: 900,
       next: "Q12"
