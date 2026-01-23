@@ -2,7 +2,7 @@
 
 import { Header } from "@/components/Header";
 import { TypebotChat } from "@/components/TypebotChat";
-import { Sparkles, Target, Smartphone, Zap, Stethoscope, Apple, Brain, ChefHat, Scale, Monitor, Briefcase, GraduationCap, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Sparkles, Target, Smartphone, Zap, Stethoscope, Apple, Brain, ChefHat, Scale, Monitor, Briefcase, GraduationCap, ArrowRight, CheckCircle2, Clock } from "lucide-react";
 
 const CAREERS = [
   { name: "Enfermería", icon: Stethoscope, sector: "Salud" },
