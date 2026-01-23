@@ -48,71 +48,71 @@ const PROGRAM_DETAILS: Record<string, { reasons: string[]; studyPlan: string[]; 
     reasons: ["Interés en salud y bienestar", "Perfil analítico-práctico", "Vocación de servicio"],
     studyPlan: ["Nutrición Clínica", "Dietoterapia", "Nutrición Deportiva", "Evaluación Nutricional"],
     field: ["Hospitales", "Consulta privada", "Equipos deportivos", "Industria alimentaria"],
-    cost: 5250,
-    inscription: 8000
+    cost: 4650,
+    inscription: 7000
   },
   P_ENFERMERIA: {
     reasons: ["Sensibilidad interpersonal alta", "Orientación práctica", "Interés en cuidado de la salud"],
     studyPlan: ["Enfermería Básica", "Farmacología", "Cuidados Intensivos", "Salud Comunitaria"],
     field: ["Hospitales", "Clínicas", "Atención domiciliaria", "Sector público"],
-    cost: 5250,
-    inscription: 8000
+    cost: 4650,
+    inscription: 7000
   },
   P_PSICOLOGIA: {
     reasons: ["Alta empatía", "Interés en acompañamiento emocional", "Capacidad de escucha activa"],
     studyPlan: ["Psicología Clínica", "Psicología Organizacional", "Desarrollo Humano", "Terapias"],
     field: ["Consulta privada", "Empresas", "Escuelas", "Instituciones de salud"],
-    cost: 5250,
-    inscription: 8000
+    cost: 4650,
+    inscription: 7000
   },
   P_GASTRONOMIA: {
     reasons: ["Creatividad práctica", "Interés en bienestar", "Orientación al detalle"],
     studyPlan: ["Cocina Internacional", "Repostería", "Administración de Restaurantes", "Nutrición"],
     field: ["Restaurantes", "Hoteles", "Emprendimiento propio", "Industria alimentaria"],
-    cost: 5800,
-    inscription: 8000
+    cost: 4650,
+    inscription: 7000
   },
   P_VENTAS_MKT: {
     reasons: ["Perfil de negocios", "Capacidad analítica", "Habilidades de comunicación"],
     studyPlan: ["Marketing Digital", "Comportamiento del Consumidor", "Ventas Estratégicas", "E-commerce"],
     field: ["Empresas", "Agencias de publicidad", "Emprendimiento", "Consultoría"],
-    cost: 4900,
-    inscription: 7500
+    cost: 4650,
+    inscription: 7000
   },
   P_NEGOCIOS_INT: {
     reasons: ["Visión global", "Capacidad analítica alta", "Interés en comercio"],
     studyPlan: ["Comercio Internacional", "Logística", "Finanzas Internacionales", "Negociación"],
     field: ["Empresas multinacionales", "Aduanas", "Comercio exterior", "Consultoría"],
-    cost: 4900,
-    inscription: 7500
+    cost: 4650,
+    inscription: 7000
   },
   P_DERECHO: {
     reasons: ["Pensamiento analítico", "Interés en justicia", "Capacidad argumentativa"],
     studyPlan: ["Derecho Civil", "Derecho Penal", "Derecho Laboral", "Derecho Mercantil"],
     field: ["Despachos jurídicos", "Sector público", "Empresas", "Tribunales"],
-    cost: 4900,
-    inscription: 7500
+    cost: 4650,
+    inscription: 7000
   },
   P_SISTEMAS: {
     reasons: ["Alto interés tecnológico", "Capacidad analítica superior", "Resolución de problemas"],
     studyPlan: ["Programación", "Bases de Datos", "Redes", "Inteligencia Artificial"],
     field: ["Empresas de tecnología", "Startups", "Freelance", "Consultoría IT"],
-    cost: 5500,
-    inscription: 8000
+    cost: 4650,
+    inscription: 7000
   },
   P_ADMIN_SAB: {
     reasons: ["Perfil de negocios", "Disponibilidad fin de semana", "Responsabilidades laborales"],
     studyPlan: ["Administración General", "Finanzas", "Recursos Humanos", "Planeación Estratégica"],
     field: ["Empresas", "Emprendimiento", "Sector público", "Consultoría"],
-    cost: 4500,
-    inscription: 7000
+    cost: 3960,
+    inscription: 3600
   },
   P_ADMIN_DEV_EMP: {
     reasons: ["Autonomía alta", "Preferencia por estudio remoto", "Perfil emprendedor"],
     studyPlan: ["Desarrollo Empresarial", "Innovación", "Gestión de Proyectos", "Liderazgo"],
     field: ["Emprendimiento", "Startups", "Consultoría", "Empresas en crecimiento"],
-    cost: 4200,
-    inscription: 6500
+    cost: 1980,
+    inscription: 3600
   }
 };
 
@@ -328,23 +328,23 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                       </div>
                     </div>
 
-                    <div className="pt-8 border-t border-gray-100 space-y-4">
-                      <h4 className="font-bold text-gray-900 uppercase text-xs tracking-wider">💰 Inversión</h4>
-                      <div className="flex flex-wrap gap-6">
-                        <div>
-                          <p className="text-gray-500 text-xs">Colegiatura</p>
-                          <p className="text-xl font-bold text-gray-900">${details.cost.toLocaleString()}/mes</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-500 text-xs">Inscripción</p>
-                          <p className="text-xl font-bold text-gray-900">${details.inscription.toLocaleString()}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-500 text-xs">Duración</p>
-                          <p className="text-xl font-bold text-gray-900">{program.duration}</p>
+                      <div className="pt-8 border-t border-gray-100 space-y-4">
+                        <h4 className="font-bold text-gray-900 uppercase text-xs tracking-wider">💰 Inversión</h4>
+                        <div className="flex flex-wrap gap-6">
+                          <div>
+                            <p className="text-gray-500 text-xs">Colegiatura</p>
+                            <p className="text-xl font-bold text-gray-900">${(program.mode === 'ONLINE' ? 1980 : details.cost).toLocaleString()}/mes</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-500 text-xs">Inscripción</p>
+                            <p className="text-xl font-bold text-gray-900">${(program.mode === 'ONLINE' ? 3600 : details.inscription).toLocaleString()}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-500 text-xs">Duración</p>
+                            <p className="text-xl font-bold text-gray-900">{program.duration}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
                     {i === 0 && (
                       <div className="flex flex-wrap gap-4">
