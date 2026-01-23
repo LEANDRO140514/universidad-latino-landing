@@ -219,32 +219,32 @@
           "id": "promedio",
           "prompt": "¿Cuál fue tu promedio aproximado (o nivel de desempeño) en tu último grado?",
           "type": "single_choice",
-          "options": [
-            {
-              "value": "SOBRESALIENTE",
-              "label": "Sobresaliente (≈ 9.5 o más)"
-            },
-            {
-              "value": "MUY_ALTO",
-              "label": "Muy alto (≈ 9.0 a 9.4)"
-            },
-            {
-              "value": "ALTO",
-              "label": "Alto (≈ 8.5 a 8.9)"
-            },
-            {
-              "value": "BUENO",
-              "label": "Bueno (≈ 8.0 a 8.4)"
-            },
-            {
-              "value": "SUFICIENTE",
-              "label": "Suficiente (≈ 7.0 a 7.9)"
-            },
-            {
-              "value": "NO_DIGO",
-              "label": "Prefiero no decirlo"
-            }
-          ],
+            "options": [
+              {
+                "value": "SOBRESALIENTE",
+                "label": "Desempeño sobresaliente (96 o más)"
+              },
+              {
+                "value": "MUY_ALTO",
+                "label": "Muy alto desempeño académico (90 a 95)"
+              },
+              {
+                "value": "ALTO",
+                "label": "Buen desempeño académico (85 a 89)"
+              },
+              {
+                "value": "BUENO",
+                "label": "Desempeño bueno (80 a 84)"
+              },
+              {
+                "value": "SUFICIENTE",
+                "label": "Desempeño suficiente (70 a 79)"
+              },
+              {
+                "value": "NO_DIGO",
+                "label": "Prefiero no decirlo"
+              }
+            ],
           "dimension": "C_PROMEDIO"
         }
     ]
@@ -578,116 +578,113 @@
       "COLD": "< 65"
     }
   },
-  "scholarships": {
-    "currency": "MXN",
-    "basis": "promedio_bachillerato",
-    "notes": [
-      "Los porcentajes son rangos referenciales; la asignación final la confirma Admisiones según documentación.",
-      "Para promedios cercanos a límites, se recomienda validación manual."
-    ],
-    "performance_labels": {
-      "sobresaliente": "Sobresaliente",
-      "muy_alto": "Muy alto",
-      "alto": "Alto",
-      "bueno": "Bueno",
-      "suficiente": "Suficiente"
-    },
-    "tiers": [
-      {
-        "tier_id": "T01",
-        "min_inclusive": 9.5,
-        "max_exclusive": 10.01,
-        "label": "Sobresaliente",
-        "benefit_type": "beca_colegiatura",
-        "scholarship_percent_min": 45,
-        "scholarship_percent_max": 55,
-        "support_name": "Beca de Excelencia",
-        "eligibility_rule": "Promedio de bachillerato igual o mayor a 9.5",
-        "student_message": "Por tu desempeño sobresaliente, puedes acceder a un nivel preferente de Beca de Excelencia. Un asesor puede explicarte cómo aplicar y qué documentos necesitas.",
-        "cta": {
-          "primary": "Hablar con Admisiones",
-          "secondary": "Agendar visita / asesoría"
+    "scholarships_and_supports": {
+      "institution": "Universidad Latino",
+      "currency": "MXN",
+      "average_scale": "0-100",
+      "legal_note": "La asignación final de becas y apoyos está sujeta a validación documental y aceptación de términos y condiciones institucionales.",
+      "academic_benefits": [
+        {
+          "tier_id": "BA30",
+          "category": "beca_academica",
+          "performance_label": "Buen desempeño académico",
+          "min_average": 85,
+          "max_average": 89,
+          "tuition_scholarship_percent": 30,
+          "enrollment_discount_percent": 50,
+          "benefits_summary": [
+            "30% de beca sobre colegiatura",
+            "50% de descuento en inscripción"
+          ],
+          "requirements": [
+            "Promedio de bachillerato entre 85 y 89",
+            "Entrega de documentación oficial",
+            "Firma de carta de aceptación de términos y condiciones"
+          ],
+          "student_message": "Tu desempeño académico refleja constancia y compromiso. Puedes acceder a una beca académica del 30% en colegiatura y, además, aprovechar un 50% de descuento en la inscripción para iniciar tu carrera.",
+          "cta": {
+            "primary": "Hablar con Admisiones",
+            "secondary": "Conocer proceso de inscripción"
+          }
+        },
+        {
+          "tier_id": "BA40",
+          "category": "beca_academica",
+          "performance_label": "Muy alto desempeño académico",
+          "min_average": 90,
+          "max_average": 95,
+          "tuition_scholarship_percent": 40,
+          "enrollment_discount_percent": 50,
+          "benefits_summary": [
+            "40% de beca sobre colegiatura",
+            "50% de descuento en inscripción"
+          ],
+          "requirements": [
+            "Promedio de bachillerato entre 90 y 95",
+            "Entrega de documentación oficial",
+            "Firma de carta de aceptación de términos y condiciones"
+          ],
+          "student_message": "Tu rendimiento académico es muy alto. Esto te permite acceder a una beca del 40% en colegiatura y también a un 50% de descuento en la inscripción.",
+          "cta": {
+            "primary": "Iniciar proceso con Admisiones",
+            "secondary": "Agendar asesoría"
+          }
+        },
+        {
+          "tier_id": "BA50",
+          "category": "beca_academica",
+          "performance_label": "Desempeño sobresaliente",
+          "min_average": 96,
+          "max_average": 100,
+          "tuition_scholarship_percent": 50,
+          "enrollment_discount_percent": 50,
+          "benefits_summary": [
+            "50% de beca sobre colegiatura",
+            "50% de descuento en inscripción"
+          ],
+          "requirements": [
+            "Promedio de bachillerato igual o superior a 96",
+            "Entrega de documentación oficial",
+            "Firma de carta de aceptación de términos y condiciones"
+          ],
+          "student_message": "Tu desempeño académico es sobresaliente. Puedes acceder al máximo nivel de apoyo institucional: una beca del 50% en colegiatura y un 50% de descuento en la inscripción.",
+          "cta": {
+            "primary": "Hablar con Admisiones",
+            "secondary": "Conocer beneficios completos"
+          }
         }
-      },
-      {
-        "tier_id": "T02",
-        "min_inclusive": 9.0,
-        "max_exclusive": 9.5,
-        "label": "Muy alto",
-        "benefit_type": "beca_colegiatura",
-        "scholarship_percent_min": 35,
-        "scholarship_percent_max": 45,
-        "support_name": "Beca de Mérito Académico",
-        "eligibility_rule": "Promedio de bachillerato entre 9.0 y 9.49",
-        "student_message": "Tu rendimiento académico es muy alto. Es probable que califiques a una beca por mérito. Admisiones te orienta para confirmar el porcentaje con tu documentación.",
-        "cta": {
-          "primary": "Calcular mi apoyo con un asesor",
-          "secondary": "Agendar cita"
-        }
-      },
-      {
-        "tier_id": "T03",
-        "min_inclusive": 8.5,
-        "max_exclusive": 9.0,
-        "label": "Alto",
-        "benefit_type": "beca_colegiatura",
-        "scholarship_percent_min": 25,
-        "scholarship_percent_max": 35,
-        "support_name": "Beca de Esfuerzo Académico",
-        "eligibility_rule": "Promedio de bachillerato entre 8.5 y 8.99",
-        "student_message": "Tienes un desempeño alto y consistente. Podemos revisarlo contigo para asignarte un apoyo acorde y explicarte el proceso de inscripción.",
-        "cta": {
-          "primary": "Contactar a un asesor",
-          "secondary": "Agendar asesoría"
-        }
-      },
-      {
-        "tier_id": "T04",
-        "min_inclusive": 8.0,
-        "max_exclusive": 8.5,
-        "label": "Bueno",
-        "benefit_type": "beca_colegiatura",
-        "scholarship_percent_min": 15,
-        "scholarship_percent_max": 25,
-        "support_name": "Apoyo Académico",
-        "eligibility_rule": "Promedio de bachillerato entre 8.0 y 8.49",
-        "student_message": "Tu promedio es bueno. Es posible que accedas a un apoyo académico. Un asesor te ayuda a revisar opciones y resolver dudas de modalidad e inscripción.",
-        "cta": {
-          "primary": "Ver opciones de apoyo",
-          "secondary": "Hablar con Admisiones"
-        }
-      },
-      {
-        "tier_id": "T05",
-        "min_inclusive": 7.0,
-        "max_exclusive": 8.0,
-        "label": "Suficiente",
-        "benefit_type": "descuento_inscripcion",
-        "scholarship_percent_min": 0,
-        "scholarship_percent_max": 0,
-        "enrollment_discount_percent_min": 10,
-        "enrollment_discount_percent_max": 20,
-        "support_name": "Descuento de Oportunidad en Inscripción",
-        "eligibility_rule": "Promedio de bachillerato entre 7.0 y 7.99",
-        "student_message": "Tu promedio es suficiente para iniciar tu proceso. Para apoyarte en el arranque, podemos ofrecer un descuento de oportunidad en la inscripción. Te recomiendo hablar con Admisiones para revisar requisitos y alternativas de apoyo.",
+      ],
+      "enrollment_opportunity_support": {
+        "support_id": "OPORTUNIDAD_INSCRIPCION_50",
+        "category": "descuento_inscripcion",
+        "min_average": 70,
+        "max_average": 84,
+        "enrollment_discount_percent": 50,
+        "benefits_summary": [
+          "50% de descuento en inscripción"
+        ],
+        "conditions": [
+          "Aplica únicamente al costo de inscripción",
+          "No implica beca académica sobre colegiatura",
+          "Sujeto a vigencia y cupo disponible"
+        ],
+        "student_message": "Para apoyarte en el inicio de tu carrera universitaria, puedes aprovechar un 50% de descuento en la inscripción. Un asesor puede orientarte sobre el proceso y las modalidades disponibles.",
         "cta": {
           "primary": "Hablar con un asesor",
-          "secondary": "Agendar cita"
+          "secondary": "Iniciar proceso de inscripción"
+        }
+      },
+      "resolution_policy": {
+        "if_average_unknown": {
+          "action": "request_average",
+          "message": "Para orientarte correctamente sobre los apoyos disponibles, necesitamos conocer tu promedio aproximado de bachillerato."
+        },
+        "if_average_below_70": {
+          "action": "route_to_admissions",
+          "message": "Un asesor de Admisiones puede orientarte sobre opciones académicas y apoyos disponibles según tu situación."
         }
       }
-    ],
-    "resolution_policy": {
-      "if_missing_promedio": {
-        "action": "ask_for_promedio",
-        "fallback_tier_id": null,
-        "message": "Para orientarte con precisión sobre becas y apoyos, ¿me compartes tu promedio aproximado de bachillerato?"
-      },
-      "if_promedio_out_of_range": {
-        "action": "route_to_admissions",
-        "message": "Para revisar tu caso y opciones disponibles, lo ideal es que un asesor de Admisiones te oriente de forma personalizada."
-      }
-    }
-  },
+    },
   "result_delivery": {
     "dictamen_style": "Técnico-orientador: objetiva las fortalezas del candidato y justifica la recomendación con base en el perfil, sin exageraciones ni promesas.",
     "templates": {

@@ -116,6 +116,59 @@ const PROGRAM_DETAILS: Record<string, { reasons: string[]; studyPlan: string[]; 
   }
 };
 
+const SCHOLARSHIPS_AND_SUPPORTS = {
+  academic_benefits: [
+    {
+      tier_id: "BA30",
+      performance_label: "Buen desempeño académico",
+      min_average: 85,
+      max_average: 89,
+      tuition_scholarship_percent: 30,
+      enrollment_discount_percent: 50,
+      student_message: "Tu desempeño académico refleja constancia y compromiso. Puedes acceder a una beca académica del 30% en colegiatura y, además, aprovechar un 50% de descuento en la inscripción para iniciar tu carrera.",
+      cta: { primary: "Hablar con Admisiones", secondary: "Conocer proceso de inscripción" }
+    },
+    {
+      tier_id: "BA40",
+      performance_label: "Muy alto desempeño académico",
+      min_average: 90,
+      max_average: 95,
+      tuition_scholarship_percent: 40,
+      enrollment_discount_percent: 50,
+      student_message: "Tu rendimiento académico es muy alto. Esto te permite acceder a una beca del 40% en colegiatura y también a un 50% de descuento en la inscripción.",
+      cta: { primary: "Iniciar proceso con Admisiones", secondary: "Agendar asesoría" }
+    },
+    {
+      tier_id: "BA50",
+      performance_label: "Desempeño sobresaliente",
+      min_average: 96,
+      max_average: 100,
+      tuition_scholarship_percent: 50,
+      enrollment_discount_percent: 50,
+      student_message: "Tu desempeño académico es sobresaliente. Puedes acceder al máximo nivel de apoyo institucional: una beca del 50% en colegiatura y un 50% de descuento en la inscripción.",
+      cta: { primary: "Hablar con Admisiones", secondary: "Conocer beneficios completos" }
+    }
+  ],
+  enrollment_opportunity_support: {
+    support_id: "OPORTUNIDAD_INSCRIPCION_50",
+    performance_label: "Oportunidad de Inscripción",
+    min_average: 70,
+    max_average: 84,
+    tuition_scholarship_percent: 0,
+    enrollment_discount_percent: 50,
+    student_message: "Para apoyarte en el inicio de tu carrera universitaria, puedes aprovechar un 50% de descuento en la inscripción. Un asesor puede orientarte sobre el proceso y las modalidades disponibles.",
+    cta: { primary: "Hablar con un asesor", secondary: "Iniciar proceso de inscripción" }
+  },
+  resolution_policy: {
+    if_average_unknown: {
+      message: "Para orientarte correctamente sobre los apoyos disponibles, necesitamos conocer tu promedio aproximado de bachillerato."
+    },
+    if_average_below_70: {
+      message: "Un asesor de Admisiones puede orientarte sobre opciones académicas y apoyos disponibles según tu situación."
+    }
+  }
+};
+
 export default function ResultsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const [lead, setLead] = useState<any>(null);
@@ -160,6 +213,34 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
   const leadScore = lead.score || 75;
   const leadClass = lead.lead_class || "WARM";
   const ctaPrimary = lead.cta_primary || "Ver plan de estudios";
+
+  const scholarship = (() => {
+    if (!lead) return null;
+    const promedio = lead.promedio;
+    if (promedio === 'SOBRESALIENTE') return SCHOLARSHIPS_AND_SUPPORTS.academic_benefits.find(b => b.tier_id === 'BA50');
+    if (promedio === 'MUY_ALTO') return SCHOLARSHIPS_AND_SUPPORTS.academic_benefits.find(b => b.tier_id === 'BA40');
+    if (promedio === 'ALTO') return SCHOLARSHIPS_AND_SUPPORTS.academic_benefits.find(b => b.tier_id === 'BA30');
+    if (promedio === 'BUENO' || promedio === 'SUFICIENTE') return SCHOLARSHIPS_AND_SUPPORTS.enrollment_opportunity_support;
+    return { 
+      student_message: SCHOLARSHIPS_AND_SUPPORTS.resolution_policy.if_average_unknown.message, 
+      performance_label: "Pendiente de validar", 
+      cta: { primary: "Contactar Admisiones", secondary: "Ver requisitos" },
+      tuition_scholarship_percent: 0,
+      enrollment_discount_percent: 0
+    };
+  })();
+
+  const topProgram = topPrograms[0];
+  const firstDetails = topProgram ? (PROGRAM_DETAILS[topProgram.program_id] || PROGRAM_DETAILS.P_VENTAS_MKT) : null;
+  const baseTuition = topProgram?.mode === 'ONLINE' ? 1980 : firstDetails?.cost || 0;
+  const baseEnrollment = topProgram?.mode === 'ONLINE' ? 3600 : firstDetails?.inscription || 0;
+  
+  const tuitionScholarshipPercent = (scholarship as any)?.tuition_scholarship_percent || 0;
+  const enrollmentDiscountPercent = (scholarship as any)?.enrollment_discount_percent || 0;
+
+  const ahorroMensual = baseTuition * (tuitionScholarshipPercent / 100);
+  const ahorroInscripcion = baseEnrollment * (enrollmentDiscountPercent / 100);
+  const totalAhorroEstimado = (ahorroMensual * 40) + (ahorroInscripcion * 8); // Estimado a 3.5 - 4 años
 
   return (
     <main className="min-h-screen bg-[#f6f9fc] pb-20">
@@ -374,28 +455,39 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                   🎁 BECA ESPECIAL PARA TI
                 </h2>
                 <p className="text-lg opacity-90">
-                  {lead.nombre}, con tu desempeño académico calificas para:
+                  {lead.nombre}, con tu promedio de {lead.promedio?.toLowerCase().replace('_', ' ')} calificas para:
                 </p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                  <p className="text-xs font-bold uppercase tracking-wider mb-1">Beca Elegible</p>
-                  <p className="text-xl font-bold">{lead.beca_elegible}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1">Nivel de Apoyo</p>
+                  <p className="text-xl font-bold">{(scholarship as any)?.performance_label}</p>
                 </div>
                 <div className="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20">
                   <p className="text-xs font-bold uppercase tracking-wider mb-1">Ahorro Mensual</p>
-                  <p className="text-3xl font-bold">$1,575+</p>
+                  <p className="text-3xl font-bold">${ahorroMensual.toLocaleString()}</p>
                 </div>
                 <div className="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                  <p className="text-xs font-bold uppercase tracking-wider mb-1">Ahorro Total</p>
-                  <p className="text-3xl font-bold">$100k+</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1">Ahorro Estimado</p>
+                  <p className="text-3xl font-bold">${totalAhorroEstimado.toLocaleString()}+</p>
                 </div>
               </div>
 
-              <button className="w-full lg:w-auto bg-white text-[#FFA500] font-bold px-12 py-5 rounded-2xl shadow-xl hover:scale-105 transition-transform text-lg flex items-center justify-center gap-2">
-                Calcular Mi Beca Ahora <ArrowRight className="w-6 h-6" />
-              </button>
+              <div className="bg-white/10 p-6 rounded-2xl border border-white/10">
+                <p className="text-sm leading-relaxed font-medium">
+                  {(scholarship as any)?.student_message}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <button className="flex-1 min-w-[200px] bg-white text-[#FFA500] font-bold px-8 py-4 rounded-xl shadow-xl hover:scale-105 transition-transform text-lg flex items-center justify-center gap-2">
+                  {(scholarship as any)?.cta?.primary || "Hablar con Admisiones"} <ArrowRight className="w-5 h-5" />
+                </button>
+                <button className="px-8 py-4 bg-[#2d1b69]/20 backdrop-blur-sm text-[#2d1b69] border border-[#2d1b69]/20 font-bold rounded-xl hover:bg-white/20 transition-all">
+                  {(scholarship as any)?.cta?.secondary || "Ver Requisitos"}
+                </button>
+              </div>
             </div>
           </motion.div>
 
