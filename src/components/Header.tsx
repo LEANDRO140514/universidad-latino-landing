@@ -10,7 +10,7 @@ export function Header() {
     };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-20 bg-[#002D62]/95 backdrop-blur-md z-[1000] border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 h-20 bg-white z-[1000] border-b border-gray-100 shadow-sm">
       <div className="container mx-auto h-full px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
             <Image
@@ -18,14 +18,14 @@ export function Header() {
               alt="Universidad Latino"
               width={300}
               height={60}
-              className="h-10 md:h-12 w-auto object-contain filter brightness-0 invert"
+              className="h-10 md:h-12 w-auto object-contain"
               priority
             />
         </Link>
         
         <button
           onClick={handleResetTest}
-          className="flex items-center gap-2 bg-[#E6B400] hover:bg-[#CC9F00] text-white px-4 py-2 rounded-full font-bold text-sm transition-all shadow-lg hover:scale-105 active:scale-95"
+          className="flex items-center gap-2 bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] px-4 py-2 rounded-full font-bold text-sm transition-all shadow-lg hover:scale-105 active:scale-95"
         >
           <RotateCcw className="w-4 h-4" />
           <span className="hidden md:inline">Reiniciar Test</span>

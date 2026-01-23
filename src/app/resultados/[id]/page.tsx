@@ -587,6 +587,21 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
         </div>
       </div>
+
+      <footer className="py-16 bg-white text-center text-sm border-t border-gray-100 mt-20">
+        <div className="container mx-auto px-4">
+          <img 
+            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-horizontal-grande-2048x205-1769155392357.png?width=500&height=50&resize=contain" 
+            alt="Universidad Latino" 
+            className="h-10 w-auto mx-auto mb-8"
+          />
+          <p className="text-[#002D62] font-semibold">© {new Date().getFullYear()} Universidad Latino. Todos los derechos reservados.</p>
+          <div className="flex justify-center gap-6 mt-4">
+            <a href="#" className="text-gray-400 hover:text-[#002D62] transition-colors">Aviso de Privacidad</a>
+            <a href="#" className="text-gray-400 hover:text-[#002D62] transition-colors">Términos y Condiciones</a>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
