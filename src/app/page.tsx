@@ -79,7 +79,7 @@ export default function Home() {
                 <span className="text-[#E6B400]">COMIENZA AQUÍ</span>
               </h1>
               <p className="text-white/90 font-light text-xl lg:text-3xl leading-relaxed max-w-2xl">
-                Descubre tu carrera ideal en modalidad <strong>Presencial, Online o Sabatina</strong> con nuestro Test de Inteligencia Artificial.
+                Descubre tu carrera ideal en modalidad <strong>Presencial, Online o Sabatina</strong> con nuestro Test <strong>Vocacional</strong> de Inteligencia Artificial.
               </p>
             </div>
 
@@ -92,7 +92,7 @@ export default function Home() {
               </button>
               <button 
                 onClick={scrollToChat}
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 font-bold px-10 py-5 rounded-xl transition-all text-xl"
+                className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] font-bold px-10 py-5 rounded-xl shadow-2xl hover:scale-105 transition-all text-xl"
               >
                 Iniciar Test
               </button>

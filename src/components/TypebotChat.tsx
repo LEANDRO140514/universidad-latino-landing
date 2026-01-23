@@ -155,7 +155,10 @@ export function TypebotChat() {
   };
 
   useEffect(() => {
-    scrollToBottom();
+    const timer = setTimeout(() => {
+      scrollToBottom();
+    }, 100);
+    return () => clearTimeout(timer);
   }, [messages, isTyping]);
 
   useEffect(() => {
@@ -171,7 +174,7 @@ export function TypebotChat() {
       {
         id: "1",
         type: "bot",
-        text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nTe haré 15 preguntas rápidas sobre tus intereses, habilidades y estilo de vida.\n\n¿Todo listo para empezar?",
+        text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es perfecta para ti en solo 5 minutos.\n\nTe haré 16 preguntas rápidas sobre tus intereses, habilidades y estilo de vida.\n\n¿Todo listo para empezar?",
         buttons: [
           { label: "Sí, vamos!", value: "si_empezar", action: "PREGUNTA_NOMBRE" },
           { label: "Tengo dudas", value: "tengo_dudas", action: "MENSAJE_DUDAS" }
@@ -232,7 +235,7 @@ const QUESTION_ORDER = [
       setMessages(prev => [...prev, {
         id: Date.now().toString(),
         type: "bot",
-        text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará solo 5 minutos.\n\nTe haré 15 preguntas sobre:\n• Tus intereses vocacionales\n• Tus habilidades y fortalezas\n• Tu estilo de vida y disponibilidad\n• Tu motivación y metas\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis de tus fortalezas\n• Opciones de becas disponibles\n\n¿Empezamos?",
+        text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará solo 5 minutos.\n\nTe haré 16 preguntas sobre:\n• Tus intereses vocacionales\n• Tus habilidades y fortalezas\n• Tu estilo de vida y disponibilidad\n• Tu motivación y metas\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis de tus fortalezas\n• Opciones de becas disponibles\n\n¿Empezamos?",
         buttons: [{ label: "Sí, ahora sí!", value: "si_ahora", action: "PREGUNTA_NOMBRE" }]
       }]);
     } else if (action === "PREGUNTA_NOMBRE") {
@@ -543,15 +546,21 @@ let nextAction = "";
       <div className="p-4 bg-white border-t border-gray-100 shrink-0">
 {messages.length > 0 && messages[messages.length - 1].input ? (
             <form onSubmit={handleInputSubmit} className="flex gap-2">
-              {messages[messages.length - 1].input?.type === "textarea" ? (
-                <textarea
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={messages[messages.length - 1].input?.placeholder}
-                  className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors resize-none min-h-[80px]"
-                  autoFocus
-                />
-              ) : (
+                {messages[messages.length - 1].input?.type === "textarea" ? (
+                  <textarea
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleInputSubmit(e as any);
+                      }
+                    }}
+                    placeholder={messages[messages.length - 1].input?.placeholder}
+                    className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors resize-none min-h-[80px]"
+                    autoFocus
+                  />
+                ) : (
                 <input
                   type={messages[messages.length - 1].input?.type === "phone" ? "tel" : "text"}
                   value={inputValue}
