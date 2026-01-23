@@ -192,17 +192,17 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f6f9fc] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#667eea]"></div>
+      <div className="min-h-screen bg-[#F4F4F4] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#002D62]"></div>
       </div>
     );
   }
 
   if (!lead) {
     return (
-      <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center justify-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900">Perfil no encontrado</h1>
-        <a href="/" className="text-[#667eea] hover:underline">Volver al inicio</a>
+      <div className="min-h-screen bg-[#F4F4F4] flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold text-[#002D62]">Perfil no encontrado</h1>
+        <a href="/" className="text-[#002D62] hover:underline">Volver al inicio</a>
       </div>
     );
   }
@@ -243,10 +243,10 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
   const totalAhorroEstimado = (ahorroMensual * 40) + (ahorroInscripcion * 8); // Estimado a 3.5 - 4 años
 
   return (
-    <main className="min-h-screen bg-[#f6f9fc] pb-20">
+    <main className="min-h-screen bg-[#F4F4F4] pb-20">
       <Header />
       
-      <section className="pt-32 pb-16 bg-gradient-hero relative overflow-hidden">
+      <section className="pt-32 pb-16 bg-[#002D62] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-white">
@@ -262,7 +262,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               
               <div className="flex flex-wrap items-center gap-6 pt-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-[#FFD700] rounded-xl flex items-center justify-center text-2xl">
+                  <div className="w-12 h-12 bg-[#E6B400] rounded-xl flex items-center justify-center text-2xl">
                     {SECTOR_ICONS[sectorPrimary] || "📊"}
                   </div>
                   <div>
@@ -302,7 +302,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                       initial={{ width: 0 }}
                       animate={{ width: `${Math.min(leadScore, 100)}%` }}
                       transition={{ duration: 1, delay: 0.5 }}
-                      className="h-full bg-[#FFD700]"
+                      className="h-full bg-[#E6B400]"
                     />
                   </div>
                 </div>
@@ -327,16 +327,16 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.1 }}
                 className={`bg-white rounded-[2rem] shadow-2xl overflow-hidden border ${
-                  i === 0 ? "border-[#FFD700] ring-2 ring-[#FFD700]/20" : "border-gray-100"
+                  i === 0 ? "border-[#E6B400] ring-2 ring-[#E6B400]/20" : "border-gray-100"
                 }`}
               >
                 {i === 0 && (
-                  <div className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-[#2d1b69] px-6 py-2 text-center font-bold text-sm">
+                  <div className="bg-gradient-to-r from-[#E6B400] to-[#CC9F00] text-[#002D62] px-6 py-2 text-center font-bold text-sm">
                     ⭐ MEJOR MATCH PARA TI
                   </div>
                 )}
                 {isFromSecondary && i > 0 && (
-                  <div className="bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white px-6 py-2 text-center font-bold text-sm">
+                  <div className="bg-gradient-to-r from-[#002D62] to-[#004080] text-white px-6 py-2 text-center font-bold text-sm">
                     🔄 OPCIÓN DEL SECTOR COMPLEMENTARIO
                   </div>
                 )}
@@ -353,7 +353,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                           {SECTOR_ICONS[program.sector] || "📚"} {program.program_name}
                         </h2>
                         <div className="flex flex-wrap items-center gap-3 mt-3">
-                          <span className="bg-[#667eea]/10 text-[#667eea] px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
+                          <span className="bg-[#002D62]/5 text-[#002D62] px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
                             <MapPin className="w-3 h-3" /> {program.mode}
                           </span>
                           <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1">
@@ -371,7 +371,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                             initial={{ pathLength: 0 }}
                             animate={{ pathLength: program.match_percent / 100 }}
                             transition={{ duration: 1.5, delay: 0.8 }}
-                            className="text-[#667eea]" 
+                            className="text-[#002D62]" 
                             stroke="currentColor"
                             strokeDasharray={`${program.match_percent}, 100`} 
                             strokeWidth="3" 
@@ -381,7 +381,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                           />
                         </svg>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-sm font-bold text-[#667eea]">{program.match_percent}%</span>
+                          <span className="text-sm font-bold text-[#002D62]">{program.match_percent}%</span>
                         </div>
                       </div>
                     </div>
@@ -429,7 +429,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
                     {i === 0 && (
                       <div className="flex flex-wrap gap-4">
-                        <button className="flex-1 min-w-[200px] bg-gradient-primary text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-[#667eea]/40 transition-all flex items-center justify-center gap-2">
+                        <button className="flex-1 min-w-[200px] bg-[#002D62] text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-[#002D62]/40 transition-all flex items-center justify-center gap-2">
                           <Calendar className="w-5 h-5" /> {ctaPrimary}
                         </button>
                         <button className="px-6 py-4 border-2 border-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-50 transition-all flex items-center gap-2">
@@ -446,7 +446,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-gold p-8 lg:p-12 rounded-[2.5rem] shadow-glow text-[#2d1b69] relative overflow-hidden"
+            className="bg-gradient-gold p-8 lg:p-12 rounded-[2.5rem] shadow-glow text-[#002D62] relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full translate-x-1/3 -translate-y-1/3 blur-2xl" />
             <div className="relative z-10 space-y-6">
@@ -492,10 +492,10 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <button className="flex-1 min-w-[200px] bg-white text-[#FFA500] font-bold px-8 py-4 rounded-xl shadow-xl hover:scale-105 transition-transform text-lg flex items-center justify-center gap-2">
+                <button className="flex-1 min-w-[200px] bg-white text-[#E6B400] font-bold px-8 py-4 rounded-xl shadow-xl hover:scale-105 transition-transform text-lg flex items-center justify-center gap-2">
                   {(scholarship as any)?.cta?.primary || "Hablar con Admisiones"} <ArrowRight className="w-5 h-5" />
                 </button>
-                <button className="px-8 py-4 bg-[#2d1b69]/20 backdrop-blur-sm text-[#2d1b69] border border-[#2d1b69]/20 font-bold rounded-xl hover:bg-white/20 transition-all">
+                <button className="px-8 py-4 bg-[#002D62]/10 backdrop-blur-sm text-[#002D62] border border-[#002D62]/10 font-bold rounded-xl hover:bg-white/20 transition-all">
                   {(scholarship as any)?.cta?.secondary || "Ver Requisitos"}
                 </button>
               </div>
@@ -504,7 +504,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
           <section className="bg-white p-8 lg:p-12 rounded-[2rem] shadow-xl space-y-8">
             <h2 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-3">
-              <Sparkles className="text-[#667eea]" /> DICTAMEN VOCACIONAL
+              <Sparkles className="text-[#002D62]" /> DICTAMEN VOCACIONAL
             </h2>
             <div className="prose prose-lg text-gray-600 max-w-none leading-relaxed">
               <p>{lead.dictamen_text}</p>
@@ -535,7 +535,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                           <div className="flex items-center gap-2 mt-1">
                             <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                               <div 
-                                className="h-full bg-[#667eea]" 
+                                className="h-full bg-[#002D62]" 
                                 style={{ width: `${(value / 5) * 100}%` }}
                               />
                             </div>
@@ -549,7 +549,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
             )}
           </section>
 
-          <section className="bg-[#2d1b69] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl space-y-8">
+          <section className="bg-[#002D62] text-white p-8 lg:p-12 rounded-[2rem] shadow-2xl space-y-8">
             <div className="text-center space-y-4">
               <h2 className="text-3xl font-display font-bold">¿Todo listo para el siguiente paso?</h2>
               <p className="text-white/70">Elige cómo quieres continuar:</p>
@@ -561,7 +561,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 <span className="font-bold">WhatsApp</span>
                 <span className="text-sm opacity-80">Respuesta inmediata</span>
               </button>
-              <button className="bg-[#FFD700] hover:bg-[#FFA500] text-[#2d1b69] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3">
+              <button className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3">
                 <Calendar className="w-8 h-8" />
                 <span className="font-bold">Agendar Cita</span>
                 <span className="text-sm opacity-80">Visita al campus</span>
@@ -578,7 +578,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
             <p className="text-gray-400 text-sm font-medium">Comparte tus resultados:</p>
             <div className="flex gap-4">
               {[Share2, Smartphone, Download].map((Icon, i) => (
-                <button key={i} className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center text-gray-400 hover:text-[#667eea] transition-colors">
+                <button key={i} className="w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center text-gray-400 hover:text-[#002D62] transition-colors">
                   <Icon className="w-5 h-5" />
                 </button>
               ))}

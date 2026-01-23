@@ -14,11 +14,12 @@ export function Header() {
       <div className="container mx-auto h-full px-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
             <Image
-              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-horizontal-grande-2048x205-1769155392357.png?width=8000&height=8000&resize=contain"
+              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-horizontal-grande-2048x205-1769155392357.png?width=500&height=50&resize=contain"
               alt="Universidad Latino"
-              width={250}
-              height={80}
-              className="h-12 w-auto object-contain brightness-0 invert"
+              width={300}
+              height={60}
+              className="h-10 md:h-12 w-auto object-contain filter brightness-0 invert"
+              priority
             />
         </Link>
         
