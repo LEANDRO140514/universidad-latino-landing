@@ -149,36 +149,20 @@ export function TypebotChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior, block: "nearest" });
-    }
-  };
-
-  // Efecto para auto-scroll cuando cambian los mensajes o el estado de escritura
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      scrollToBottom();
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [messages, isTyping]);
-
-  // Asegurar que la sección del chatbot esté visible en pantalla al interactuar
-  const ensureSectionVisible = () => {
-    const section = document.getElementById('chatbot-section');
-    if (section) {
-      const rect = section.getBoundingClientRect();
-      const isVisible = (rect.top >= 0 && rect.bottom <= window.innerHeight);
-      
-      if (!isVisible) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const scrollToBottom = () => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
       }
-    }
-  };
-
-  useEffect(() => {
-    startChat();
-  }, []);
+    };
+  
+    // Efecto para auto-scroll cuando cambian los mensajes o el estado de escritura
+    useEffect(() => {
+      scrollToBottom();
+    }, [messages, isTyping]);
+  
+    useEffect(() => {
+      startChat();
+    }, []);
 
   const startChat = async () => {
     setIsTyping(true);
@@ -360,7 +344,6 @@ const QUESTION_ORDER = [
     const labelMap: Record<number, string> = { 1: "Nada", 2: "Poco", 3: "Moderado", 4: "Mucho", 5: "Totalmente" };
     
     setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: labelMap[value] }]);
-    ensureSectionVisible();
     
     const updatedResponses = { ...responses, [variable]: value };
     setResponses(updatedResponses);
@@ -401,7 +384,6 @@ if (QUESTIONS[nextAction]) {
     setResponses(updatedResponses);
     
     setMessages(prev => [...prev, { id: Date.now().toString(), type: "user", text: inputValue }]);
-    ensureSectionVisible();
     
 let nextAction = "";
       if (variable === "nombre") nextAction = "START_TEST";
@@ -454,7 +436,6 @@ let nextAction = "";
       updatedResponses[btn.variable] = btn.value;
       setResponses(updatedResponses);
     }
-    ensureSectionVisible();
     handleAction(btn.action || "", btn.value, updatedResponses);
   };
 

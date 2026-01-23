@@ -157,57 +157,41 @@ export default function Home() {
       </section>
 
       {/* Formulario / Registro Section */}
-      <section id="chatbot-section" className="py-24 bg-[#F4F4F4]">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:grid lg:grid-cols-[45%_55%] border border-white">
-            <div className="p-12 lg:p-20 bg-[#002D62] text-white space-y-8 flex flex-col justify-center">
-              <div className="space-y-4">
-                <h2 className="text-4xl lg:text-5xl font-bold leading-tight">Registra tus datos y obtén tu <span className="text-[#E6B400]">Dictamen con IA</span></h2>
-                <p className="text-white/70 text-lg">Un proceso rápido, gratuito y diseñado para ayudarte a tomar la mejor decisión para tu futuro profesional.</p>
+      <section id="chatbot-section" className="py-12 bg-[#F4F4F4] min-h-[calc(100vh-80px)] flex flex-col">
+        <div className="container mx-auto px-4 flex-1 flex flex-col">
+          <div className="flex-1 max-w-6xl mx-auto w-full bg-white rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:grid lg:grid-cols-[40%_60%] border border-white">
+            <div className="p-8 lg:p-16 bg-[#002D62] text-white space-y-6 flex flex-col justify-center">
+              <div className="space-y-3">
+                <h2 className="text-3xl lg:text-5xl font-bold leading-tight">Registra tus datos y obtén tu <span className="text-[#E6B400]">Dictamen con IA</span></h2>
+                <p className="text-white/70 text-base lg:text-lg">Un proceso rápido, gratuito y diseñado para ayudarte a tomar la mejor decisión para tu futuro profesional.</p>
               </div>
               
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-6">
                 {[
                   { icon: GraduationCap, title: "Beca de hasta 50%", desc: "Basado en tu desempeño" },
                   { icon: Target, title: "Perfil de Competencias", desc: "Análisis detallado de talentos" },
                   { icon: Clock, title: "Flexibilidad de Horarios", desc: "Modalidad Sabatina y Online" },
                   { icon: Smartphone, title: "Resultados vía WhatsApp", desc: "Entrega inmediata" }
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-                      <item.icon className="w-6 h-6 text-[#E6B400]" />
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center shrink-0">
+                      <item.icon className="w-5 h-5 text-[#E6B400]" />
                     </div>
                     <div>
-                      <p className="font-bold">{item.title}</p>
-                      <p className="text-sm text-white/60">{item.desc}</p>
+                      <p className="font-bold text-sm lg:text-base">{item.title}</p>
+                      <p className="text-xs text-white/60">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative min-h-[700px] bg-white">
+            <div className="relative flex-1 min-h-[500px] lg:min-h-[600px] bg-white">
               <TypebotChat />
             </div>
           </div>
         </div>
       </section>
-
-      {/* Footer minimal */}
-      <footer className="py-16 bg-white text-center text-sm border-t border-gray-100">
-        <div className="container mx-auto px-4">
-          <img 
-            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/58874ed2-ae97-440c-b760-db483a0ae966/logo-horizontal-grande-2048x205-1769155392357.png?width=500&height=50&resize=contain" 
-            alt="Universidad Latino" 
-            className="h-10 w-auto mx-auto mb-8"
-          />
-          <p className="text-[#002D62] font-semibold">© {new Date().getFullYear()} Universidad Latino. Todos los derechos reservados.</p>
-          <div className="flex justify-center gap-6 mt-4">
-            <a href="#" className="text-gray-400 hover:text-[#002D62] transition-colors">Aviso de Privacidad</a>
-            <a href="#" className="text-gray-400 hover:text-[#002D62] transition-colors">Términos y Condiciones</a>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
