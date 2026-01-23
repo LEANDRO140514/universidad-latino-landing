@@ -110,33 +110,33 @@ const QUESTIONS: Record<string, { id: string; prompt: string; dimension: string;
   };
 
 const OPEN_QUESTIONS: Record<string, { id: string; prompt: string; helperText: string; placeholder: string; minChars: number; maxChars: number; next: string }> = {
-  OQ01: {
-    id: "OQ01_contexto",
-    prompt: "Cuéntame brevemente cómo es tu situación actual (por ejemplo: si trabajas, si tienes responsabilidades familiares, si estás retomando estudios, etc.).",
-    helperText: "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
-    placeholder: "Escribe aquí...",
-    minChars: 15,
-    maxChars: 700,
-    next: "OQ02"
-  },
-  OQ02: {
-    id: "OQ02_intereses",
-    prompt: "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar.",
-    helperText: "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
-    placeholder: "Escribe aquí...",
-    minChars: 15,
-    maxChars: 700,
-    next: "OQ03"
-  },
-  OQ03: {
-    id: "OQ03_vision",
-    prompt: "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (actividades, entorno e interacción con personas).",
-    helperText: "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
-    placeholder: "Escribe aquí...",
-    minChars: 15,
-    maxChars: 900,
-    next: "Q12"
-  }
+    OQ01: {
+      id: "OQ01_contexto",
+      prompt: "Cuéntame brevemente cómo es tu situación actual (ejemplo: recién terminé la preparatoria).",
+      helperText: "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
+      placeholder: "Escribe aquí...",
+      minChars: 15,
+      maxChars: 700,
+      next: "OQ02"
+    },
+    OQ02: {
+      id: "OQ02_intereses",
+      prompt: "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar (ejemplo: me gusta hacer deportes).",
+      helperText: "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
+      placeholder: "Escribe aquí...",
+      minChars: 15,
+      maxChars: 700,
+      next: "OQ03"
+    },
+    OQ03: {
+      id: "OQ03_vision",
+      prompt: "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (ejemplo: me veo como empresario con mi propia empresa).",
+      helperText: "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
+      placeholder: "Escribe aquí...",
+      minChars: 15,
+      maxChars: 900,
+      next: "Q12"
+    }
 };
 
 export function TypebotChat() {

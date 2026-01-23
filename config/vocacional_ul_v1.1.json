@@ -141,7 +141,7 @@
           "id": "OQ01_contexto",
           "variable": "OQ01_contexto",
           "label_internal": "OQ01 - Contexto actual",
-          "prompt": "Cuéntame brevemente cómo es tu situación actual (por ejemplo: si trabajas, si tienes responsabilidades familiares, si estás retomando estudios, etc.).",
+            "prompt": "Cuéntame brevemente cómo es tu situación actual (ejemplo: recién terminé la preparatoria).",
           "placeholder": "Escribe aquí...",
           "helper_text": "Esto nos ayuda a sugerirte una modalidad realista para tu ritmo de vida.",
           "validation": {
@@ -159,7 +159,7 @@
           "id": "OQ02_intereses",
           "variable": "OQ02_intereses",
           "label_internal": "OQ02 - Intereses fuera de la escuela",
-          "prompt": "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar.",
+            "prompt": "Cuéntame qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera del ámbito escolar (ejemplo: me gusta hacer deportes).",
           "placeholder": "Escribe aquí...",
           "helper_text": "No hay respuestas correctas o incorrectas. Busco entender qué te entusiasma de forma natural.",
           "validation": {
@@ -176,7 +176,7 @@
           "id": "OQ03_vision",
           "variable": "OQ03_vision",
           "label_internal": "OQ03 - Visión a futuro",
-          "prompt": "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (actividades, entorno e interacción con personas).",
+            "prompt": "Imagina tu vida dentro de algunos años. Describe brevemente cómo te gustaría que fuera tu día a día (ejemplo: me veo como empresario con mi propia empresa).",
           "placeholder": "Escribe aquí...",
           "helper_text": "Esto ayuda a conectar tus preferencias con carreras y modalidades que realmente encajen contigo.",
           "validation": {
