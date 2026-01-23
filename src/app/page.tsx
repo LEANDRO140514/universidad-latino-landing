@@ -47,7 +47,7 @@ export default function Home() {
                 <span className="text-[#E6B400]">COMIENZA AQUÍ</span>
               </h1>
               <p className="text-white/90 font-light text-xl lg:text-3xl leading-relaxed max-w-2xl">
-                Descubre tu carrera ideal con nuestro Test Vocacional de Inteligencia Artificial en tiempo real.
+                Descubre tu carrera ideal en modalidad <strong>Presencial, Online o Sabatina</strong> con nuestro Test de Inteligencia Artificial.
               </p>
             </div>
 
@@ -91,10 +91,13 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-[#002D62] mb-4">{career.name}</h3>
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-center gap-2 text-sm text-gray-500">
-                    <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> 100% Presencial / Online
+                    <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> Presencial, Online y Sabatina
                   </li>
                   <li className="flex items-center gap-2 text-sm text-gray-500">
                     <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> RVOE SEP Federal
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-gray-500">
+                    <CheckCircle2 className="w-4 h-4 text-[#E6B400]" /> Titulación Automática
                   </li>
                 </ul>
                 <button 
@@ -123,6 +126,7 @@ export default function Home() {
                 {[
                   { icon: GraduationCap, title: "Beca de hasta 50%", desc: "Basado en tu desempeño" },
                   { icon: Target, title: "Perfil de Competencias", desc: "Análisis detallado de talentos" },
+                  { icon: Clock, title: "Flexibilidad de Horarios", desc: "Modalidad Sabatina y Online" },
                   { icon: Smartphone, title: "Resultados vía WhatsApp", desc: "Entrega inmediata" }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-4">
