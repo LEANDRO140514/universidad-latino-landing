@@ -51,19 +51,19 @@
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'Fira Code', monospace;
 
-  --bg-primary: #1E3A8A;
-  --bg-secondary: #4F46E5;
-  --bg-gradient: linear-gradient(135deg, #1E3A8A 0%, #4F46E5 100%);
+    --bg-primary: #002D62;
+    --bg-secondary: #004080;
+    --bg-gradient: linear-gradient(135deg, #002D62 0%, #004080 100%);
 
-  --cta-color: #F59E0B;
-  --cta-text: #111827;
+    --cta-color: #E6B400;
+    --cta-text: #FFFFFF;
 
-  --text-heading: #FFFFFF;
-  --text-body: #F3F4F6;
+    --text-heading: #FFFFFF;
+    --text-body: #F3F4F6;
 
-  --gradient-hero: linear-gradient(135deg, #1E3A8A 0%, #4F46E5 100%);
-  --gradient-primary: linear-gradient(135deg, #1E3A8A 0%, #4F46E5 100%);
-  --gradient-gold: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    --gradient-hero: linear-gradient(135deg, rgba(0, 45, 98, 0.85) 0%, rgba(0, 64, 128, 0.85) 100%);
+    --gradient-primary: linear-gradient(135deg, #002D62 0%, #004080 100%);
+    --gradient-gold: linear-gradient(135deg, #E6B400 0%, #CC9F00 100%);
   --gradient-success: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 
   --shadow-glow: 0 0 20px rgba(79, 70, 229, 0.3);

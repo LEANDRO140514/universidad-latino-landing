@@ -4,10 +4,16 @@ import { Sparkles, Target, Smartphone, Zap } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative overflow-hidden bg-gradient-hero">
-      <div className="absolute top-0 left-0 w-96 h-96 bg-[#4F46E5] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#F59E0B] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-[#1E3A8A] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
+    <main className="min-h-screen relative overflow-hidden bg-[#002D62]">
+      {/* Hero Background Image with Filter */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2000&auto=format&fit=crop" 
+          alt="Alumnos Universidad Latino" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[#002D62]/70 backdrop-blur-[2px]" />
+      </div>
 
       <Header />
 
@@ -16,12 +22,12 @@ export default function Home() {
           
           <div className="hero-text-section space-y-8 max-w-xl">
             <div className="space-y-4">
-              <h1 className="text-white font-display font-bold text-5xl lg:text-6xl leading-[1.1] tracking-tight">
-                Descubre tu <br />
-                <span className="text-gradient-gold">CARRERA IDEAL</span>
+              <h1 className="text-white font-display font-bold text-5xl lg:text-7xl leading-[1.1] tracking-tight">
+                Tu futuro <br />
+                <span className="text-[#E6B400]">COMIENZA AQUÍ</span>
               </h1>
               <p className="text-white/90 font-light text-xl lg:text-2xl leading-relaxed">
-                En solo 5 minutos, con inteligencia artificial
+                Descubre tu carrera ideal en solo 5 minutos con inteligencia artificial.
               </p>
             </div>
 
@@ -33,10 +39,10 @@ export default function Home() {
                 { icon: Zap, text: "100% Gratis, sin compromiso" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4 group">
-                  <div className="bg-[#F59E0B] p-1.5 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
-                    <item.icon className="w-5 h-5 text-[#111827]" />
+                  <div className="bg-[#E6B400] p-1.5 rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+                    <item.icon className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-white/95 text-lg font-medium">{item.text}</span>
+                  <span className="text-white text-lg font-medium">{item.text}</span>
                 </div>
               ))}
             </div>
