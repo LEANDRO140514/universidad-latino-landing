@@ -452,8 +452,13 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
             <div className="relative z-10 space-y-6">
               <div className="space-y-2">
                 <h2 className="text-3xl lg:text-4xl font-display font-bold leading-tight">
-                  🎁 BECA ESPECIAL PARA TI
+                  {tuitionScholarshipPercent > 0 ? "🎁 BECA ESPECIAL PARA TI" : "🎟️ DESCUENTO ESPECIAL PARA TI"}
                 </h2>
+                {tuitionScholarshipPercent === 0 && enrollmentDiscountPercent > 0 && (
+                  <p className="text-xl lg:text-2xl font-bold opacity-90">
+                    50% DE DESCUENTO EN LA INSCRIPCIÓN
+                  </p>
+                )}
                 <p className="text-lg opacity-90">
                   {lead.nombre}, con tu promedio de {lead.promedio?.toLowerCase().replace('_', ' ')} calificas para:
                 </p>
@@ -465,12 +470,18 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                   <p className="text-xl font-bold">{(scholarship as any)?.performance_label}</p>
                 </div>
                 <div className="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                  <p className="text-xs font-bold uppercase tracking-wider mb-1">Ahorro Mensual</p>
-                  <p className="text-3xl font-bold">${ahorroMensual.toLocaleString()}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1">
+                    {tuitionScholarshipPercent > 0 ? "Ahorro Mensual" : "Ahorro Inscripción"}
+                  </p>
+                  <p className="text-3xl font-bold">
+                    ${(tuitionScholarshipPercent > 0 ? ahorroMensual : ahorroInscripcion).toLocaleString()}
+                  </p>
                 </div>
                 <div className="bg-white/20 backdrop-blur-md p-6 rounded-2xl border border-white/20">
                   <p className="text-xs font-bold uppercase tracking-wider mb-1">Ahorro Estimado</p>
-                  <p className="text-3xl font-bold">${totalAhorroEstimado.toLocaleString()}+</p>
+                  <p className="text-3xl font-bold">
+                    ${(tuitionScholarshipPercent > 0 ? totalAhorroEstimado : ahorroInscripcion).toLocaleString()}+
+                  </p>
                 </div>
               </div>
 
