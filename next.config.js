@@ -5,6 +5,15 @@ const path = require("path");
 const loaderPath = require.resolve('orchids-visual-edits/loader.js');
 
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/favicon.ico",
+        destination: "/icon.png",
+        permanent: false,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
