@@ -582,7 +582,6 @@ export function TypebotChat() {
                 }}
                 placeholder={lastMsg.input.placeholder}
                 className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors resize-none min-h-[80px]"
-                autoFocus
               />
             ) : (
               <input
@@ -591,7 +590,6 @@ export function TypebotChat() {
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder={lastMsg.input?.placeholder}
                 className="flex-1 bg-white border-2 border-gray-100 rounded-xl px-4 py-3 text-sm text-gray-900 focus:border-[#F59E0B] outline-none transition-colors"
-                autoFocus
               />
             )}
             <button
