@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseServer } from "@/lib/supabase-server";
 import { runEvaEngine, EvaInput } from "@/lib/eva-engine";
 
 function sanitizeText(text: unknown, maxLength = 900): string {
@@ -20,6 +20,8 @@ export async function POST(req: Request) {
     } catch {
       return NextResponse.json({ success: false, error: "Invalid JSON format" }, { status: 400 });
     }
+
+    const supabase = getSupabaseServer();
 
     // Build numeric responses map (Q01-Q25, Q29, Q30 are 0-4 Likert)
     const responses: Record<string, number> = {};
