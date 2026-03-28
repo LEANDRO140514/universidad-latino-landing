@@ -120,10 +120,14 @@ export function TypebotChat() {
   const [responses, setResponses] = useState<Record<string, any>>({});
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
   }, [messages, isTyping]);
 
   useEffect(() => {
@@ -476,7 +480,7 @@ export function TypebotChat() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 bg-[#f9fafb] space-y-4 scroll-smooth">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 bg-[#f9fafb] space-y-4 scroll-smooth">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
