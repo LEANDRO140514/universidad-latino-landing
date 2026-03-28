@@ -1,7 +1,7 @@
 "use client";
 
 import { Header } from "@/components/Header";
-import { TypebotChat } from "@/components/TypebotChat";
+import { TypebotChat } from "../components/TypebotChat";
 import { Sparkles, Target, Smartphone, Zap, Stethoscope, Apple, Brain, ChefHat, Scale, Monitor, Briefcase, GraduationCap, ArrowRight, CheckCircle2, Clock, X, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
