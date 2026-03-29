@@ -2,6 +2,14 @@
 
 Este documento describe los puntos de configuración que pueden necesitar actualizarse sin conocimientos técnicos avanzados.
 
+### URL de producción (referencia)
+
+Sitio publicado en VPS con **Easypanel** (build desde **GitHub**):
+
+**https://testunilatino.algorithmus.io/**
+
+Úsala para comprobar cambios después de cada deploy. Si el dominio o el subdominio cambian en el panel, actualiza esta línea para que el equipo tenga la referencia correcta.
+
 ---
 
 ## 1. Número de WhatsApp y Teléfono
@@ -167,96 +175,75 @@ México: `52` + 10 dígitos = 12 dígitos totales. Ejemplo: `529991525583`
 
 ---
 
-## 9. Variables de entorno (Supabase / Base de datos)
+## 9. Variables de entorno (Supabase / Base de datos / integraciones)
 
-Estas variables están en el archivo `.env` en la raíz del proyecto. **No las compartas públicamente.**
+En **desarrollo local**, estas variables van en el archivo `.env` en la raíz del proyecto. **No subas `.env` a GitHub** ni lo compartas.
+
+En **producción (Easypanel / Docker)**, configura las mismas claves en **Variables de entorno** del servicio. Nixpacks construye la imagen con `npm run build` y arranca con `next start`.
 
 | Variable | Descripción |
 |----------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública de acceso a Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | Clave privada (solo servidor) |
-| `DATABASE_URL` | Conexión directa a PostgreSQL |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase (visible en el navegador) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave anónima (pública); usada en el cliente para `/resultados`, etc. |
+| `SUPABASE_URL` | *(Recomendado en servidor)* Misma URL que `NEXT_PUBLIC_SUPABASE_URL`. En Docker, ayuda a que la API lea la URL en **runtime** aunque el build no haya incrustado bien las `NEXT_PUBLIC_*`. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clave **service_role** (solo servidor). La ruta `/api/test/submit` la usa para guardar leads; **nunca** debe ser `NEXT_PUBLIC_`. |
+| `SUPABASE_ANON_KEY` | *(Opcional en servidor)* Misma clave que `NEXT_PUBLIC_SUPABASE_ANON_KEY` si quieres definirla solo en runtime sin prefijo público. |
+| `DATABASE_URL` | Conexión PostgreSQL (p. ej. herramientas externas o migraciones) |
+| `NEXT_PUBLIC_BASE_URL` | *(Opcional)* URL pública del sitio, p. ej. `https://testunilatino.algorithmus.io` — se usa en payloads del webhook (enlace al dictamen). |
+| `GHL_WEBHOOK_URL` | *(Opcional)* URL del webhook de GoHighLevel / CRM si está activo |
 
-Si cambia el proyecto de Supabase, actualiza las 4 variables en `.env` y reinicia el servidor de desarrollo.
+**Nota técnica (Next.js + Docker):** las variables `NEXT_PUBLIC_*` se **incrustan en el build**. Si en el momento de `npm run build` faltan, el cliente puede quedar sin URL/clave correctas. Por eso en Easypanel conviene: (1) pasar `NEXT_PUBLIC_*` también como **build args** si el panel lo permite, o (2) usar `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` en runtime para la API, y mantener las `NEXT_PUBLIC_*` correctas en el build para el resto de la app.
 
----
+Si cambia el proyecto de Supabase, actualiza **URL y las tres claves** (anon, service role, y `DATABASE_URL` si aplica) en `.env` local y en Easypanel, luego redeploy.
 
 ---
 
 ## 10. Cómo aplicar los cambios (Deploy)
 
-> **Importante:** Editar los archivos de código **no actualiza la página en línea automáticamente**. Para que los cambios sean visibles en producción hay que hacer un *deploy* (publicación).
+> **Importante:** Editar el código **no actualiza la web en producción** hasta que el código esté en **GitHub** y **Easypanel** haya construido y desplegado de nuevo la imagen.
 
----
-
-### Flujo de trabajo
+### Flujo de trabajo (GitHub → Easypanel en VPS)
 
 ```
-1. Editar el archivo de código
-2. Guardar el archivo
-3. Hacer deploy
-4. Verificar en la URL de producción
+1. Editar y guardar archivos en el proyecto
+2. Commit + push a la rama conectada (p. ej. main)
+3. En Easypanel: redeploy del servicio (o deploy automático si está enlazado al repo)
+4. Verificar en https://testunilatino.algorithmus.io/
 ```
 
----
+### Opción A — Deploy con Git + Easypanel (flujo actual)
 
-### Opción A — Deploy automático con Vercel (recomendado)
-
-Si el proyecto está conectado a Vercel y a un repositorio de GitHub:
-
-1. Abre **GitHub Desktop** (o cualquier cliente Git) o usa la terminal.
-2. Haz **commit** de los cambios:
+1. Repositorio en GitHub (origen del código).
+2. En **Easypanel**, el servicio de la landing apunta a ese repo y rama; Nixpacks ejecuta `npm install` y `npm run build` dentro del contenedor.
+3. Tras cada cambio relevante:
    ```bash
    git add .
    git commit -m "descripción del cambio"
+   git push origin main
    ```
-3. Haz **push** al repositorio:
-   ```bash
-   git push
-   ```
-4. Vercel detecta el push automáticamente y lanza el deploy.
-5. En 1–2 minutos el cambio estará en vivo. Puedes ver el estado en [vercel.com/dashboard](https://vercel.com/dashboard).
+4. Dispara un **nuevo deploy** en Easypanel si no está el autodeploy al push.
+5. Revisa logs de build y del contenedor si algo falla (puerto **3000**, health check, variables de entorno).
 
-> Si no está conectado a Vercel aún, ve a [vercel.com](https://vercel.com), crea una cuenta gratuita, importa el repositorio de GitHub y Vercel configura todo automáticamente.
-
----
-
-### Opción B — Deploy manual con Vercel CLI
-
-Si prefieres hacerlo desde la terminal sin Git:
+### Opción B — Probar en local antes de publicar
 
 ```bash
-# Instalar Vercel CLI (solo la primera vez)
-npm install -g vercel
-
-# Publicar
-vercel --prod
+npm run dev
 ```
 
----
+Abre **http://localhost:3000**. Con Turbopack, los cambios suelen verse al guardar.
 
-### Opción C — Verificar cambios en local (antes de publicar)
+### Opción C — Vercel (alternativa)
 
-Para probar los cambios en tu computadora antes de subirlos:
+Si en el futuro conectas el mismo repo a [Vercel](https://vercel.com): haz push a GitHub y configura **Settings → Environment Variables** allí. El flujo principal documentado aquí sigue siendo **Easypanel en VPS**.
 
-```bash
-bun dev
-```
+### Variables de entorno en producción (Easypanel)
 
-Abre tu navegador en `http://localhost:3001`. Los cambios se reflejan en tiempo real al guardar el archivo (no requiere reiniciar).
+1. Entra al proyecto y al **servicio** de la landing.
+2. Abre **Environment** / **Variables de entorno**.
+3. Añade o edita las variables de la tabla de la **sección 9** (incl. `HOST=0.0.0.0`, `PORT=3000`, `NODE_ENV=production` si el panel no las define solo).
+4. Guarda y **vuelve a desplegar** para que el nuevo build o el contenedor en marcha usen los valores correctos.
 
----
-
-### Variables de entorno en producción
-
-Si modificas el archivo `.env`, **también debes actualizar las variables en el panel de Vercel**:
-
-1. Entra a [vercel.com/dashboard](https://vercel.com/dashboard)
-2. Selecciona el proyecto
-3. Ve a **Settings → Environment Variables**
-4. Agrega o edita las variables y guarda
-5. Haz un nuevo deploy para que surtan efecto
+> **Seguridad:** Evita exponer `SUPABASE_SERVICE_ROLE_KEY` en build args públicos si el panel lo permite; preferible como variable solo en **runtime** del contenedor.
 
 ---
 
