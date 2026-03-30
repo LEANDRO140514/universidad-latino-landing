@@ -124,10 +124,13 @@ export function TypebotChat() {
   const router = useRouter();
 
   useEffect(() => {
-    const container = messagesContainerRef.current;
-    if (container) {
-      container.scrollTop = container.scrollHeight;
-    }
+    const timer = setTimeout(() => {
+      const container = messagesContainerRef.current;
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }, 50);
+    return () => clearTimeout(timer);
   }, [messages, isTyping]);
 
   useEffect(() => {
