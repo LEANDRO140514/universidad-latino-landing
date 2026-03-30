@@ -328,7 +328,7 @@ export function TypebotChat() {
                 text: `¡Listo, ${currentResponses.nombre}!\n\nTu perfil vocacional fue generado exitosamente.\n\n¿Quieres ver tus resultados ahora?`,
                 buttons: [
                   { label: "Sí, ver mis resultados", value: result.leadId, action: "REDIRECT" },
-                  { label: "Hablar con un asesor AHORA", value: "hablar_asesor", action: "CALL" },
+                  { label: "Hablar con un asesor AHORA", value: result.leadId, action: "CALL" },
                 ],
               },
             ]);
@@ -353,9 +353,19 @@ export function TypebotChat() {
         router.push(`/resultados/${value}`);
         break;
 
-      case "CALL":
-        window.open("https://wa.me/529991525583", "_blank");
+      case "CALL": {
+        const nombre = currentResponses.nombre || "alumno";
+        const waText = encodeURIComponent(
+          `Hola, soy ${nombre}. Acabo de completar el test vocacional de EVA en Universidad Latino y me gustaría hablar con un asesor sobre mis resultados y opciones de carrera.`
+        );
+        window.open(`https://wa.me/529991525583?text=${waText}`, "_blank");
+        await typing(400);
+        addBotMessage({
+          text: `WhatsApp se abrió en otra ventana. 📲\n\nCuando termines con el asesor, regresa aquí — tus resultados siguen disponibles.`,
+          buttons: value ? [{ label: "Ver mis resultados →", value, action: "REDIRECT" }] : [],
+        });
         break;
+      }
     }
   };
 
