@@ -127,9 +127,9 @@ export function TypebotChat() {
   useEffect(() => {
     // Wait for framer-motion animation to complete (~300ms) before scrolling
     const timer = setTimeout(() => {
-      // Always scroll container to bottom so the latest message is visible
+      // Always scroll container to bottom instantly (no smooth — avoids getting stuck behind rapid answers)
       const container = messagesContainerRef.current;
-      if (container) container.scrollTop = container.scrollHeight;
+      if (container) container.scrollTo({ top: container.scrollHeight, behavior: "instant" });
       // After user interaction also scroll the page so input area is fully in view
       if (hasInteracted.current) {
         window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
@@ -491,7 +491,7 @@ export function TypebotChat() {
       </div>
 
       {/* Messages */}
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 bg-[#f9fafb] space-y-4 scroll-smooth">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-6 bg-[#f9fafb] space-y-4">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
