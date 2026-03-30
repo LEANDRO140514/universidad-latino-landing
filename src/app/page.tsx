@@ -54,7 +54,7 @@ export default function Home() {
   const [showIframe, setShowIframe] = useState(false);
 
   const scrollToChat = () => {
-    document.getElementById('chatbot-section')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('chat-widget')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -193,7 +193,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative flex-1 min-h-[500px] lg:min-h-[600px] bg-white">
+            <div id="chat-widget" className="relative flex-1 min-h-[500px] lg:min-h-[600px] bg-white">
               <TypebotChat />
             </div>
           </div>

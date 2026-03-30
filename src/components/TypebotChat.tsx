@@ -128,8 +128,8 @@ export function TypebotChat() {
     // Wait for framer-motion animation to complete (~300ms) before scrolling
     const timer = setTimeout(() => {
       if (hasInteracted.current) {
-        // Scroll page so the latest message is fully visible at the bottom
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+        // Scroll to bottom of page so input area is always fully visible
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
       } else {
         // Initial load: only scroll within container, no page scroll
         const container = messagesContainerRef.current;
