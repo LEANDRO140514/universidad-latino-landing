@@ -19,9 +19,9 @@ function runtimeEnv(name: string): string {
   return s;
 }
 
-function looksLikeJwt(value: string): boolean {
-  const parts = value.split(".");
-  return parts.length >= 3 && parts.every((p) => p.length > 0);
+/** JWT de Supabase no lleva espacios; al pegar en paneles a veces se insertan saltos de línea. */
+function normalizeSupabaseKey(value: string): string {
+  return value.replace(/\s+/g, "").trim();
 }
 
 /**
@@ -39,20 +39,15 @@ export function getSupabaseServer(): SupabaseClient {
   const url =
     runtimeEnv("SUPABASE_URL") ||
     runtimeEnv("NEXT_PUBLIC_SUPABASE_URL");
-  const key =
+  let key =
     runtimeEnv("SUPABASE_SERVICE_ROLE_KEY") ||
     runtimeEnv("SUPABASE_ANON_KEY") ||
     runtimeEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  key = normalizeSupabaseKey(key);
 
   if (!url || !key) {
     throw new Error(
       "Supabase no configurado en el servidor: definen SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY (o clave anon) en el panel, sin comillas extra."
-    );
-  }
-
-  if (!looksLikeJwt(key)) {
-    throw new Error(
-      "La clave de Supabase no tiene formato JWT válido (suele ser copiar/pegar incompleto o con saltos de línea). Revisa en Easypanel la variable SUPABASE_SERVICE_ROLE_KEY."
     );
   }
 
@@ -62,7 +57,7 @@ export function getSupabaseServer(): SupabaseClient {
     );
   }
 
-  return createClient(url, key, {
+  return createClient(url.trim(), key, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
