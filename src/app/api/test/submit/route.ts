@@ -157,9 +157,9 @@ export async function POST(req: Request) {
           // Custom fields (flat, same level)
           sector_principal:   result.sector_primary,
           carrera_recomendada: result.career_primary.career_name,
-          match_percent:      result.career_primary.match_percent,
+          match_percent:      String(result.career_primary.match_percent),
           modalidad:          result.recommended_modality,
-          lead_score:         result.lead_score,
+          lead_score:         String(result.lead_score),
           lead_class:         result.lead_classification,
           beca_elegible:      result.support.name ?? result.support.type,
           urgencia:           input.urgencia,
