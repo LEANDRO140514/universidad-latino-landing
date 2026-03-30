@@ -8,14 +8,14 @@ Landing page interactiva para captación de prospectos: guía al estudiante desd
 
 La página principal (`/`) está construida como un único flujo vertical con las siguientes piezas:
 
-| Orden | Sección | Descripción |
-|------|---------|-------------|
-| 1 | **Header** | Logo institucional, navegación ligera y acción “Reiniciar Test” cuando aplica. |
-| 2 | **Hero** | Mensaje de admisión 2026, titular “Tu futuro COMIENZA AQUÍ”, texto de valor del test vocacional con IA y CTAs: **Solicitar Beca** (WhatsApp) e **Iniciar Test** (scroll suave a la sección del chat). Fondo con imagen + overlay azul marino. |
-| 3 | **Oferta educativa** | Bloque “Excelencia Académica” / “Nuestra Oferta Educativa”: tarjetas por **sector** (Tecnología, Legal, Bienestar, Salud, Negocios) con licenciaturas, modalidades, sellos RVOE / titulación y enlace **Conocer más**. |
-| 4 | **Modal licenciaturas** | Al pulsar “Conocer más”, overlay a pantalla completa con `iframe` del sitio oficial de licenciaturas y barra para volver o abrir en nueva pestaña. |
-| 5 | **Registro y test (EVA)** | Sección `#chatbot-section`: panel izquierdo con beneficios (beca, perfil, horarios, WhatsApp) y panel derecho con **`TypebotChat`**: conversación guiada (Likert + texto), captura de contacto y envío al backend. |
-| 6 | **Globales (fuera del scroll principal)** | **Widget de WhatsApp** flotante y, en desarrollo/edición visual, mensajería de **orchids-visual-edits**. |
+| Orden | Sección                                   | Descripción                                                                                                                                                                                                                                   |
+| ----- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | **Header**                                | Logo institucional, navegación ligera y acción “Reiniciar Test” cuando aplica.                                                                                                                                                                |
+| 2     | **Hero**                                  | Mensaje de admisión 2026, titular “Tu futuro COMIENZA AQUÍ”, texto de valor del test vocacional con IA y CTAs: **Solicitar Beca** (WhatsApp) e **Iniciar Test** (scroll suave a la sección del chat). Fondo con imagen + overlay azul marino. |
+| 3     | **Oferta educativa**                      | Bloque “Excelencia Académica” / “Nuestra Oferta Educativa”: tarjetas por **sector** (Tecnología, Legal, Bienestar, Salud, Negocios) con licenciaturas, modalidades, sellos RVOE / titulación y enlace **Conocer más**.                        |
+| 4     | **Modal licenciaturas**                   | Al pulsar “Conocer más”, overlay a pantalla completa con `iframe` del sitio oficial de licenciaturas y barra para volver o abrir en nueva pestaña.                                                                                            |
+| 5     | **Registro y test (EVA)**                 | Sección `#chatbot-section`: panel izquierdo con beneficios (beca, perfil, horarios, WhatsApp) y panel derecho con **`TypebotChat`**: conversación guiada (Likert + texto), captura de contacto y envío al backend.                            |
+| 6     | **Globales (fuera del scroll principal)** | **Widget de WhatsApp** flotante y, en desarrollo/edición visual, mensajería de **orchids-visual-edits**.                                                                                                                                      |
 
 Tras completar el test, el usuario puede ir a **`/resultados/[id]`**, donde se muestra el dictamen, carreras sugeridas, modalidad, becas/descuentos y acciones (WhatsApp, PDF, etc.).
 
@@ -49,9 +49,9 @@ flowchart TB
 
 Rutas relevantes:
 
-| Ruta | Rol |
-|------|-----|
-| `/` | Landing + test incrustado |
+| Ruta               | Rol                                    |
+| ------------------ | -------------------------------------- |
+| `/`                | Landing + test incrustado              |
 | `/resultados/[id]` | Dictamen y beneficios por `id` de lead |
 | `/api/test/submit` | Procesamiento EVA + escritura Supabase |
 
@@ -75,18 +75,18 @@ Logo en header y assets: almacenamiento **Supabase Storage** (URLs públicas); f
 
 ## Stack técnico
 
-| Capa | Tecnología |
-|------|------------|
-| Framework | **Next.js 15** (App Router) |
-| Lenguaje | **TypeScript** |
-| UI | **React 19**, **Tailwind CSS 4** (`@tailwindcss/postcss`, `lightningcss`) |
-| Componentes UI base | **Radix UI**, **shadcn-style** (`src/components/ui`), **class-variance-authority**, **tailwind-merge** |
-| Iconos | **lucide-react** |
-| Animación | **framer-motion** |
-| Backend datos | **Supabase** (`@supabase/supabase-js`) — cliente público en `lib/supabase.ts`, servidor en `lib/supabase-server.ts` |
-| PDF / captura | **jspdf**, **html2canvas** (resultados) |
-| Formularios / validación (ecosistema UI) | **react-hook-form**, **zod**, **@hookform/resolvers** |
-| Otros | **next-themes**, **recharts** (si se usan gráficos en UI), **orchids-visual-edits** (entorno Orchids) |
+| Capa                                     | Tecnología                                                                                                          |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Framework                                | **Next.js 15** (App Router)                                                                                         |
+| Lenguaje                                 | **TypeScript**                                                                                                      |
+| UI                                       | **React 19**, **Tailwind CSS 4** (`@tailwindcss/postcss`, `lightningcss`)                                           |
+| Componentes UI base                      | **Radix UI**, **shadcn-style** (`src/components/ui`), **class-variance-authority**, **tailwind-merge**              |
+| Iconos                                   | **lucide-react**                                                                                                    |
+| Animación                                | **framer-motion**                                                                                                   |
+| Backend datos                            | **Supabase** (`@supabase/supabase-js`) — cliente público en `lib/supabase.ts`, servidor en `lib/supabase-server.ts` |
+| PDF / captura                            | **jspdf**, **html2canvas** (resultados)                                                                             |
+| Formularios / validación (ecosistema UI) | **react-hook-form**, **zod**, **@hookform/resolvers**                                                               |
+| Otros                                    | **next-themes**, **recharts** (si se usan gráficos en UI), **orchids-visual-edits** (entorno Orchids)               |
 
 **Requisitos:** Node **≥ 20** (recomendado 20 LTS en producción / Nixpacks).
 
