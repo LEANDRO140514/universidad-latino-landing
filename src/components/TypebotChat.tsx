@@ -121,18 +121,21 @@ export function TypebotChat() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const inputAreaRef = useRef<HTMLDivElement>(null);
   const hasInteracted = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
-    // Wait for framer-motion animation to complete (~300ms) before scrolling
+    // Wait for framer-motion animation (~300ms) then scroll everything into view
     const timer = setTimeout(() => {
-      // Always scroll container to bottom instantly (no smooth — avoids getting stuck behind rapid answers)
+      // Always scroll messages container to bottom instantly
       const container = messagesContainerRef.current;
       if (container) container.scrollTo({ top: container.scrollHeight, behavior: "instant" });
-      // After user interaction also scroll the page so input area is fully in view
+      // After interaction: scroll page so the input area (or latest message) is visible
       if (hasInteracted.current) {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        window.scrollTo(0, document.body.scrollHeight); // instant — avoids conflicting smooth scrolls
+        // Additionally force the input area into view if it exists
+        inputAreaRef.current?.scrollIntoView({ block: "nearest" });
       }
     }, 320);
     return () => clearTimeout(timer);
@@ -588,7 +591,7 @@ export function TypebotChat() {
       </div>
 
       {/* Input area */}
-      <div className="p-4 bg-white border-t border-gray-100 shrink-0">
+      <div ref={inputAreaRef} className="p-4 bg-white border-t border-gray-100 shrink-0">
         {showInput ? (
           <form onSubmit={handleInputSubmit} className="flex gap-2">
             {lastMsg.input?.type === "textarea" ? (
