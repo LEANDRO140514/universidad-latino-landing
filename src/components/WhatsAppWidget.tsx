@@ -13,7 +13,7 @@ export function WhatsAppWidget() {
       initial={{ opacity: 0, scale: 0.5, y: 50 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay: 2 }}
-      className="fixed bottom-24 right-6 z-[9999]"
+      className="fixed bottom-6 left-6 z-[9999]"
     >
       <a
         href={whatsappUrl}
@@ -21,9 +21,9 @@ export function WhatsAppWidget() {
         rel="noopener noreferrer"
         className="relative group flex items-center gap-3"
       >
-        <div className="absolute right-full mr-3 bg-white px-4 py-2 rounded-xl shadow-xl text-[#111827] text-sm font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-gray-100">
+        <div className="absolute left-full ml-3 bg-white px-4 py-2 rounded-xl shadow-xl text-[#111827] text-sm font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-gray-100">
           ¿Tienes dudas? ¡Escríbenos!
-          <div className="absolute top-1/2 -right-2 -translate-y-1/2 border-8 border-transparent border-l-white" />
+          <div className="absolute top-1/2 -left-2 -translate-y-1/2 border-8 border-transparent border-r-white" />
         </div>
         
         <div className="bg-[#25D366] p-3 rounded-full shadow-2xl hover:scale-110 transition-transform active:scale-95 flex items-center justify-center">

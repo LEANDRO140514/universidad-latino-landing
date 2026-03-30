@@ -223,8 +223,11 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
   useEffect(() => {
     async function fetchLead() {
-      const { data } = await supabase.from("leads").select("*").eq("id", id).single();
-      if (data) setLead(data);
+      const res = await fetch(`/api/leads/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setLead(data);
+      }
       setLoading(false);
     }
     fetchLead();
