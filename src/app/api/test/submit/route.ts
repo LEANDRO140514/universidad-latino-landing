@@ -140,32 +140,32 @@ export async function POST(req: Request) {
     if (!lead) throw new Error("Failed to save lead – no data returned");
 
     // GHL webhook (fire & forget)
+    // Payload must be FLAT — GHL does not parse nested objects correctly.
+    // Tags must be a comma-separated string, not an array.
     const ghlWebhookUrl = process.env.GHL_WEBHOOK_URL;
     if (ghlWebhookUrl) {
       fetch(ghlWebhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contact: {
-            firstName: input.nombre.split(" ")[0] ?? "",
-            lastName: input.nombre.split(" ").slice(1).join(" ") ?? "",
-            email: input.email,
-            phone: input.telefono,
-            tags: result.tags,
-          },
-          customFields: {
-            sector_principal: result.sector_primary,
-            carrera_recomendada: result.career_primary.career_name,
-            match_percent: result.career_primary.match_percent,
-            modalidad: result.recommended_modality,
-            lead_score: result.lead_score,
-            lead_class: result.lead_classification,
-            beca_elegible: result.support.name ?? result.support.type,
-            urgencia: input.urgencia,
-            promedio: input.promedio,
-            oq_resumen: oqSummary || null,
-            dictamen_url: `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/resultados/${lead.id}`,
-          },
+          // Contact fields (flat)
+          firstName:          input.nombre.split(" ")[0] ?? "",
+          lastName:           input.nombre.split(" ").slice(1).join(" ") ?? "",
+          email:              input.email,
+          phone:              input.telefono,
+          tags:               Array.isArray(result.tags) ? result.tags.join(",") : result.tags,
+          // Custom fields (flat, same level)
+          sector_principal:   result.sector_primary,
+          carrera_recomendada: result.career_primary.career_name,
+          match_percent:      result.career_primary.match_percent,
+          modalidad:          result.recommended_modality,
+          lead_score:         result.lead_score,
+          lead_class:         result.lead_classification,
+          beca_elegible:      result.support.name ?? result.support.type,
+          urgencia:           input.urgencia,
+          promedio:           input.promedio,
+          oq_resumen:         oqSummary || null,
+          dictamen_url:       `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/resultados/${lead.id}`,
         }),
       }).catch((err) => console.error("GHL webhook error:", err));
     }
