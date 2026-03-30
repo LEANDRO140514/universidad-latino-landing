@@ -121,15 +121,20 @@ export function TypebotChat() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const hasInteracted = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const container = messagesContainerRef.current;
-      if (container) {
-        container.scrollTop = container.scrollHeight;
+      if (hasInteracted.current) {
+        // After user interaction: scroll page so latest message stays visible
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } else {
+        // Initial load: only scroll within container, no page scroll
+        const container = messagesContainerRef.current;
+        if (container) container.scrollTop = container.scrollHeight;
       }
-    }, 50);
+    }, 100);
     return () => clearTimeout(timer);
   }, [messages, isTyping]);
 
@@ -357,6 +362,7 @@ export function TypebotChat() {
   // ─── Likert selection ──────────────────────────────────────────────────────
 
   const handleLikertSelect = async (value: number, variable: string, nextAction: string) => {
+    hasInteracted.current = true;
     const labelMap: Record<number, string> = { 0: "Nada", 1: "Poco", 2: "A veces", 3: "De acuerdo", 4: "Totalmente" };
     addUserMessage(labelMap[value]);
 
@@ -379,6 +385,7 @@ export function TypebotChat() {
   const handleInputSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
+    hasInteracted.current = true;
 
     const lastMsg = messages[messages.length - 1];
     if (!lastMsg?.input) return;
@@ -437,6 +444,7 @@ export function TypebotChat() {
   // ─── Button click ──────────────────────────────────────────────────────────
 
   const handleButtonClick = (btn: { label: string; value: string; action?: string; variable?: string }) => {
+    hasInteracted.current = true;
     const updated = { ...responses };
     if (btn.variable) {
       updated[btn.variable] = btn.value;
