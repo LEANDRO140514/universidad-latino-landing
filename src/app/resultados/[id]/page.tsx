@@ -136,21 +136,107 @@ type DisplayProgram = {
   match_percent: number;
 };
 
+/** Supabase a veces devuelve JSONB anidado como string; normaliza a objeto. */
+function parseIfJsonString<T extends object>(v: unknown): T | null {
+  if (v == null) return null;
+  if (typeof v === "string") {
+    try {
+      return JSON.parse(v) as T;
+    } catch {
+      return null;
+    }
+  }
+  if (typeof v === "object") return v as T;
+  return null;
+}
+
+function unwrapProgramEntry(entry: unknown): Record<string, unknown> | string | null {
+  if (entry == null) return null;
+  if (typeof entry === "string") {
+    const trimmed = entry.trim();
+    if (!trimmed) return null;
+    const parsed = parseIfJsonString<Record<string, unknown>>(trimmed);
+    if (parsed) return parsed;
+    return trimmed;
+  }
+  if (typeof entry === "object") return entry as Record<string, unknown>;
+  return null;
+}
+
+function careerFromObject(o: Record<string, unknown>): DisplayProgram | null {
+  const idRaw = o.career_id ?? o.program_id ?? o.id;
+  const nameRaw = o.career_name ?? o.program_name ?? o.name ?? o.title;
+  const id = idRaw != null && String(idRaw).trim() ? String(idRaw).trim() : "";
+  const name = nameRaw != null && String(nameRaw).trim() ? String(nameRaw).trim() : "";
+  if (!id && !name) return null;
+  const mp = o.match_percent ?? o.matchPercent;
+  const match_percent =
+    typeof mp === "number" && !Number.isNaN(mp)
+      ? Math.round(mp)
+      : typeof o.score === "number"
+        ? Math.round(o.score as number)
+        : 75;
+  const sector = String(o.area ?? o.sector ?? "NEGOCIOS").trim();
+  const modality = String(o.modality ?? o.mode ?? "presencial_cuatrimestral").trim();
+  return {
+    id: id || `slug:${name.toLowerCase().replace(/\s+/g, "_")}`,
+    name: name || "Carrera",
+    sector,
+    modality,
+    match_percent,
+  };
+}
+
 function normalizePrograms(lead: any): DisplayProgram[] {
+  const responses =
+    parseIfJsonString<Record<string, unknown>>(lead.responses) ??
+    (typeof lead.responses === "object" && lead.responses !== null
+      ? (lead.responses as Record<string, unknown>)
+      : {});
+  const eva = responses._eva as Record<string, unknown> | undefined;
+
+  const fromEva: unknown[] = [];
+  if (eva?.career_primary) fromEva.push(eva.career_primary);
+  if (eva?.career_secondary) fromEva.push(eva.career_secondary);
+
+  let rawTop: unknown[] = [];
+  const tp = lead.top_programs;
+  if (Array.isArray(tp)) rawTop = [...tp];
+  else if (typeof tp === "string") {
+    const parsed = parseIfJsonString<unknown[]>(tp);
+    if (Array.isArray(parsed)) rawTop = parsed;
+  }
+
+  // Prioridad: motor EVA en responses (objetos completos); luego top_programs
+  const candidates = [...fromEva, ...rawTop];
   const programs: DisplayProgram[] = [];
+  const seen = new Set<string>();
 
-  // v4: career_primary / career_secondary stored inside top_programs array
-  const raw: any[] = lead.top_programs ?? [];
+  for (const entry of candidates) {
+    const unwrapped = unwrapProgramEntry(entry);
+    if (unwrapped == null) continue;
 
-  for (const p of raw) {
-    if (!p) continue;
-    programs.push({
-      id: p.career_id ?? p.program_id ?? "unknown",
-      name: p.career_name ?? p.program_name ?? "Carrera",
-      sector: p.area ?? p.sector ?? "NEGOCIOS",
-      modality: p.modality ?? p.mode ?? "PRESENCIAL",
-      match_percent: p.match_percent ?? 75,
-    });
+    let prog: DisplayProgram | null = null;
+    if (typeof unwrapped === "string") {
+      prog = {
+        id: `name:${unwrapped}`,
+        name: unwrapped,
+        sector: String(lead.sector_primary ?? "NEGOCIOS"),
+        modality: "presencial_cuatrimestral",
+        match_percent: 75,
+      };
+    } else {
+      prog = careerFromObject(unwrapped);
+    }
+    if (!prog) continue;
+
+    const dedupe = prog.id.startsWith("slug:") || prog.id.startsWith("name:")
+      ? prog.name
+      : prog.id;
+    if (seen.has(dedupe)) continue;
+    seen.add(dedupe);
+
+    programs.push(prog);
   }
 
   return programs;
@@ -664,7 +750,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
             return (
               <motion.div
-                key={program.id}
+                key={`career-${i}-${program.id}`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + i * 0.1 }}
