@@ -182,7 +182,17 @@ export async function POST(req: Request) {
       },
     });
   } catch (err: any) {
-    console.error("Submission error:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    const cause = err?.cause;
+    let causeMsg: string | null = null;
+    if (cause instanceof AggregateError) {
+      causeMsg = cause.errors?.map((e: any) => e?.message ?? String(e)).join(" | ");
+    } else if (cause) {
+      causeMsg = cause?.message ?? String(cause);
+    }
+    console.error("Submission error:", err?.message, causeMsg ? `| cause: ${causeMsg}` : "");
+    return NextResponse.json(
+      { success: false, error: err.message, cause: causeMsg },
+      { status: 500 }
+    );
   }
 }
