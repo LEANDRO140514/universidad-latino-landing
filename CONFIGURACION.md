@@ -21,7 +21,7 @@ Aparece en **3 archivos**. Si el número cambia, actualiza los 3:
 **Ruta:** `src/components/WhatsAppWidget.tsx`
 
 ```ts
-const phoneNumber = "529991525583";  // ← Cambia aquí
+const phoneNumber = "529996442662";  // ← Cambia aquí
 const message = "Hola! Me gustaría recibir más información sobre las carreras de la Universidad Latino.";
 ```
 
@@ -33,20 +33,20 @@ const message = "Hola! Me gustaría recibir más información sobre las carreras
 ### Archivo 2 — Botones de CTA en la página de resultados (WhatsApp, Agendar Cita, Llamar Ahora)
 **Ruta:** `src/app/resultados/[id]/page.tsx`
 
-Busca las líneas que contienen `wa.me/529991525583` (aparece 2 veces) y `tel:+529991525583` (aparece 1 vez):
+Busca las líneas que contienen `wa.me/529996442662` (aparece 2 veces) y `tel:+529996442662` (aparece 1 vez):
 
 ```ts
 // Botón WhatsApp
-window.open(`https://wa.me/529991525583?text=${msg}`, "_blank");
+window.open(`https://wa.me/529996442662?text=${msg}`, "_blank");
 
 // Botón Agendar Cita
-window.open(`https://wa.me/529991525583?text=${msg}`, "_blank");
+window.open(`https://wa.me/529996442662?text=${msg}`, "_blank");
 
 // Botón Llamar Ahora
-href="tel:+529991525583"
+href="tel:+529996442662"
 ```
 
-Reemplaza `529991525583` por el nuevo número (sin `+`, sin espacios).
+Reemplaza `529996442662` por el nuevo número (sin `+`, sin espacios).
 Para el `tel:` mantén el `+52` al inicio.
 
 ---
@@ -56,7 +56,7 @@ Para el `tel:` mantén el `+52` al inicio.
 
 ```ts
 case "CALL":
-  window.open("https://wa.me/529991525583", "_blank");
+  window.open("https://wa.me/529996442662", "_blank");
 ```
 
 ---
@@ -171,7 +171,7 @@ Los mensajes que se envían pre-escritos al asesor se pueden personalizar en:
 | 3 | `src/components/TypebotChat.tsx` | `wa.me/52XXXXXXXXXX` en `case "CALL"` |
 
 **Formato del número:** código de país + número sin espacios ni guiones.
-México: `52` + 10 dígitos = 12 dígitos totales. Ejemplo: `529991525583`
+México: `52` + 10 dígitos = 12 dígitos totales. Ejemplo: `529996442662`
 
 ---
 

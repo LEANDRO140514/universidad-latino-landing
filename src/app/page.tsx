@@ -90,7 +90,7 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-4 pt-4">
               <a
-                href="https://wa.me/529991525583?text=Hola%2C%20me%20interesa%20solicitar%20una%20beca%20en%20Universidad%20Latino.%20%C2%BFMe%20pueden%20dar%20informaci%C3%B3n%3F"
+                href="https://wa.me/529996442662?text=Hola%2C%20me%20interesa%20solicitar%20una%20beca%20en%20Universidad%20Latino.%20%C2%BFMe%20pueden%20dar%20informaci%C3%B3n%3F"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] font-bold px-10 py-5 rounded-xl shadow-2xl hover:scale-105 transition-all text-xl flex items-center justify-center gap-2"

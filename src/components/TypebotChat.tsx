@@ -361,7 +361,7 @@ export function TypebotChat() {
         const waText = encodeURIComponent(
           `Hola, soy ${nombre}. Acabo de completar el test vocacional de EVA en Universidad Latino y me gustaría hablar con un asesor sobre mis resultados y opciones de carrera.`
         );
-        window.open(`https://wa.me/529991525583?text=${waText}`, "_blank");
+        window.open(`https://wa.me/529996442662?text=${waText}`, "_blank");
         await typing(400);
         addBotMessage({
           text: `WhatsApp se abrió en otra ventana. 📲\n\nCuando termines con el asesor, regresa aquí — tus resultados siguen disponibles.`,

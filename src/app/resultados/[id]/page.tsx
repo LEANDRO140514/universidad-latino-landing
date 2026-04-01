@@ -959,7 +959,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 onClick={() => {
                   const career = programs[0]?.name ?? "la carrera";
                   const msg = encodeURIComponent(`Hola, acabo de completar el test vocacional. Soy ${lead.nombre ?? ""} y me interesa conocer más sobre ${career}. ¿Pueden orientarme?`);
-                  window.open(`https://wa.me/529991525583?text=${msg}`, "_blank");
+                  window.open(`https://wa.me/529996442662?text=${msg}`, "_blank");
                 }}
                 className="bg-[#25D366] hover:bg-[#128C7E] text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
               >
@@ -971,7 +971,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 onClick={() => {
                   const career = programs[0]?.name ?? "una carrera";
                   const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""} y quiero agendar una visita al campus para conocer la carrera de ${career}. ¿Cuándo pueden atenderme?`);
-                  window.open(`https://wa.me/529991525583?text=${msg}`, "_blank");
+                  window.open(`https://wa.me/529996442662?text=${msg}`, "_blank");
                 }}
                 className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
               >
@@ -981,7 +981,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               </button>
               {/* Mobile: tel: link abre el marcador directo */}
               <a
-                href="tel:+529991525583"
+                href="tel:+529996442662"
                 className="md:hidden bg-white/10 hover:bg-white/20 text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3 border border-white/20 no-underline"
               >
                 <Phone className="w-8 h-8" />
