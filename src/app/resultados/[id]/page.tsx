@@ -840,11 +840,37 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
                       {/* Beca personalizada según promedio */}
                       {(scholarship.tuition_scholarship_percent > 0 || scholarship.enrollment_discount_percent > 0) && (
-                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 space-y-1">
-                          <p className="text-xs font-bold text-green-700 uppercase tracking-wider">
-                            🎓 {scholarship.performance_label}
-                          </p>
-                          <p className="text-sm text-green-800">{scholarship.student_message}</p>
+                        <div className="rounded-2xl overflow-hidden border border-green-200 shadow-sm">
+                          {/* Header */}
+                          <div className="bg-green-600 px-5 py-3 flex items-center justify-between gap-3 flex-wrap">
+                            <div className="flex items-center gap-2">
+                              <span className="text-white text-lg">🎓</span>
+                              <span className="text-white font-bold text-sm uppercase tracking-wider">
+                                {scholarship.performance_label}
+                              </span>
+                            </div>
+                            <span className="bg-white/20 border border-white/30 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
+                              ⏱ Válido hasta: 31 de agosto
+                            </span>
+                          </div>
+                          {/* Cuerpo */}
+                          <div className="bg-green-50 px-5 py-4 space-y-3">
+                            <div className="flex items-start gap-2">
+                              <span className="text-green-600 mt-0.5 shrink-0">✦</span>
+                              <p className="text-sm text-green-900 font-semibold">
+                                Esta beca está basada en <span className="underline decoration-green-400">tu</span> perfil académico — no es genérica.
+                              </p>
+                            </div>
+                            <p className="text-sm text-green-800 leading-relaxed pl-4 border-l-2 border-green-300">
+                              {scholarship.student_message}
+                            </p>
+                            <div className="flex items-center gap-2 pt-1 bg-orange-50 border border-orange-100 rounded-xl px-4 py-2">
+                              <span className="text-orange-500 shrink-0">🔥</span>
+                              <p className="text-xs font-semibold text-orange-700">
+                                Cupos limitados por generación — confirma con un asesor para reservar el tuyo.
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       )}
 
