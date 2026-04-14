@@ -837,35 +837,76 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
 
                     <div className="pt-8 border-t border-gray-100 space-y-4">
                       <h4 className="font-bold text-gray-900 uppercase text-xs tracking-wider">💰 Inversión</h4>
+
+                      {/* Beca personalizada según promedio */}
+                      {(scholarship.tuition_scholarship_percent > 0 || scholarship.enrollment_discount_percent > 0) && (
+                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 space-y-1">
+                          <p className="text-xs font-bold text-green-700 uppercase tracking-wider">
+                            🎓 {scholarship.performance_label}
+                          </p>
+                          <p className="text-sm text-green-800">{scholarship.student_message}</p>
+                        </div>
+                      )}
+
                       <div className="flex flex-wrap gap-6">
+                        {/* Colegiatura */}
                         <div>
-                          <p className="text-gray-500 text-xs">Colegiatura</p>
-                          <p className="text-xl font-bold text-gray-900">
+                          <p className="text-gray-500 text-xs">
+                            Colegiatura{scholarship.tuition_scholarship_percent > 0 ? " regular" : ""}
+                          </p>
+                          <p className={`text-xl font-bold ${scholarship.tuition_scholarship_percent > 0 ? "text-gray-400 line-through" : "text-gray-900"}`}>
                             ${(program.modality === "online" || program.modality === "ONLINE" ? 1980 : det.cost).toLocaleString()}/mes
                           </p>
                         </div>
-                        <div>
-                          <p className="text-gray-500 text-xs">Inscripción regular</p>
-                          <p className="text-xl font-bold text-gray-400 line-through">
-                            ${(program.modality === "online" || program.modality === "ONLINE" ? 3600 : det.inscription).toLocaleString()}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-xs font-bold text-green-700 uppercase tracking-wide">Inscripción con descuento</p>
-                          <p className="text-xl font-bold text-green-700">
-                            ${Math.round((program.modality === "online" || program.modality === "ONLINE" ? 3600 : det.inscription) * 0.5).toLocaleString()}
-                          </p>
-                        </div>
+                        {scholarship.tuition_scholarship_percent > 0 && (
+                          <div>
+                            <p className="text-xs font-bold text-green-700 uppercase tracking-wide">
+                              Colegiatura con beca ({scholarship.tuition_scholarship_percent}% descuento)
+                            </p>
+                            <p className="text-xl font-bold text-green-700">
+                              ${Math.round((program.modality === "online" || program.modality === "ONLINE" ? 1980 : det.cost) * (1 - scholarship.tuition_scholarship_percent / 100)).toLocaleString()}/mes
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Inscripción */}
+                        {scholarship.enrollment_discount_percent > 0 ? (
+                          <>
+                            <div>
+                              <p className="text-gray-500 text-xs">Inscripción regular</p>
+                              <p className="text-xl font-bold text-gray-400 line-through">
+                                ${(program.modality === "online" || program.modality === "ONLINE" ? 3600 : det.inscription).toLocaleString()}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs font-bold text-green-700 uppercase tracking-wide">
+                                Inscripción con descuento ({scholarship.enrollment_discount_percent}%)
+                              </p>
+                              <p className="text-xl font-bold text-green-700">
+                                ${Math.round((program.modality === "online" || program.modality === "ONLINE" ? 3600 : det.inscription) * (1 - scholarship.enrollment_discount_percent / 100)).toLocaleString()}
+                              </p>
+                            </div>
+                          </>
+                        ) : (
+                          <div>
+                            <p className="text-gray-500 text-xs">Inscripción</p>
+                            <p className="text-xl font-bold text-gray-900">
+                              ${(program.modality === "online" || program.modality === "ONLINE" ? 3600 : det.inscription).toLocaleString()}
+                            </p>
+                          </div>
+                        )}
                       </div>
 
-                      <div className="border border-gray-100 rounded-xl px-4 py-3 print:hidden">
-                        <p className="text-sm text-gray-600">
-                          Inscríbete antes del{" "}
-                          <strong className="text-[#002D62]">31 de agosto</strong>{" "}
-                          y obtén{" "}
-                          <strong className="text-green-700">50% de descuento en tu inscripción.</strong>
-                        </p>
-                      </div>
+                      {scholarship.enrollment_discount_percent > 0 && (
+                        <div className="border border-gray-100 rounded-xl px-4 py-3 print:hidden">
+                          <p className="text-sm text-gray-600">
+                            Inscríbete antes del{" "}
+                            <strong className="text-[#002D62]">31 de agosto</strong>{" "}
+                            y obtén{" "}
+                            <strong className="text-green-700">{scholarship.enrollment_discount_percent}% de descuento en tu inscripción.</strong>
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-3 print:hidden">
@@ -997,7 +1038,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 <span className="font-bold">Llamar Ahora</span>
                 {showPhone ? (
                   <span className="text-lg font-mono font-bold text-[#E6B400] tracking-widest mt-1">
-                    999 152 5583
+                    999 644 2662
                   </span>
                 ) : (
                   <span className="text-sm opacity-80">Ver número</span>
