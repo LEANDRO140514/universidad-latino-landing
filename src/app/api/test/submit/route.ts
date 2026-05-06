@@ -23,11 +23,11 @@ export async function POST(req: Request) {
 
     const supabase = getSupabaseServer();
 
-    // Build numeric responses map (Q01-Q25, Q29, Q30 are 0-4 Likert)
+    // Build numeric responses map (Q01-Q35, Q39, Q40 are 0-4 Likert)
     const responses: Record<string, number> = {};
     const likertIds = [
-      ...Array.from({ length: 25 }, (_, i) => `Q${String(i + 1).padStart(2, "0")}`),
-      "Q29", "Q30",
+      ...Array.from({ length: 35 }, (_, i) => `Q${String(i + 1).padStart(2, "0")}`),
+      "Q39", "Q40",
     ];
     for (const key of likertIds) {
       if (data[key] !== undefined) responses[key] = Number(data[key]);
@@ -36,9 +36,9 @@ export async function POST(req: Request) {
     const input: EvaInput = {
       responses,
       openAnswers: {
-        Q26: sanitizeText(data.Q26, 700),
-        Q27: sanitizeText(data.Q27, 700),
-        Q28: sanitizeText(data.Q28, 900),
+        Q36: sanitizeText(data.Q36, 700),
+        Q37: sanitizeText(data.Q37, 700),
+        Q38: sanitizeText(data.Q38, 900),
       },
       nombre: sanitizeText(data.nombre, 80),
       email: typeof data.email === "string" ? data.email.toLowerCase().trim() : "",
@@ -52,9 +52,9 @@ export async function POST(req: Request) {
 
     // Build open answers summary for CRM
     const oqSummary = [
-      input.openAnswers.Q26 ? `Situación: ${truncateForCRM(input.openAnswers.Q26)}` : "",
-      input.openAnswers.Q27 ? `Intereses: ${truncateForCRM(input.openAnswers.Q27)}` : "",
-      input.openAnswers.Q28 ? `Visión: ${truncateForCRM(input.openAnswers.Q28)}` : "",
+      input.openAnswers.Q36 ? `Situación: ${truncateForCRM(input.openAnswers.Q36)}` : "",
+      input.openAnswers.Q37 ? `Intereses: ${truncateForCRM(input.openAnswers.Q37)}` : "",
+      input.openAnswers.Q38 ? `Visión: ${truncateForCRM(input.openAnswers.Q38)}` : "",
     ].filter(Boolean).join(" | ");
 
     const ctaMap: Record<string, string> = {
@@ -96,9 +96,9 @@ export async function POST(req: Request) {
       cta_primary: ctaMap[result.lead_classification] ?? "Hablar con un asesor",
       top_programs: [result.career_primary, result.career_secondary].filter(Boolean),
       // Open answers mapped to existing column names
-      oq01_contexto: input.openAnswers.Q26 || null,
-      oq02_intereses: input.openAnswers.Q27 || null,
-      oq03_vision: input.openAnswers.Q28 || null,
+      oq01_contexto: input.openAnswers.Q36 || null,
+      oq02_intereses: input.openAnswers.Q37 || null,
+      oq03_vision: input.openAnswers.Q38 || null,
     };
 
     // Upsert to Supabase

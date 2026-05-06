@@ -11,11 +11,11 @@ import { LEAD_SCORING_CONFIG, LEAD_CLASSIFICATION_RULES } from "@/data/lead_scor
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type EvaInput = {
-  responses: Record<string, number>; // Q01-Q25, Q29, Q30 → scale 0-4
+  responses: Record<string, number>; // Q01-Q35, Q39, Q40 → scale 0-4
   openAnswers: {
-    Q26?: string; // situacion_actual
-    Q27?: string; // intereses
-    Q28?: string; // proyeccion
+    Q36?: string; // situacion_actual
+    Q37?: string; // intereses
+    Q38?: string; // proyeccion
   };
   nombre: string;
   email: string;
@@ -201,10 +201,10 @@ function determineModality(career: CareerResult, q30: number): string {
 }
 
 // ─── Step 8: Vocational clarity ───────────────────────────────────────────────
-// Formula from eva_engine.json: (Q13 + Q29) / 2
+// Uses Q39 (employment motivation) as clarity proxy
 
 function determineClarity(responses: Record<string, number>): string {
-  const avg = ((responses["Q13"] ?? 0) + (responses["Q29"] ?? 0)) / 2;
+  const avg = responses["Q39"] ?? 0;
   if (avg >= 3.2) return "vocacion_clara";
   if (avg >= 2.0) return "exploracion";
   return "orientacion_recomendada";
@@ -264,7 +264,7 @@ function generateDictamen(
   careerSecondary: CareerResult | null,
   clarityLevel: string,
   modality: string,
-  openAnswers: { Q26?: string; Q27?: string; Q28?: string }
+  openAnswers: { Q36?: string; Q37?: string; Q38?: string }
 ): string {
   const T = REPORT_TEMPLATES;
   const parts: string[] = [];
@@ -280,9 +280,9 @@ function generateDictamen(
   parts.push(T.clarity_level[clarityLevel as keyof typeof T.clarity_level] ?? "");
   parts.push(T.modalidad_sugerida[modalityTemplateKey(modality)] ?? "");
 
-  if (openAnswers.Q26) parts.push(T.contextual_integration.situacion_actual);
-  if (openAnswers.Q27) parts.push(T.contextual_integration.intereses);
-  if (openAnswers.Q28) parts.push(T.contextual_integration.proyeccion);
+  if (openAnswers.Q36) parts.push(T.contextual_integration.situacion_actual);
+  if (openAnswers.Q37) parts.push(T.contextual_integration.intereses);
+  if (openAnswers.Q38) parts.push(T.contextual_integration.proyeccion);
 
   parts.push(T.closing.default);
 
@@ -293,7 +293,7 @@ function generateDictamen(
 
 function calcLeadScore(
   urgencia: string,
-  q29: number,
+  q39: number,
   clarityLevel: string,
   support: SupportResult,
   nombre: string,
@@ -304,7 +304,7 @@ function calcLeadScore(
   let score = 0;
 
   score += cfg.urgencia_inicio.scores[urgencia] ?? 0;
-  score += cfg.motivacion_empleo.scale_scores[q29 as 0 | 1 | 2 | 3 | 4] ?? 0;
+  score += cfg.motivacion_empleo.scale_scores[q39 as 0 | 1 | 2 | 3 | 4] ?? 0;
   score += cfg.claridad_vocacional.scores[clarityLevel] ?? 0;
   if (nombre && email && telefono) score += cfg.datos_contacto.score_if_complete;
   score += cfg.apoyo_financiero.scores[support.type] ?? 0;
@@ -334,10 +334,10 @@ export function runEvaEngine(input: EvaInput): EvaOutput {
     normDimensions, primary, secondary
   );
 
-  const q30 = responses["Q30"] ?? 0;
-  careerPrimary.modality = determineModality(careerPrimary, q30);
+  const q40 = responses["Q40"] ?? 0;
+  careerPrimary.modality = determineModality(careerPrimary, q40);
   const careerSecondary = careerSecondaryRaw;
-  if (careerSecondary) careerSecondary.modality = determineModality(careerSecondary, q30);
+  if (careerSecondary) careerSecondary.modality = determineModality(careerSecondary, q40);
 
   const clarityLevel = determineClarity(responses);
   const support = determineSupport(promedio);
@@ -348,7 +348,7 @@ export function runEvaEngine(input: EvaInput): EvaOutput {
   );
 
   const leadScore = calcLeadScore(
-    urgencia, responses["Q29"] ?? 0, clarityLevel,
+    urgencia, responses["Q39"] ?? 0, clarityLevel,
     support, nombre, email, telefono
   );
   const leadClassification = classifyLead(leadScore);

@@ -9,7 +9,7 @@ export const LEAD_SCORING_CONFIG = {
   },
 
   motivacion_empleo: {
-    // Q29 is 0-4 scale
+    // Q39 is 0-4 scale
     scale_scores: { 0: 0, 1: 5, 2: 10, 3: 15, 4: 20 } as Record<number, number>,
   },
 

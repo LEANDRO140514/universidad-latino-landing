@@ -7,33 +7,37 @@ export type DimensionConfig = {
 export const DIMENSION_WEIGHTS: Record<string, DimensionConfig> = {
   INTERES_TECNOLOGIA: {
     description: "Interés por sistemas, tecnología, programación y herramientas digitales.",
-    questions: { Q01: 2, Q02: 2, Q03: 3, Q16: 3 },
+    questions: { Q08: 2, Q14: 3, Q26: 2, Q31: 3 },
     max: 40,
   },
   INTERES_LEGAL: {
     description: "Interés por leyes, normas, argumentación y análisis de conflictos sociales.",
-    questions: { Q04: 2, Q05: 3, Q06: 2, Q17: 2 },
-    max: 36,
+    questions: { Q02: 3, Q07: 2, Q09: 2, Q29: 2, Q35: 2 },
+    max: 44,
   },
   INTERES_SALUD_BIENESTAR: {
     description: "Interés por salud, bienestar físico, apoyo a personas y cuidado humano.",
-    questions: { Q07: 2, Q08: 2, Q09: 2, Q10: 2, Q18: 2, Q19: 3, Q20: 2, Q21: 2 },
-    max: 68,
+    questions: {
+      Q03: 2, Q04: 2, Q05: 2, Q06: 2, Q10: 2,
+      Q15: 3, Q16: 3, Q17: 3,
+      Q19: 2, Q20: 2, Q21: 2, Q22: 2, Q24: 2, Q27: 2, Q28: 2,
+    },
+    max: 128,
   },
   INTERES_NEGOCIOS: {
     description: "Interés por empresas, comercio, liderazgo y generación de oportunidades.",
-    questions: { Q11: 2, Q12: 3, Q13: 2, Q14: 2, Q22: 3, Q23: 2 },
-    max: 56,
+    questions: { Q01: 2, Q12: 2, Q13: 3, Q18: 2, Q23: 2, Q30: 2, Q34: 3 },
+    max: 64,
   },
   ANALISIS_LOGICO: {
     description: "Capacidad de análisis, resolución de problemas y pensamiento estructurado.",
-    questions: { Q15: 1, Q24: 2, Q25: 1 },
-    max: 16,
+    questions: { Q12: 1, Q25: 2, Q30: 2, Q32: 1 },
+    max: 24,
   },
   HABILIDAD_SOCIAL: {
     description: "Habilidad para interactuar con personas, persuadir y comprender emociones.",
-    questions: { Q05: 1, Q08: 2, Q12: 1, Q17: 1, Q18: 2, Q22: 1 },
-    max: 32,
+    questions: { Q01: 1, Q06: 2, Q07: 1, Q23: 1, Q24: 2, Q35: 2 },
+    max: 36,
   },
 };
 

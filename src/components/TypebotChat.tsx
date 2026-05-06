@@ -30,38 +30,48 @@ const LIKERT_OPTIONS = [
 // ─── Question definitions ─────────────────────────────────────────────────────
 
 const QUESTIONS: Record<string, { id: string; prompt: string; next: string }> = {
-  // Section 1: Intereses vocacionales (Q01-Q15)
-  Q01: { id: "Q01", prompt: "Me interesa entender cómo funcionan los programas, aplicaciones o sistemas informáticos.", next: "Q02" },
-  Q02: { id: "Q02", prompt: "Disfruto explorar nuevas herramientas digitales o tecnologías.", next: "Q03" },
-  Q03: { id: "Q03", prompt: "Me llama la atención aprender programación o desarrollo de software.", next: "Q04" },
-  Q04: { id: "Q04", prompt: "Me interesa conocer las leyes y cómo se aplican en la sociedad.", next: "Q05" },
-  Q05: { id: "Q05", prompt: "Disfruto participar en debates y defender mi punto de vista.", next: "Q06" },
-  Q06: { id: "Q06", prompt: "Me interesa analizar situaciones donde existen conflictos o injusticias.", next: "Q07" },
-  Q07: { id: "Q07", prompt: "Me interesa aprender cómo funciona el cuerpo humano y cómo cuidar la salud.", next: "Q08" },
-  Q08: { id: "Q08", prompt: "Disfruto ayudar a otras personas cuando tienen problemas emocionales o personales.", next: "Q09" },
-  Q09: { id: "Q09", prompt: "Me interesa aprender sobre alimentación saludable y nutrición.", next: "Q10" },
-  Q10: { id: "Q10", prompt: "Me gusta preparar alimentos o experimentar con recetas y sabores.", next: "Q11" },
-  Q11: { id: "Q11", prompt: "Me interesa aprender cómo funcionan las empresas y los negocios.", next: "Q12" },
-  Q12: { id: "Q12", prompt: "Disfruto convencer a otras personas sobre ideas o productos.", next: "Q13" },
-  Q13: { id: "Q13", prompt: "Me interesa conocer otras culturas y aprender idiomas.", next: "Q14" },
-  Q14: { id: "Q14", prompt: "Me gusta planear y coordinar actividades o proyectos para que todo funcione bien.", next: "Q15" },
-  Q15: { id: "Q15", prompt: "Me gusta encontrar soluciones prácticas a problemas cotidianos.", next: "SECTION_APTITUDES" },
+  // Section 1: Intereses vocacionales (Q01-Q18)
+  Q01: { id: "Q01", prompt: "Me gusta convencer a mis amigos sobre las mejores opciones al elegir un restaurante o plan.", next: "Q02" },
+  Q02: { id: "Q02", prompt: "Me interesa conocer las leyes mexicanas y cómo afectan a la sociedad.", next: "Q03" },
+  Q03: { id: "Q03", prompt: "Me interesa saber cómo mantener una alimentación saludable.", next: "Q04" },
+  Q04: { id: "Q04", prompt: "Me gusta experimentar con nuevas recetas y combinaciones de sabores.", next: "Q05" },
+  Q05: { id: "Q05", prompt: "Me interesa saber por qué las personas actúan de cierta manera en diferentes situaciones.", next: "Q06" },
+  Q06: { id: "Q06", prompt: "Me gusta escuchar los problemas de mis amigos y ofrecerles apoyo.", next: "Q07" },
+  Q07: { id: "Q07", prompt: "Disfruto participar en debates y defender mi punto de vista.", next: "Q08" },
+  Q08: { id: "Q08", prompt: "Disfruto desarmar y entender cómo funcionan los dispositivos electrónicos.", next: "Q09" },
+  Q09: { id: "Q09", prompt: "Me molesta ver injusticias y busco maneras de intervenir o ayudar.", next: "Q10" },
+  Q10: { id: "Q10", prompt: "Disfruto aprender sobre el funcionamiento del cuerpo humano.", next: "Q11" },
+  Q11: { id: "Q11", prompt: "Disfruto visitar restaurantes y probar diferentes tipos de comida.", next: "Q12" },
+  Q12: { id: "Q12", prompt: "Me interesa entender cómo funcionan los intereses de los créditos o préstamos en México.", next: "Q13" },
+  Q13: { id: "Q13", prompt: "Me interesa aprender cómo vender productos o servicios de manera efectiva.", next: "Q14" },
+  Q14: { id: "Q14", prompt: "Me interesa aprender programación o desarrollo de software.", next: "Q15" },
+  Q15: { id: "Q15", prompt: "Me interesa aprender sobre nutrición y cómo afectan los alimentos a la salud.", next: "Q16" },
+  Q16: { id: "Q16", prompt: "Me gusta leer o aprender sobre cómo funciona la mente humana.", next: "Q17" },
+  Q17: { id: "Q17", prompt: "Me interesan los cuidados médicos de una persona, como curar, vendar, aplicar inyecciones, etc.", next: "Q18" },
+  Q18: { id: "Q18", prompt: "Prefiero trabajos donde pueda negociar y convencer a otros.", next: "SECTION_APTITUDES" },
 
-  // Section 2: Aptitudes personales (Q16-Q25)
-  Q16: { id: "Q16", prompt: "Aprendo de forma autodidacta sobre herramientas digitales o software.", next: "Q17" },
-  Q17: { id: "Q17", prompt: "Puedo explicar y defender mis ideas de forma clara frente a otras personas.", next: "Q18" },
-  Q18: { id: "Q18", prompt: "Las personas suelen confiar en mí cuando necesitan apoyo emocional.", next: "Q19" },
-  Q19: { id: "Q19", prompt: "Sé cómo cuidar a alguien cuando se siente enfermo o necesita ayuda.", next: "Q20" },
-  Q20: { id: "Q20", prompt: "Me interesa planear comidas equilibradas o saludables.", next: "Q21" },
-  Q21: { id: "Q21", prompt: "Disfruto preparar alimentos o experimentar en la cocina.", next: "Q22" },
-  Q22: { id: "Q22", prompt: "Logro convencer a otras personas cuando recomiendo productos o ideas.", next: "Q23" },
-  Q23: { id: "Q23", prompt: "Me gusta planear y coordinar eventos o proyectos.", next: "Q24" },
-  Q24: { id: "Q24", prompt: "Puedo analizar situaciones y encontrar soluciones lógicas.", next: "Q25" },
-  Q25: { id: "Q25", prompt: "Soy capaz de organizar mi tiempo y cumplir con responsabilidades sin supervisión.", next: "SECTION_CONTEXTO" },
+  // Section 2: Aptitudes personales (Q19-Q35)
+  Q19: { id: "Q19", prompt: "Realizo con esmero los cuidados médicos como curar, vendar, inyectar, etc.", next: "Q20" },
+  Q20: { id: "Q20", prompt: "Experimento con nuevas recetas y sabores en casa.", next: "Q21" },
+  Q21: { id: "Q21", prompt: "Puedo brindar primeros auxilios o cuidados básicos a familiares o amigos.", next: "Q22" },
+  Q22: { id: "Q22", prompt: "Planifico menús equilibrados para mí, familiares o amigos.", next: "Q23" },
+  Q23: { id: "Q23", prompt: "Convenzo a mis amigos o familiares de comprar productos que recomiendo.", next: "Q24" },
+  Q24: { id: "Q24", prompt: "Muestro empatía y paciencia al cuidar de niños, ancianos o enfermos.", next: "Q25" },
+  Q25: { id: "Q25", prompt: "Leo artículos o información científica para comprender el comportamiento humano y sus causas.", next: "Q26" },
+  Q26: { id: "Q26", prompt: "Desarmo y armo dispositivos electrónicos para entender cómo funcionan.", next: "Q27" },
+  Q27: { id: "Q27", prompt: "Sigo protocolos de higiene y seguridad en situaciones médicas.", next: "Q28" },
+  Q28: { id: "Q28", prompt: "Investigo sobre dietas saludables y cómo impactan en el cuerpo.", next: "Q29" },
+  Q29: { id: "Q29", prompt: "Leo noticias sobre casos legales o juicios importantes en México.", next: "Q30" },
+  Q30: { id: "Q30", prompt: "Analizo tendencias de mercado y busco oportunidades de negocio.", next: "Q31" },
+  Q31: { id: "Q31", prompt: "Aprendo de forma autodidacta sobre programación o el uso de software.", next: "Q32" },
+  Q32: { id: "Q32", prompt: "Mantengo la calma en situaciones de emergencia o estrés.", next: "Q33" },
+  Q33: { id: "Q33", prompt: "Registro y controlo la alimentación para lograr objetivos de salud.", next: "Q34" },
+  Q34: { id: "Q34", prompt: "Me siento capaz de diseñar estrategias para aumentar la popularidad de un producto o servicio.", next: "Q35" },
+  Q35: { id: "Q35", prompt: "Busco resolver conflictos personales buscando soluciones justas para todos.", next: "SECTION_CONTEXTO" },
 
-  // Section 4: Motivación y modalidad (Q29-Q30)
-  Q29: { id: "Q29", prompt: "¿Qué tan importante es para ti conseguir empleo rápidamente después de graduarte?", next: "Q30" },
-  Q30: { id: "Q30", prompt: "¿Qué tan cómodo te sientes estudiando de forma autónoma (organizarte, cumplir tareas y avanzar por tu cuenta)?", next: "CONTEXT_PROMEDIO" },
+  // Section 4: Motivación y modalidad (Q39-Q40)
+  Q39: { id: "Q39", prompt: "¿Qué tan importante es para ti conseguir empleo rápidamente después de graduarte?", next: "Q40" },
+  Q40: { id: "Q40", prompt: "¿Qué tan cómodo te sientes estudiando de forma autónoma (organizarte, cumplir tareas y avanzar por tu cuenta)?", next: "CONTEXT_PROMEDIO" },
 };
 
 const OPEN_QUESTIONS: Record<string, {
@@ -73,26 +83,26 @@ const OPEN_QUESTIONS: Record<string, {
   maxChars: number;
   next: string;
 }> = {
-  Q26: {
-    id: "Q26",
+  Q36: {
+    id: "Q36",
     prompt: "Cuéntame brevemente cómo es tu situación actual en este momento de tu vida.",
     helperText: "Esto me ayuda a entender tu etapa actual y a sugerirte una modalidad compatible contigo.",
     placeholder: "Ej: Recién terminé la preparatoria / Trabajo actualmente y busco titularme.",
     minChars: 15,
     maxChars: 700,
-    next: "Q27",
+    next: "Q37",
   },
-  Q27: {
-    id: "Q27",
+  Q37: {
+    id: "Q37",
     prompt: "¿Qué actividades disfrutas en tu tiempo libre o qué temas suelen llamar tu atención fuera de la escuela?",
     helperText: "Esto permite identificar intereses genuinos y no solo escolares.",
     placeholder: "Ej: Hago deporte y escucho música / Paso tiempo con mi familia.",
     minChars: 15,
     maxChars: 700,
-    next: "Q28",
+    next: "Q38",
   },
-  Q28: {
-    id: "Q28",
+  Q38: {
+    id: "Q38",
     prompt: "Imagina tu vida dentro de algunos años. Describe cómo te gustaría que fuera tu día a día.",
     helperText: "Piensa en el tipo de actividades, entorno y relación con otras personas.",
     placeholder: "Ej: Tener mi propio negocio o consultorio / Conseguir un mejor puesto en mi trabajo.",
@@ -102,13 +112,14 @@ const OPEN_QUESTIONS: Record<string, {
   },
 };
 
-// Progress order: 30 questions total
+// Progress order: 40 questions total
 const QUESTION_ORDER = [
   "Q01","Q02","Q03","Q04","Q05","Q06","Q07","Q08","Q09","Q10",
-  "Q11","Q12","Q13","Q14","Q15",
-  "Q16","Q17","Q18","Q19","Q20","Q21","Q22","Q23","Q24","Q25",
-  "Q26","Q27","Q28",
-  "Q29","Q30",
+  "Q11","Q12","Q13","Q14","Q15","Q16","Q17","Q18",
+  "Q19","Q20","Q21","Q22","Q23","Q24","Q25","Q26","Q27","Q28",
+  "Q29","Q30","Q31","Q32","Q33","Q34","Q35",
+  "Q36","Q37","Q38",
+  "Q39","Q40",
 ];
 const TOTAL_QUESTIONS = QUESTION_ORDER.length;
 
@@ -203,7 +214,7 @@ export function TypebotChat() {
 
       case "MENSAJE_DUDAS":
         addBotMessage({
-          text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará unos minutos.\n\nTe haré 30 preguntas sobre:\n• Tus intereses vocacionales\n• Tus aptitudes personales\n• Tu contexto y situación actual\n• Tu motivación y forma de estudio\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis vocacional personalizado\n• Opciones de becas disponibles\n\n¿Empezamos?",
+          text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará unos minutos.\n\nTe haré 35 preguntas sobre:\n• Tus intereses vocacionales\n• Tus aptitudes personales\n• Tu contexto y situación actual\n• Tu motivación y forma de estudio\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis vocacional personalizado\n• Opciones de becas disponibles\n\n¿Empezamos?",
           buttons: [{ label: "Sí, ahora sí!", value: "si_ahora", action: "PREGUNTA_NOMBRE" }],
         });
         break;
@@ -236,19 +247,19 @@ export function TypebotChat() {
 
       case "BEGIN_SECTION_2":
         await typing(400);
-        showLikertQuestion("Q16");
+        showLikertQuestion("Q19");
         break;
 
       case "SECTION_CONTEXTO":
         addBotMessage({
-          text: `¡Excelente! Ya respondiste 25 de 30 reactivos.\n\n📌 Sección 3 de 4 — Contexto personal\n\nEstas preguntas son abiertas. Responde con tus propias palabras, sin preocuparte por redacción. Lo que importa es lo que piensas.`,
+          text: `¡Excelente! Ya respondiste 35 de 40 reactivos.\n\n📌 Sección 3 de 4 — Contexto personal\n\nEstas preguntas son abiertas. Responde con tus propias palabras, sin preocuparte por redacción. Lo que importa es lo que piensas.`,
           buttons: [{ label: "Continuar", value: "start_s3", action: "BEGIN_SECTION_3" }],
         });
         break;
 
       case "BEGIN_SECTION_3":
         await typing(400);
-        showOpenQuestion("Q26");
+        showOpenQuestion("Q36");
         break;
 
       case "SECTION_MOTIVACION":
@@ -260,12 +271,12 @@ export function TypebotChat() {
 
       case "BEGIN_SECTION_4":
         await typing(400);
-        showLikertQuestion("Q29");
+        showLikertQuestion("Q39");
         break;
 
       case "CONTEXT_PROMEDIO":
         addBotMessage({
-          text: "¡Terminaste las 30 preguntas!\n\nAhora solo necesito algunos datos rápidos.\n\n¿Cómo describirías tu desempeño académico en bachillerato?",
+          text: "¡Terminaste los 35 reactivos!\n\nAhora solo necesito algunos datos rápidos.\n\n¿Cómo describirías tu desempeño académico en bachillerato?",
           buttons: [
             { label: "Sobresaliente (9.5 o superior)", value: "Sobresaliente (9.5 o superior)", action: "CONTEXT_URGENCIA", variable: "promedio" },
             { label: "Muy alto (9.0 a 9.49)", value: "Muy alto (9.0 a 9.49)", action: "CONTEXT_URGENCIA", variable: "promedio" },
@@ -471,7 +482,7 @@ export function TypebotChat() {
   const startChat = async () => {
     await typing(900);
     addBotMessage({
-      text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es ideal para ti con nuestro test de 30 preguntas, diseñado con apoyo del Departamento de Psicología.\n\nEl proceso es gratuito y al final recibirás un dictamen vocacional personalizado con IA.\n\n¿Todo listo para comenzar?",
+      text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es ideal para ti con nuestro test de 35 preguntas, diseñado con apoyo del Departamento de Psicología.\n\nEl proceso es gratuito y al final recibirás un dictamen vocacional personalizado con IA.\n\n¿Todo listo para comenzar?",
       buttons: [
         { label: "Sí, empecemos!", value: "si_empezar", action: "PREGUNTA_NOMBRE" },
         { label: "Tengo una duda", value: "tengo_dudas", action: "MENSAJE_DUDAS" },
@@ -497,7 +508,7 @@ export function TypebotChat() {
             <h3 className="font-display font-semibold text-lg leading-tight">Eva, orientación vocacional IA</h3>
             <div className="flex items-center gap-2 text-sm opacity-90">
               <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-              En línea · 30 reactivos
+              En línea · 35 reactivos
             </div>
           </div>
         </div>
