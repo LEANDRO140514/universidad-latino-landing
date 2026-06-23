@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     locale: "es_MX",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Test Vocacional Gratis | Descubre qué carrera estudiar | Universidad Latino",
+    description: "¿No sabes qué estudiar? Haz el test vocacional gratis con IA y descubre tu carrera ideal en Mérida.",
+  },
 };
 
 export default function RootLayout({

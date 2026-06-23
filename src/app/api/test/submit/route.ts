@@ -57,6 +57,8 @@ export async function POST(req: Request) {
       fbclid:             data.fbclid ? sanitizeText(data.fbclid, 200) : null,
       gclid:              data.gclid ? sanitizeText(data.gclid, 200) : null,
       landing_source:     data.landing_source ? sanitizeText(data.landing_source, 500) : null,
+      first_page_seen:    data.first_page_seen ? sanitizeText(data.first_page_seen, 500) : null,
+      last_page_seen:     data.last_page_seen ? sanitizeText(data.last_page_seen, 500) : null,
     };
 
     // Run EVA engine
@@ -191,6 +193,8 @@ export async function POST(req: Request) {
           fbclid:             tracking.fbclid,
           gclid:              tracking.gclid,
           landing_source:     tracking.landing_source,
+          first_page_seen:    tracking.first_page_seen,
+          last_page_seen:     tracking.last_page_seen,
         }),
       }).catch((err) => console.error("GHL webhook error:", err));
     }

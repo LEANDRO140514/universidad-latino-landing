@@ -11,6 +11,8 @@ export interface UTMParams {
   fbclid?: string;
   gclid?: string;
   landing_source?: string;
+  first_page_seen?: string;
+  last_page_seen?: string;
 }
 
 const STORAGE_KEY = "ul_utm_data";
@@ -28,7 +30,10 @@ export function captureUTMs(): UTMParams {
   }
 
   // First page seen (for multi-step funnels)
-  utm.landing_source = window.location.href;
+  const currentUrl = window.location.href;
+  utm.landing_source = currentUrl;
+  utm.first_page_seen = currentUrl;
+  utm.last_page_seen = currentUrl;
 
   // Merge with any previously stored UTMs (first touch attribution)
   const existing = loadUTMs();
@@ -59,6 +64,19 @@ export function getAllUtmParams(): Record<string, string> {
   return Object.fromEntries(
     Object.entries(utm).filter(([, v]) => Boolean(v))
   ) as Record<string, string>;
+}
+
+/** Update last_page_seen before navigation or form submit */
+export function updateLastPageSeen(): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const utm = JSON.parse(raw);
+      utm.last_page_seen = window.location.href;
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(utm));
+    }
+  } catch { /* noop */ }
 }
 
 // ─── Meta Pixel ───────────────────────────────────────────────────────────

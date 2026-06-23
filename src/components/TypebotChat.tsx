@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Lock, Bot } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { firePixelEvent, firePixelCustomEvent, getAllUtmParams } from "@/lib/tracking";
+import { firePixelEvent, firePixelCustomEvent, getAllUtmParams, updateLastPageSeen } from "@/lib/tracking";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -254,7 +254,7 @@ export function TypebotChat() {
 
       case "SECTION_CONTEXTO":
         addBotMessage({
-          text: `¡Excelente! Ya respondiste 35 de 40 reactivos.\n\n📌 Sección 3 de 4 — Contexto personal\n\nEstas preguntas son abiertas. Responde con tus propias palabras, sin preocuparte por redacción. Lo que importa es lo que piensas.`,
+          text: `¡Excelente! Completaste la sección de aptitudes.\n\n📌 Sección 3 de 4 — Contexto personal\n\nEstas preguntas son abiertas. Responde con tus propias palabras, sin preocuparte por redacción. Lo que importa es lo que piensas.`,
           buttons: [{ label: "Continuar", value: "start_s3", action: "BEGIN_SECTION_3" }],
         });
         break;
@@ -323,6 +323,7 @@ export function TypebotChat() {
         });
 
         try {
+          updateLastPageSeen();
           const utmParams = getAllUtmParams();
           const response = await fetch("/api/test/submit", {
             method: "POST",
@@ -369,6 +370,7 @@ export function TypebotChat() {
         break;
 
       case "REDIRECT":
+        updateLastPageSeen();
         router.push(`/resultados/${value}`);
         break;
 
