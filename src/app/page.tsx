@@ -87,7 +87,7 @@ export default function Home() {
                 <span className="text-[#E6B400]">con el Test Vocacional de Universidad Latino</span>
               </h1>
               <p className="text-white/90 font-light text-xl lg:text-3xl leading-relaxed max-w-2xl">
-                Responde 40 preguntas GRATIS y descubre tu carrera ideal en Mérida. Orientación vocacional con IA, modalidades <strong>Presencial, Online o Sabatina</strong> y beca de hasta 50% sujeta a validación.
+                Responde 40 preguntas GRATIS y descubre tu carrera ideal en Mérida. Orientación vocacional con IA, modalidades <strong>Presencial, Online o Sabatina</strong> y beca de hasta 50% en colegiatura + 50% descuento en inscripción.
               </p>
             </div>
 
@@ -182,7 +182,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-6">
                 {[
-                  { icon: GraduationCap, title: "Beca de hasta 50%", desc: "Sujeta a validación" },
+                  { icon: GraduationCap, title: "Beca hasta 50% + 50% inscripción", desc: "Sujeta a validación" },
                   { icon: Target, title: "Perfil de Competencias", desc: "Análisis detallado de talentos" },
                   { icon: Clock, title: "Flexibilidad de Horarios", desc: "Modalidad Sabatina y Online" },
                   { icon: Smartphone, title: "Resultados vía WhatsApp", desc: "Entrega inmediata" }

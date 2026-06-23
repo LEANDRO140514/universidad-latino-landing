@@ -23,7 +23,7 @@ export const SCHOLARSHIP_RULES: ScholarshipRule[] = [
     tuitionScholarshipPercent: 50,
     type: "beca_academica",
     message:
-      "Tu desempeño académico en el bachillerato se encuentra en un nivel sobresaliente. La universidad reconoce este esfuerzo mediante una beca académica del 50% sobre colegiatura.",
+      "Tu desempeño académico en el bachillerato se encuentra en un nivel sobresaliente. Puedes acceder a una beca académica del 50% sobre colegiatura + 50% de descuento en inscripción. La beca sobre colegiatura está sujeta a validación.",
   },
   {
     id: "beca_40",
@@ -33,7 +33,7 @@ export const SCHOLARSHIP_RULES: ScholarshipRule[] = [
     tuitionScholarshipPercent: 40,
     type: "beca_academica",
     message:
-      "Tu promedio académico refleja un desempeño muy alto. Este nivel permite acceder a una beca académica del 40% sobre colegiatura.",
+      "Tu promedio académico refleja un desempeño muy alto. Puedes acceder a una beca académica del 40% sobre colegiatura + 50% de descuento en inscripción. La beca sobre colegiatura está sujeta a validación.",
   },
   {
     id: "beca_30",
@@ -43,7 +43,7 @@ export const SCHOLARSHIP_RULES: ScholarshipRule[] = [
     tuitionScholarshipPercent: 30,
     type: "beca_academica",
     message:
-      "Tu desempeño académico demuestra constancia y compromiso con tus estudios. Por este motivo puedes acceder a una beca académica del 30% sobre colegiatura.",
+      "Tu desempeño académico demuestra constancia. Puedes acceder a una beca académica del 30% sobre colegiatura + 50% de descuento en inscripción. La beca sobre colegiatura está sujeta a validación.",
   },
 ];
 
@@ -51,7 +51,7 @@ export const SCHOLARSHIP_FALLBACK: FallbackRule = {
   id: "asesoria_financiera",
   type: "revision_asesor",
   message:
-    "Un asesor académico podrá orientarte sobre las opciones de beca por excelencia o financiamiento disponibles según tu situación particular.",
+    "Para apoyarte en el inicio de tu carrera, puedes aprovechar un 50% de descuento en la inscripción. Un asesor académico podrá orientarte sobre las opciones de beca por excelencia o financiamiento disponibles según tu situación particular.",
 };
 
 // Maps the text choice from the test to a numeric value for range matching

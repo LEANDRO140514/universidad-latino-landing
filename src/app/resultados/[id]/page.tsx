@@ -274,19 +274,19 @@ function resolveScholarship(lead: any): ScholarshipDisplay {
     SOBRESALIENTE: {
       performance_label: "Desempeño sobresaliente",
       tuition_scholarship_percent: 50, enrollment_discount_percent: 50,
-      student_message: "Tu desempeño académico es sobresaliente. Puedes acceder a una beca del 50% en colegiatura.",
+      student_message: "Tu desempeño académico es sobresaliente. Puedes acceder a una beca del 50% en colegiatura + 50% de descuento en inscripción. La beca sobre colegiatura está sujeta a validación.",
       cta: { primary: "Hablar con Admisiones", secondary: "Conocer beneficios completos" },
     },
     MUY_ALTO: {
       performance_label: "Muy alto desempeño académico",
       tuition_scholarship_percent: 40, enrollment_discount_percent: 50,
-      student_message: "Tu rendimiento académico es muy alto. Puedes acceder a una beca del 40% en colegiatura.",
+      student_message: "Tu rendimiento académico es muy alto. Puedes acceder a una beca del 40% en colegiatura + 50% de descuento en inscripción. La beca sobre colegiatura está sujeta a validación.",
       cta: { primary: "Iniciar proceso con Admisiones", secondary: "Agendar asesoría" },
     },
     ALTO: {
       performance_label: "Buen desempeño académico",
       tuition_scholarship_percent: 30, enrollment_discount_percent: 50,
-      student_message: "Tu desempeño refleja constancia. Puedes acceder a una beca del 30% en colegiatura.",
+      student_message: "Tu desempeño refleja constancia. Puedes acceder a una beca del 30% en colegiatura + 50% de descuento en inscripción. La beca sobre colegiatura está sujeta a validación.",
       cta: { primary: "Hablar con Admisiones", secondary: "Conocer proceso de inscripción" },
     },
   };
