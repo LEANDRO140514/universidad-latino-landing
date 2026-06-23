@@ -950,7 +950,12 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                         </p>
                       </div>
                       <div className="flex flex-wrap gap-4">
-                        <button className="flex-1 min-w-[200px] bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] font-bold py-4 rounded-xl shadow-lg hover:shadow-[#E6B400]/40 transition-all flex items-center justify-center gap-2 text-base">
+                        <button
+                          onClick={() => {
+                            const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""}. Acabo de completar el test vocacional y quiero activar mi descuento en la inscripción. ¿Pueden ayudarme?`);
+                            window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
+                          }}
+                          className="flex-1 min-w-[200px] bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] font-bold py-4 rounded-xl shadow-lg hover:shadow-[#E6B400]/40 transition-all flex items-center justify-center gap-2 text-base">
                           <MessageCircle className="w-5 h-5" /> Hablar con un Asesor
                         </button>
                         <button
@@ -1039,7 +1044,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               <button
                 onClick={() => {
                   const career = programs[0]?.name ?? "una carrera";
-                  const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""} y quiero agendar una visita al campus para conocer la carrera de ${career}. ¿Cuándo pueden atenderme?`);
+                  const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""}. Me interesa agendar una cita para conocer más sobre la carrera de ${career}. Quedo atento a que un coordinador de admisiones se comunique conmigo.`);
                   window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
                 }}
                 className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
@@ -1050,14 +1055,14 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               </button>
               {/* Mobile: tel: link abre el marcador directo */}
               <a
-                href="tel:+529994538421"
+                href="tel:+529949435386"
                 className="md:hidden bg-white/10 hover:bg-white/20 text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3 border border-white/20 no-underline"
               >
                 <Phone className="w-8 h-8" />
                 <span className="font-bold">Llamar Ahora</span>
-                <span className="text-sm opacity-80">Habla con un asesor</span>
+                <span className="text-sm opacity-80">(999) 943 5386</span>
               </a>
-              {/* Desktop: muestra el número para marcarlo desde su teléfono */}
+              {/* Desktop: muestra los teléfonos institucionales */}
               <button
                 onClick={() => setShowPhone(v => !v)}
                 className="hidden md:flex bg-white/10 hover:bg-white/20 text-white p-6 rounded-2xl transition-all flex-col items-center gap-2 border border-white/20 w-full"
@@ -1065,11 +1070,11 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 <Phone className="w-8 h-8" />
                 <span className="font-bold">Llamar Ahora</span>
                 {showPhone ? (
-                  <span className="text-lg font-mono font-bold text-[#E6B400] tracking-widest mt-1">
-                    999 644 2662
+                  <span className="text-sm font-bold text-[#E6B400] tracking-widest mt-1 leading-relaxed text-center">
+                    (999) 943 5386<br />(999) 943 8897
                   </span>
                 ) : (
-                  <span className="text-sm opacity-80">Ver número</span>
+                  <span className="text-sm opacity-80">Ver números</span>
                 )}
               </button>
             </div>

@@ -243,7 +243,7 @@ export default function Home() {
               className="flex items-center gap-2 text-white font-bold text-sm px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors"
             >
               <ArrowRight className="w-4 h-4 rotate-180" />
-              Volver a calcular mi beca
+              Regresa a página de inicio
             </button>
             <span className="text-white/60 text-xs flex-1 truncate hidden sm:block">carreras.unilatino.algorithmus.io/mi-beca</span>
             <a
