@@ -63,42 +63,42 @@ const CAREER_DETAILS: Record<string, { reasons: string[]; studyPlan: string[]; c
   ingenieria_sistemas: {
     reasons: ["Alto interés tecnológico", "Capacidad analítica superior", "Resolución de problemas"],
     studyPlan: ["Programación", "Bases de Datos", "Redes", "Inteligencia Artificial"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   derecho: {
     reasons: ["Pensamiento analítico", "Interés en justicia y normas", "Capacidad argumentativa"],
     studyPlan: ["Derecho Civil", "Derecho Penal", "Derecho Laboral", "Derecho Mercantil"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   psicologia: {
     reasons: ["Alta empatía", "Interés en acompañamiento emocional", "Habilidad social"],
     studyPlan: ["Psicología Clínica", "Psicología Organizacional", "Desarrollo Humano", "Terapias"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   enfermeria: {
     reasons: ["Sensibilidad interpersonal alta", "Orientación práctica", "Interés en cuidado de la salud"],
     studyPlan: ["Enfermería Básica", "Farmacología", "Cuidados Intensivos", "Salud Comunitaria"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   nutricion: {
     reasons: ["Interés en salud y bienestar", "Perfil analítico-práctico", "Vocación de servicio"],
     studyPlan: ["Nutrición Clínica", "Dietoterapia", "Nutrición Deportiva", "Evaluación Nutricional"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   gastronomia: {
     reasons: ["Creatividad práctica", "Interés en bienestar y alimentación", "Orientación al detalle"],
     studyPlan: ["Cocina Internacional", "Repostería", "Administración de Restaurantes", "Nutrición"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   ventas_mercadotecnia: {
     reasons: ["Perfil de negocios", "Habilidades de comunicación", "Capacidad persuasiva"],
     studyPlan: ["Marketing Digital", "Comportamiento del Consumidor", "Ventas Estratégicas", "E-commerce"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   negocios_internacionales: {
     reasons: ["Visión global", "Capacidad analítica alta", "Interés en comercio internacional"],
     studyPlan: ["Comercio Internacional", "Logística", "Finanzas Internacionales", "Negociación"],
-    cost: 4650, inscription: 7000,
+    cost: 4650, inscription: 8000,
   },
   administracion: {
     reasons: ["Perfil de negocios", "Disponibilidad fin de semana", "Responsabilidades laborales"],
@@ -259,7 +259,7 @@ function resolveScholarship(lead: any): ScholarshipDisplay {
     return {
       performance_label: evaSupport.name ?? evaSupport.type ?? "Apoyo académico",
       tuition_scholarship_percent: evaSupport.tuition_scholarship_percent ?? 0,
-      enrollment_discount_percent: evaSupport.enrollment_discount_percent ?? 0,
+      enrollment_discount_percent: 50, // Descuento universal del 50% en inscripción
       student_message: evaSupport.message ?? "",
       cta: { primary: "Hablar con Admisiones", secondary: "Ver proceso de inscripción" },
     };
@@ -271,19 +271,19 @@ function resolveScholarship(lead: any): ScholarshipDisplay {
     SOBRESALIENTE: {
       performance_label: "Desempeño sobresaliente",
       tuition_scholarship_percent: 50, enrollment_discount_percent: 50,
-      student_message: "Tu desempeño académico es sobresaliente. Puedes acceder a una beca del 50% en colegiatura y un 50% de descuento en la inscripción.",
+      student_message: "Tu desempeño académico es sobresaliente. Puedes acceder a una beca del 50% en colegiatura.",
       cta: { primary: "Hablar con Admisiones", secondary: "Conocer beneficios completos" },
     },
     MUY_ALTO: {
       performance_label: "Muy alto desempeño académico",
       tuition_scholarship_percent: 40, enrollment_discount_percent: 50,
-      student_message: "Tu rendimiento académico es muy alto. Puedes acceder a una beca del 40% en colegiatura y un 50% de descuento en la inscripción.",
+      student_message: "Tu rendimiento académico es muy alto. Puedes acceder a una beca del 40% en colegiatura.",
       cta: { primary: "Iniciar proceso con Admisiones", secondary: "Agendar asesoría" },
     },
     ALTO: {
       performance_label: "Buen desempeño académico",
       tuition_scholarship_percent: 30, enrollment_discount_percent: 50,
-      student_message: "Tu desempeño refleja constancia. Puedes acceder a una beca del 30% en colegiatura y un 50% de descuento en la inscripción.",
+      student_message: "Tu desempeño refleja constancia. Puedes acceder a una beca del 30% en colegiatura.",
       cta: { primary: "Hablar con Admisiones", secondary: "Conocer proceso de inscripción" },
     },
   };
@@ -292,7 +292,7 @@ function resolveScholarship(lead: any): ScholarshipDisplay {
   return {
     performance_label: "Oportunidad de Inscripción",
     tuition_scholarship_percent: 0, enrollment_discount_percent: 50,
-    student_message: "Para apoyarte en el inicio de tu carrera, puedes aprovechar un 50% de descuento en la inscripción. Un asesor puede orientarte sobre el proceso.",
+    student_message: "Para apoyarte en el inicio de tu carrera, puedes aprovechar un 50% de descuento en la inscripción. Un asesor puede orientarte sobre las opciones de beca por excelencia disponibles.",
     cta: { primary: "Hablar con un asesor", secondary: "Iniciar proceso de inscripción" },
   };
 }
@@ -1026,7 +1026,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 onClick={() => {
                   const career = programs[0]?.name ?? "la carrera";
                   const msg = encodeURIComponent(`Hola, acabo de completar el test vocacional. Soy ${lead.nombre ?? ""} y me interesa conocer más sobre ${career}. ¿Pueden orientarme?`);
-                  window.open(`https://wa.me/529996442662?text=${msg}`, "_blank");
+                  window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
                 }}
                 className="bg-[#25D366] hover:bg-[#128C7E] text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
               >
@@ -1038,7 +1038,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 onClick={() => {
                   const career = programs[0]?.name ?? "una carrera";
                   const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""} y quiero agendar una visita al campus para conocer la carrera de ${career}. ¿Cuándo pueden atenderme?`);
-                  window.open(`https://wa.me/529996442662?text=${msg}`, "_blank");
+                  window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
                 }}
                 className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
               >
@@ -1048,7 +1048,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
               </button>
               {/* Mobile: tel: link abre el marcador directo */}
               <a
-                href="tel:+529996442662"
+                href="tel:+529994538421"
                 className="md:hidden bg-white/10 hover:bg-white/20 text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3 border border-white/20 no-underline"
               >
                 <Phone className="w-8 h-8" />

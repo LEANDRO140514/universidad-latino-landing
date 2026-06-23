@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 export function WhatsAppWidget() {
-  const phoneNumber = "529996442662";
+  const phoneNumber = "529994538421";
   const message = "Hola! Me gustaría recibir más información sobre las carreras de la Universidad Latino.";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 

@@ -38,7 +38,6 @@ export type SupportResult = {
   name?: string;
   type: string;
   tuition_scholarship_percent?: number;
-  enrollment_discount_percent?: number;
   message: string;
 };
 
@@ -232,7 +231,6 @@ function determineSupport(promedio: string): SupportResult {
     name: rule.name,
     type: rule.type,
     tuition_scholarship_percent: rule.tuitionScholarshipPercent,
-    enrollment_discount_percent: rule.enrollmentDiscountPercent,
     message: rule.message,
   };
 }

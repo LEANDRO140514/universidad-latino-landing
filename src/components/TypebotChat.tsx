@@ -214,7 +214,7 @@ export function TypebotChat() {
 
       case "MENSAJE_DUDAS":
         addBotMessage({
-          text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará unos minutos.\n\nTe haré 35 preguntas sobre:\n• Tus intereses vocacionales\n• Tus aptitudes personales\n• Tu contexto y situación actual\n• Tu motivación y forma de estudio\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis vocacional personalizado\n• Opciones de becas disponibles\n\n¿Empezamos?",
+          text: "Sin problema.\n\nEl test es completamente GRATIS y te tomará unos minutos.\n\nTe haré 40 preguntas sobre:\n• Tus intereses vocacionales\n• Tus aptitudes personales\n• Tu contexto y situación actual\n• Tu motivación y forma de estudio\n\nAl final recibirás:\n• Tu carrera ideal con porcentaje de compatibilidad\n• Análisis vocacional personalizado\n• Opciones de becas disponibles\n\n¿Empezamos?",
           buttons: [{ label: "Sí, ahora sí!", value: "si_ahora", action: "PREGUNTA_NOMBRE" }],
         });
         break;
@@ -276,7 +276,7 @@ export function TypebotChat() {
 
       case "CONTEXT_PROMEDIO":
         addBotMessage({
-          text: "¡Terminaste los 35 reactivos!\n\nAhora solo necesito algunos datos rápidos.\n\n¿Cómo describirías tu desempeño académico en bachillerato?",
+          text: "¡Terminaste los 40 reactivos!\n\nAhora solo necesito algunos datos rápidos.\n\n¿Cómo describirías tu desempeño académico en bachillerato?",
           buttons: [
             { label: "Sobresaliente (9.5 o superior)", value: "Sobresaliente (9.5 o superior)", action: "CONTEXT_URGENCIA", variable: "promedio" },
             { label: "Muy alto (9.0 a 9.49)", value: "Muy alto (9.0 a 9.49)", action: "CONTEXT_URGENCIA", variable: "promedio" },
@@ -372,7 +372,7 @@ export function TypebotChat() {
         const waText = encodeURIComponent(
           `Hola, soy ${nombre}. Acabo de completar el test vocacional de EVA en Universidad Latino y me gustaría hablar con un asesor sobre mis resultados y opciones de carrera.`
         );
-        window.open(`https://wa.me/529996442662?text=${waText}`, "_blank");
+        window.open(`https://wa.me/529994538421?text=${waText}`, "_blank");
         await typing(400);
         addBotMessage({
           text: `WhatsApp se abrió en otra ventana. 📲\n\nCuando termines con el asesor, regresa aquí — tus resultados siguen disponibles.`,
@@ -482,7 +482,7 @@ export function TypebotChat() {
   const startChat = async () => {
     await typing(900);
     addBotMessage({
-      text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es ideal para ti con nuestro test de 35 preguntas, diseñado con apoyo del Departamento de Psicología.\n\nEl proceso es gratuito y al final recibirás un dictamen vocacional personalizado con IA.\n\n¿Todo listo para comenzar?",
+      text: "¡Hola! Soy Eva, asistente de orientación vocacional de la Universidad Latino.\n\nVamos a descubrir qué carrera es ideal para ti con nuestro test de 40 preguntas, diseñado con apoyo del Departamento de Psicología.\n\nEl proceso es gratuito y al final recibirás un dictamen vocacional personalizado con IA.\n\n¿Todo listo para comenzar?",
       buttons: [
         { label: "Sí, empecemos!", value: "si_empezar", action: "PREGUNTA_NOMBRE" },
         { label: "Tengo una duda", value: "tengo_dudas", action: "MENSAJE_DUDAS" },
@@ -508,7 +508,7 @@ export function TypebotChat() {
             <h3 className="font-display font-semibold text-lg leading-tight">Eva, orientación vocacional IA</h3>
             <div className="flex items-center gap-2 text-sm opacity-90">
               <span className="w-2 h-2 bg-[#10b981] rounded-full animate-pulse" />
-              En línea · 35 reactivos
+              En línea · 40 reactivos
             </div>
           </div>
         </div>
