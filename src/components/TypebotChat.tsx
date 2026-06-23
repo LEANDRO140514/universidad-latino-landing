@@ -338,7 +338,7 @@ export function TypebotChat() {
 
           if (result.success) {
             firePixelCustomEvent("CompleteTest");
-            firePixelEvent("Lead", { leadId: result.leadId });
+            firePixelEvent("Lead", { leadId: result.leadId, eventID: `lead_${result.leadId}` });
             setMessages(prev => [
               ...prev.slice(0, -1),
               {
