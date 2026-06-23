@@ -47,6 +47,18 @@ export async function POST(req: Request) {
       urgencia: sanitizeText(data.urgencia, 60),
     };
 
+    // Extract UTM / tracking params from the request
+    const tracking = {
+      utm_source:         data.utm_source ? sanitizeText(data.utm_source, 100) : null,
+      utm_medium:         data.utm_medium ? sanitizeText(data.utm_medium, 100) : null,
+      utm_campaign:       data.utm_campaign ? sanitizeText(data.utm_campaign, 100) : null,
+      utm_content:        data.utm_content ? sanitizeText(data.utm_content, 100) : null,
+      utm_term:           data.utm_term ? sanitizeText(data.utm_term, 100) : null,
+      fbclid:             data.fbclid ? sanitizeText(data.fbclid, 200) : null,
+      gclid:              data.gclid ? sanitizeText(data.gclid, 200) : null,
+      landing_source:     data.landing_source ? sanitizeText(data.landing_source, 500) : null,
+    };
+
     // Run EVA engine
     const result = runEvaEngine(input);
 
@@ -71,9 +83,10 @@ export async function POST(req: Request) {
       telefono: input.telefono,
       urgencia: input.urgencia,
       promedio: input.promedio,
-      // Preserve raw responses + embed engine output in jsonb
+      // Preserve raw responses + embed engine output + tracking in jsonb
       responses: {
         ...data,
+        _tracking: tracking,
         _eva: {
           sector_scores: result.sector_scores,
           career_primary: result.career_primary,
@@ -162,13 +175,22 @@ export async function POST(req: Request) {
           lead_score:         String(result.lead_score),
           lead_class:         result.lead_classification,
           beca_elegible:      result.support.name ?? result.support.type,
-          source:             data.source ?? "landing",
+          source:             tracking.utm_source ?? data.source ?? "landing",
           test_completed_at:  new Date().toISOString(),
           test_version:       "Eva v4.0",
           urgencia:           input.urgencia,
           promedio:           input.promedio,
           oq_resumen:         oqSummary || null,
           dictamen_url:       `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/resultados/${lead.id}`,
+          // Tracking / UTM fields
+          utm_source:         tracking.utm_source,
+          utm_medium:         tracking.utm_medium,
+          utm_campaign:       tracking.utm_campaign,
+          utm_content:        tracking.utm_content,
+          utm_term:           tracking.utm_term,
+          fbclid:             tracking.fbclid,
+          gclid:              tracking.gclid,
+          landing_source:     tracking.landing_source,
         }),
       }).catch((err) => console.error("GHL webhook error:", err));
     }

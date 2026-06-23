@@ -2,11 +2,13 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { firePixelCustomEvent } from "@/lib/tracking";
 
 export function WhatsAppWidget() {
   const phoneNumber = "529994538421";
   const message = "Hola! Me gustaría recibir más información sobre las carreras de la Universidad Latino.";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const handleClick = () => firePixelCustomEvent("ClickWhatsApp");
 
   return (
     <motion.div
@@ -19,6 +21,7 @@ export function WhatsAppWidget() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={handleClick}
         className="relative group flex items-center gap-3"
       >
         <div className="absolute left-full ml-3 bg-white px-4 py-2 rounded-xl shadow-xl text-[#111827] text-sm font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none border border-gray-100">

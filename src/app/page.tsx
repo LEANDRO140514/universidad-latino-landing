@@ -3,7 +3,8 @@
 import { Header } from "@/components/Header";
 import { TypebotChat } from "../components/TypebotChat";
 import { Sparkles, Target, Smartphone, Zap, Stethoscope, Apple, Brain, ChefHat, Scale, Monitor, Briefcase, GraduationCap, ArrowRight, CheckCircle2, Clock, X, ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { firePixelEvent, firePixelCustomEvent } from "@/lib/tracking";
 
 const CAREER_GROUPS = [
   { 
@@ -52,6 +53,9 @@ export default function Home() {
   const [showCareers, setShowCareers] = useState(false);
   const [showBeca, setShowBeca] = useState(false);
 
+  // Fire ViewContent on first render
+  useEffect(() => { firePixelCustomEvent("ViewContent"); }, []);
+
   const scrollToChat = () => {
     document.getElementById('chat-widget')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -79,17 +83,20 @@ export default function Home() {
                 NUEVA ADMISIÓN 2026
               </span>
               <h1 className="text-white font-display font-bold text-6xl lg:text-8xl leading-[1.05] tracking-tight">
-                Tu futuro <br />
-                <span className="text-[#E6B400]">COMIENZA AQUÍ</span>
+                Descubre qué carrera estudiar<br />
+                <span className="text-[#E6B400]">con el Test Vocacional de Universidad Latino</span>
               </h1>
               <p className="text-white/90 font-light text-xl lg:text-3xl leading-relaxed max-w-2xl">
-                Descubre tu carrera ideal en modalidad <strong>Presencial, Online o Sabatina</strong> con nuestro Test <strong>Vocacional</strong> de Inteligencia Artificial.
+                Responde 40 preguntas GRATIS y descubre tu carrera ideal en Mérida. Orientación vocacional con IA, modalidades <strong>Presencial, Online o Sabatina</strong> y beca de hasta 50% sujeta a validación.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-4 pt-4">
               <button
-                onClick={() => setShowBeca(true)}
+                onClick={() => {
+                  firePixelCustomEvent("ClickBeca");
+                  setShowBeca(true);
+                }}
                 className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] font-bold px-10 py-5 rounded-xl shadow-2xl hover:scale-105 transition-all text-xl flex items-center justify-center gap-2"
               >
                 Solicitar Beca <ArrowRight className="w-6 h-6" />
@@ -149,7 +156,10 @@ export default function Home() {
                 </ul>
 
                 <button
-                  onClick={() => setShowCareers(true)}
+                  onClick={() => {
+                    firePixelCustomEvent("ViewCarrera");
+                    setShowCareers(true);
+                  }}
                   className="text-[#002D62] font-bold text-sm flex items-center gap-2 hover:translate-x-2 transition-transform underline decoration-[#E6B400] underline-offset-4"
                 >
                   Conocer más <ArrowRight className="w-4 h-4" />
@@ -172,7 +182,7 @@ export default function Home() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 lg:gap-6">
                 {[
-                  { icon: GraduationCap, title: "Beca de hasta 50%", desc: "Basado en tu desempeño" },
+                  { icon: GraduationCap, title: "Beca de hasta 50%", desc: "Sujeta a validación" },
                   { icon: Target, title: "Perfil de Competencias", desc: "Análisis detallado de talentos" },
                   { icon: Clock, title: "Flexibilidad de Horarios", desc: "Modalidad Sabatina y Online" },
                   { icon: Smartphone, title: "Resultados vía WhatsApp", desc: "Entrega inmediata" }

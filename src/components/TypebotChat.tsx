@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Lock, Bot } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { firePixelEvent, firePixelCustomEvent, getAllUtmParams } from "@/lib/tracking";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -234,6 +235,7 @@ export function TypebotChat() {
         break;
 
       case "BEGIN_SECTION_1":
+        firePixelCustomEvent("StartTest");
         await typing(400);
         showLikertQuestion("Q01");
         break;
@@ -309,7 +311,7 @@ export function TypebotChat() {
 
       case "CAPTURA_EMAIL":
         addBotMessage({
-          text: "Y por último, tu correo electrónico:",
+          text: "Y por último, tu correo electrónico:\n\nAl enviar tus datos aceptas ser contactado por Universidad Latino para recibir información de admisiones, becas y seguimiento por WhatsApp.",
           input: { type: "email", variable: "email", placeholder: "tu@email.com" },
         });
         break;
@@ -321,10 +323,11 @@ export function TypebotChat() {
         });
 
         try {
+          const utmParams = getAllUtmParams();
           const response = await fetch("/api/test/submit", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(currentResponses),
+            body: JSON.stringify({ ...currentResponses, ...utmParams }),
           });
           let result: any;
           try {
@@ -334,6 +337,8 @@ export function TypebotChat() {
           }
 
           if (result.success) {
+            firePixelCustomEvent("CompleteTest");
+            firePixelEvent("Lead", { leadId: result.leadId });
             setMessages(prev => [
               ...prev.slice(0, -1),
               {
@@ -368,6 +373,8 @@ export function TypebotChat() {
         break;
 
       case "CALL": {
+        firePixelCustomEvent("ClickWhatsApp");
+        firePixelCustomEvent("Contact");
         const nombre = currentResponses.nombre || "alumno";
         const waText = encodeURIComponent(
           `Hola, soy ${nombre}. Acabo de completar el test vocacional de EVA en Universidad Latino y me gustaría hablar con un asesor sobre mis resultados y opciones de carrera.`

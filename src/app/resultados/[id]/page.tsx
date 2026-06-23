@@ -10,6 +10,7 @@ import {
 import { useEffect, useState, use } from "react";
 import { supabase } from "@/lib/supabase";
 import { modalityLabel } from "@/lib/eva-engine";
+import { firePixelEvent, firePixelCustomEvent } from "@/lib/tracking";
 
 // ─── Sector display maps ───────────────────────────────────────────────────────
 
@@ -315,6 +316,8 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
       if (res.ok) {
         const data = await res.json();
         setLead(data);
+        firePixelCustomEvent("ViewContent");
+        firePixelEvent("Lead", { leadId: id });
       }
       setLoading(false);
     }

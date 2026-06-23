@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { VisualEditsMessenger } from "orchids-visual-edits";
 import { WhatsAppWidget } from "@/components/WhatsAppWidget";
+import { TrackerProvider } from "@/components/TrackerProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,12 +15,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://testunilatino.algorithmus.io";
+
 export const metadata: Metadata = {
-  title: "Universidad Latino - Orientación Vocacional",
-  description: "Descubre tu carrera ideal en 5 minutos con nuestra IA",
+  title: "Test Vocacional Gratis | Descubre qué carrera estudiar | Universidad Latino Mérida",
+  description: "¿No sabes qué estudiar? Haz nuestro test vocacional gratis con IA y descubre tu carrera ideal en Mérida. Recibe tu dictamen personalizado + opciones de beca por WhatsApp.",
   icons: {
     icon: [{ url: "/icon.png", type: "image/png" }],
     apple: [{ url: "/apple-icon.png", type: "image/png" }],
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  openGraph: {
+    title: "Test Vocacional Gratis | Universidad Latino Mérida",
+    description: "Descubre qué carrera estudiar con nuestro test vocacional con IA. Orientación vocacional personalizada en 5 minutos.",
+    url: BASE_URL,
+    siteName: "Universidad Latino",
+    locale: "es_MX",
+    type: "website",
   },
 };
 
@@ -29,11 +43,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es-MX">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+          <TrackerProvider>
+            {children}
+          </TrackerProvider>
           <WhatsAppWidget />
           <VisualEditsMessenger />
         </body>
