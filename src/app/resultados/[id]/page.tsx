@@ -1118,8 +1118,9 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
             © {new Date().getFullYear()} Universidad Latino. Todos los derechos reservados.
           </p>
           <div className="flex justify-center gap-6 mt-4">
-            <a href="#" className="text-gray-400 hover:text-[#002D62] transition-colors">Aviso de Privacidad</a>
-            <a href="#" className="text-gray-400 hover:text-[#002D62] transition-colors">Términos y Condiciones</a>
+            <span className="text-gray-400 text-xs">Aviso de Privacidad</span>
+            <span className="text-gray-300">·</span>
+            <span className="text-gray-400 text-xs">Términos y Condiciones</span>
           </div>
         </div>
       </footer>
