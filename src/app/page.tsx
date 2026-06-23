@@ -84,7 +84,7 @@ export default function Home() {
               </span>
               <h1 className="text-white font-display font-bold text-6xl lg:text-8xl leading-[1.05] tracking-tight">
                 Descubre qué carrera estudiar<br />
-                <span className="text-[#E6B400]">con el Test Vocacional de Universidad Latino</span>
+                <span className="text-[#E6B400]">con IA — Test Vocacional Gratis</span>
               </h1>
               <p className="text-white/90 font-light text-xl lg:text-3xl leading-relaxed max-w-2xl">
                 Responde 40 preguntas GRATIS y descubre tu carrera ideal en Mérida. Orientación vocacional con IA, modalidades <strong>Presencial, Online o Sabatina</strong> y beca de hasta 50% en colegiatura + 50% descuento en inscripción.
