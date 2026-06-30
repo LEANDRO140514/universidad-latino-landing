@@ -955,7 +955,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                         <button
                           onClick={() => {
                             const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""}. Acabo de completar el test vocacional y quiero activar mi descuento en la inscripción. ¿Pueden ayudarme?`);
-                            window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
+                            window.open(`https://wa.me/529993226393?text=${msg}`, "_blank");
                           }}
                           className="flex-1 min-w-[200px] bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] font-bold py-4 rounded-xl shadow-lg hover:shadow-[#E6B400]/40 transition-all flex items-center justify-center gap-2 text-base">
                           <MessageCircle className="w-5 h-5" /> Hablar con un Asesor
@@ -1035,7 +1035,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 onClick={() => {
                   const career = programs[0]?.name ?? "la carrera";
                   const msg = encodeURIComponent(`Hola, acabo de completar el test vocacional. Soy ${lead.nombre ?? ""} y me interesa conocer más sobre ${career}. ¿Pueden orientarme?`);
-                  window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
+                  window.open(`https://wa.me/529993226393?text=${msg}`, "_blank");
                 }}
                 className="bg-[#25D366] hover:bg-[#128C7E] text-white p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
               >
@@ -1047,7 +1047,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                 onClick={() => {
                   const career = programs[0]?.name ?? "una carrera";
                   const msg = encodeURIComponent(`Hola, soy ${lead.nombre ?? ""}. Me interesa agendar una cita para conocer más sobre la carrera de ${career}. Quedo atento a que un coordinador de admisiones se comunique conmigo.`);
-                  window.open(`https://wa.me/529994538421?text=${msg}`, "_blank");
+                  window.open(`https://wa.me/529993226393?text=${msg}`, "_blank");
                 }}
                 className="bg-[#E6B400] hover:bg-[#CC9F00] text-[#002D62] p-6 rounded-2xl transition-colors flex flex-col items-center gap-3"
               >

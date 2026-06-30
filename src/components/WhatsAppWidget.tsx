@@ -5,7 +5,7 @@ import Image from "next/image";
 import { firePixelCustomEvent } from "@/lib/tracking";
 
 export function WhatsAppWidget() {
-  const phoneNumber = "529994538421";
+  const phoneNumber = "529993226393";
   const message = "Hola! Me gustaría recibir más información sobre las carreras de la Universidad Latino.";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   const handleClick = () => firePixelCustomEvent("ClickWhatsApp");
